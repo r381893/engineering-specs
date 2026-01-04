@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工程規格查詢工具 | Engineering Specs</title>
+    <meta name="description" content="工程規格快速查詢工具 - 管件規格、冷媒壓力、鋼索吊重、攻牙鑽頭尺寸">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-icon">🔧</div>
+                <span class="logo-text">工程規格查詢</span>
+            </div>
+            <div class="search-container">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="globalSearch" placeholder="搜尋規格 (例如: 4吋、M10、R410A)">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="container">
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-tab="steel-pipe">
+                <span class="tab-icon">🔩</span>
+                <span>金屬管</span>
+            </button>
+            <button class="nav-tab" data-tab="plastic-pipe">
+                <span class="tab-icon">🪈</span>
+                <span>塑膠管</span>
+            </button>
+            <button class="nav-tab" data-tab="refrigerant">
+                <span class="tab-icon">❄️</span>
+                <span>冷媒壓力</span>
+            </button>
+            <button class="nav-tab" data-tab="wire-rope">
+                <span class="tab-icon">⛓️</span>
+                <span>鋼索吊重</span>
+            </button>
+            <button class="nav-tab" data-tab="tapping">
+                <span class="tab-icon">🔧</span>
+                <span>攻牙鑽頭</span>
+            </button>
+            <button class="nav-tab" data-tab="bolt-torque">
+                <span class="tab-icon">🔨</span>
+                <span>螺栓扭力</span>
+            </button>
+            <button class="nav-tab" data-tab="cable">
+                <span class="tab-icon">⚡</span>
+                <span>電線電纜</span>
+            </button>
+            <button class="nav-tab" data-tab="flange">
+                <span class="tab-icon">⭕</span>
+                <span>法蘭規格</span>
+            </button>
+            <button class="nav-tab" data-tab="insulation">
+                <span class="tab-icon">🧊</span>
+                <span>保溫厚度</span>
+            </button>
+            <button class="nav-tab" data-tab="valve-cv">
+                <span class="tab-icon">🚰</span>
+                <span>閥門Cv值</span>
+            </button>
+            <button class="nav-tab" data-tab="expansion">
+                <span class="tab-icon">📏</span>
+                <span>膨脹係數</span>
+            </button>
+            <button class="nav-tab" data-tab="fitting">
+                <span class="tab-icon">🔀</span>
+                <span>管件當量</span>
+            </button>
+            <button class="nav-tab" data-tab="welding">
+                <span class="tab-icon">🔥</span>
+                <span>焊接規格</span>
+            </button>
+            <button class="nav-tab" data-tab="crane">
+                <span class="tab-icon">🏗️</span>
+                <span>起重吊車</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- 金屬管規格 -->
+            <section id="steel-pipe" class="section active">
+                <h2 class="section-title">
+                    <span class="icon">🔩</span>
+                    碳鋼管規格表
+                </h2>
+                <p class="section-desc">ASTM A106/A53 無縫鋼管尺寸規格（單位：mm）</p>
+
+                <div class="two-col">
+                    <div class="diagram-box">
+                        <img src="assets/pipe_diagram_1767536483681.png" alt="管件尺寸示意圖">
+                        <p class="diagram-caption">管件截面尺寸示意圖</p>
+                    </div>
+                    <div class="glossary-card">
+                        <h4>📖 名詞說明</h4>
+                        <div class="glossary-list">
+                            <div class="glossary-item">
+                                <span class="glossary-term">OD</span>
+                                <span class="glossary-def">外徑 (Outer Diameter)</span>
+                            </div>
+                            <div class="glossary-item">
+                                <span class="glossary-term">ID</span>
+                                <span class="glossary-def">內徑 (Inner Diameter)</span>
+                            </div>
+                            <div class="glossary-item">
+                                <span class="glossary-term">SCH</span>
+                                <span class="glossary-def">管壁厚度等級 (Schedule)，數字越大越厚</span>
+                            </div>
+                            <div class="glossary-item">
+                                <span class="glossary-term">DN</span>
+                                <span class="glossary-def">公稱直徑 (Nominal Diameter)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title">📊 管件尺寸對照表</span>
+                        <div class="table-filter">
+                            <button class="filter-btn active" data-sch="all">全部</button>
+                            <button class="filter-btn" data-sch="sch10">SCH10</button>
+                            <button class="filter-btn" data-sch="sch40">SCH40</button>
+                            <button class="filter-btn" data-sch="sch80">SCH80</button>
+                        </div>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="steelPipeTable">
+                            <thead>
+                                <tr>
+                                    <th>管徑</th>
+                                    <th>DN</th>
+                                    <th>外徑 (OD)</th>
+                                    <th>SCH10 壁厚</th>
+                                    <th>SCH10 內徑</th>
+                                    <th>SCH40 壁厚</th>
+                                    <th>SCH40 內徑</th>
+                                    <th>SCH80 壁厚</th>
+                                    <th>SCH80 內徑</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 塑膠管規格 -->
+            <section id="plastic-pipe" class="section">
+                <h2 class="section-title">
+                    <span class="icon">🪈</span>
+                    塑膠管規格表
+                </h2>
+                <p class="section-desc">PVC/PP-R 管件尺寸規格（單位：mm）</p>
+
+                <div class="glossary-card">
+                    <h4>📖 名詞說明</h4>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">PVC</span>
+                            <span class="glossary-def">聚氯乙烯，常用於給水、排水管路</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">PP-R</span>
+                            <span class="glossary-def">無規共聚聚丙烯，耐熱性佳，常用於熱水管</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">PN16</span>
+                            <span class="glossary-def">耐壓等級 16 bar（約 16 kg/cm²）</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">PN20</span>
+                            <span class="glossary-def">耐壓等級 20 bar（約 20 kg/cm²）</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">SDR</span>
+                            <span class="glossary-def">標準尺寸比 = 外徑 ÷ 壁厚，數字越小管壁越厚</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-tabs">
+                    <button class="sub-tab active" data-pipe="pvc">PVC管 (PN16)</button>
+                    <button class="sub-tab" data-pipe="ppr">PP-R管 (PN20)</button>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title">📊 塑膠管尺寸對照表</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="plasticPipeTable">
+                            <thead>
+                                <tr>
+                                    <th>管徑</th>
+                                    <th>公稱直徑</th>
+                                    <th>外徑 (OD)</th>
+                                    <th>壁厚</th>
+                                    <th>內徑 (ID)</th>
+                                    <th>壓力等級</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 冷媒壓力 -->
+            <section id="refrigerant" class="section">
+                <h2 class="section-title">
+                    <span class="icon">❄️</span>
+                    冷媒壓力-溫度對照表
+                </h2>
+                <p class="section-desc">常見冷媒在各溫度下的飽和壓力（單位：kg/cm² G）</p>
+
+                <div class="glossary-card">
+                    <h4>📖 名詞說明</h4>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">飽和壓力</span>
+                            <span class="glossary-def">液態與氣態冷媒平衡時的壓力</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">kg/cm² G</span>
+                            <span class="glossary-def">錶壓力單位，G 表示相對於大氣壓</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">PSI</span>
+                            <span class="glossary-def">磅/平方英寸，1 kg/cm² ≈ 14.22 PSI</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">R410A</span>
+                            <span class="glossary-def">環保冷媒，用於變頻空調，壓力較高</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">R32</span>
+                            <span class="glossary-def">新型環保冷媒，GWP 值低，效率高</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">R22</span>
+                            <span class="glossary-def">傳統冷媒，已逐漸淘汰</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-calc">
+                    <div class="quick-calc-card">
+                        <h4>🔎 快速查詢</h4>
+                        <div class="quick-calc-input">
+                            <select id="refCalcType">
+                                <option value="R22">R22</option>
+                                <option value="R410A" selected>R410A</option>
+                                <option value="R32">R32</option>
+                                <option value="R134a">R134a</option>
+                                <option value="R404A">R404A</option>
+                            </select>
+                            <input type="number" id="refCalcTemp" placeholder="溫度 °C" value="25">
+                        </div>
+                        <div class="quick-calc-result">
+                            <span class="label">飽和壓力</span>
+                            <span class="value" id="refCalcResult">-- kg/cm²</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-tabs">
+                    <button class="sub-tab active" data-ref="R22">R22</button>
+                    <button class="sub-tab" data-ref="R410A">R410A</button>
+                    <button class="sub-tab" data-ref="R32">R32</button>
+                    <button class="sub-tab" data-ref="R134a">R134a</button>
+                    <button class="sub-tab" data-ref="R404A">R404A</button>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title" id="refTableTitle">📊 R22 壓力對照表</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="refrigerantTable">
+                            <thead>
+                                <tr>
+                                    <th>溫度 (°C)</th>
+                                    <th>壓力 (kg/cm² G)</th>
+                                    <th>PSI (估算)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 鋼索吊重 -->
+            <section id="wire-rope" class="section">
+                <h2 class="section-title">
+                    <span class="icon">⛓️</span>
+                    鋼索吊重規格表
+                </h2>
+                <p class="section-desc">6×19 鋼芯鋼索安全吊重（安全係數 6）</p>
+
+                <div class="two-col">
+                    <div class="diagram-box">
+                        <img src="assets/wire_rope_diagram_1767536500204.png" alt="鋼索結構示意圖">
+                        <p class="diagram-caption">6×19 鋼索截面結構圖</p>
+                    </div>
+                    <div class="glossary-card">
+                        <h4>📖 名詞說明</h4>
+                        <div class="glossary-list">
+                            <div class="glossary-item">
+                                <span class="glossary-term">6×19</span>
+                                <span class="glossary-def">6股鋼絲束，每股19根鋼絲</span>
+                            </div>
+                            <div class="glossary-item">
+                                <span class="glossary-term">鋼芯</span>
+                                <span class="glossary-def">鋼索中心的鋼絲芯</span>
+                            </div>
+                            <div class="glossary-item">
+                                <span class="glossary-term">破斷拉力</span>
+                                <span class="glossary-def">鋼索斷裂時的最大拉力</span>
+                            </div>
+                            <div class="glossary-item">
+                                <span class="glossary-term">安全吊重</span>
+                                <span class="glossary-def">破斷拉力 ÷ 安全係數</span>
+                            </div>
+                            <div class="glossary-item">
+                                <span class="glossary-term">安全係數</span>
+                                <span class="glossary-def">一般吊掛作業建議 6 倍以上</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-calc">
+                    <div class="quick-calc-card">
+                        <h4>⚖️ 吊重計算</h4>
+                        <div class="quick-calc-input">
+                            <input type="number" id="loadWeight" placeholder="吊掛重量 (噸)" step="0.1">
+                            <select id="safetyFactor">
+                                <option value="5">安全係數 5</option>
+                                <option value="6" selected>安全係數 6</option>
+                                <option value="7">安全係數 7</option>
+                            </select>
+                        </div>
+                        <div class="quick-calc-result">
+                            <span class="label">建議鋼索直徑</span>
+                            <span class="value" id="ropeResult">-- mm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title">📊 鋼索規格對照表</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="wireRopeTable">
+                            <thead>
+                                <tr>
+                                    <th>直徑 (mm)</th>
+                                    <th>破斷拉力 (噸)</th>
+                                    <th>安全吊重 (噸)</th>
+                                    <th>單位重量 (kg/m)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 攻牙鑽頭 -->
+            <section id="tapping" class="section">
+                <h2 class="section-title">
+                    <span class="icon">🔧</span>
+                    攻牙鑽頭尺寸對照表
+                </h2>
+                <p class="section-desc">公制螺紋攻牙前鑽孔尺寸（單位：mm）</p>
+
+                <div class="glossary-card">
+                    <h4>📖 名詞說明</h4>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">攻牙</span>
+                            <span class="glossary-def">在孔內切削出內螺紋的加工方式</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">螺距</span>
+                            <span class="glossary-def">相鄰兩螺紋間的距離（mm）</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">粗牙</span>
+                            <span class="glossary-def">標準螺距，螺距較大，一般用途</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">細牙</span>
+                            <span class="glossary-def">較小螺距，自鎖性強，用於精密場合</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">M6x1.0</span>
+                            <span class="glossary-def">公制螺紋，外徑6mm，螺距1.0mm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-calc">
+                    <div class="quick-calc-card">
+                        <h4>🔎 快速查詢</h4>
+                        <div class="quick-calc-input">
+                            <select id="threadSelect">
+                                <option value="">選擇螺紋規格</option>
+                            </select>
+                        </div>
+                        <div class="quick-calc-result">
+                            <span class="label">建議鑽頭尺寸</span>
+                            <span class="value" id="drillResult">-- mm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-tabs">
+                    <button class="sub-tab active" data-thread="coarse">粗牙螺紋</button>
+                    <button class="sub-tab" data-thread="fine">細牙螺紋</button>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title">📊 攻牙鑽頭對照表</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="tappingTable">
+                            <thead>
+                                <tr>
+                                    <th>螺紋規格</th>
+                                    <th>螺距 (mm)</th>
+                                    <th>標準鑽頭</th>
+                                    <th>最小鑽孔</th>
+                                    <th>最大鑽孔</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 螺栓扭力 -->
+            <section id="bolt-torque" class="section">
+                <h2 class="section-title">
+                    <span class="icon">🔨</span>
+                    螺栓扭力參考表
+                </h2>
+                <p class="section-desc">8.8級六角螺栓標準扭力值（單位：Nm）</p>
+
+                <div class="glossary-card">
+                    <h4>📖 名詞說明</h4>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">8.8級</span>
+                            <span class="glossary-def">螺栓強度等級，抗拉強度 800MPa，屈服強度 640MPa</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">扭力</span>
+                            <span class="glossary-def">螺栓鎖緊時施加的扭轉力矩</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">Nm</span>
+                            <span class="glossary-def">牛頓·米，扭力單位，1 Nm ≈ 0.1 kgf·m</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">乾燥狀態</span>
+                            <span class="glossary-def">螺紋未塗潤滑劑的狀態</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">潤滑狀態</span>
+                            <span class="glossary-def">螺紋塗油或潤滑劑，摩擦係數降低</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title">📊 螺栓扭力對照表</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="boltTorqueTable">
+                            <thead>
+                                <tr>
+                                    <th>螺栓規格</th>
+                                    <th>乾燥狀態扭力 (Nm)</th>
+                                    <th>潤滑狀態扭力 (Nm)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 電線電纜 -->
+            <section id="cable" class="section">
+                <h2 class="section-title">
+                    <span class="icon">⚡</span>
+                    電線電纜規格表
+                </h2>
+                <p class="section-desc">銅線安全電流與線徑對照（單位：mm²）</p>
+
+                <div class="glossary-card">
+                    <h4>📖 名詞說明</h4>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">AWG</span>
+                            <span class="glossary-def">美國線規，數字越小線徑越大</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">mm²</span>
+                            <span class="glossary-def">導體截面積，表示導線粗細</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">PVC</span>
+                            <span class="glossary-def">聚氯乙烯絕緣，耐溫約 70°C</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">XLPE</span>
+                            <span class="glossary-def">交聯聚乙烯絕緣，耐溫約 90°C</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">安全電流</span>
+                            <span class="glossary-def">導線長期可承載的最大電流</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">電阻 Ω/km</span>
+                            <span class="glossary-def">每公里導線的電阻值</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title">📊 電線規格對照表</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="cableTable">
+                            <thead>
+                                <tr>
+                                    <th>線徑 (mm²)</th>
+                                    <th>AWG</th>
+                                    <th>PVC安全電流 (A)</th>
+                                    <th>XLPE安全電流 (A)</th>
+                                    <th>電阻 (Ω/km)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 法蘭規格 -->
+            <section id="flange" class="section">
+                <h2 class="section-title">
+                    <span class="icon">⭕</span>
+                    法蘭規格表
+                </h2>
+                <p class="section-desc">法蘭尺寸規格（單位：mm）- 用於管道連接的圓盤狀配件</p>
+
+                <div class="two-col">
+                    <div class="diagram-box">
+                        <img src="assets/flange_diagram_1767536462163.png" alt="法蘭尺寸示意圖">
+                        <p class="diagram-caption">法蘭尺寸示意圖（正面與側面）</p>
+                    </div>
+                    <div class="glossary-card">
+                        <h4>📖 名詞說明</h4>
+                        <div class="glossary-list">
+                            <div class="glossary-item">
+                                <span class="glossary-term">法蘭</span>
+                                <span class="glossary-def">Flange，管道連接用圓盤配件</span>
+                            </div>
+                            <div class="glossary-item">
+                                <span class="glossary-term">PCD</span>
+                                <span class="glossary-def">螺栓孔分佈圓直徑 (Pitch Circle Diameter)</span>
+                            </div>
+                            <div class="glossary-item">
+                                <span class="glossary-term">孔數</span>
+                                <span class="glossary-def">法蘭上螺栓孔的數量</span>
+                            </div>
+                            <div class="glossary-item">
+                                <span class="glossary-term">JIS 10K</span>
+                                <span class="glossary-def">日本工業標準 10kg/cm² 壓力等級</span>
+                            </div>
+                            <div class="glossary-item">
+                                <span class="glossary-term">ANSI 150</span>
+                                <span class="glossary-def">美國標準 150 psi 壓力等級</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-tabs">
+                    <button class="sub-tab active" data-flange="jis10k">JIS 10K</button>
+                    <button class="sub-tab" data-flange="ansi150">ANSI 150</button>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title" id="flangeTableTitle">📊 JIS 10K 法蘭對照表</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="flangeTable">
+                            <thead>
+                                <tr>
+                                    <th>管徑</th>
+                                    <th>DN</th>
+                                    <th>外徑 (OD)</th>
+                                    <th>PCD</th>
+                                    <th>孔數</th>
+                                    <th>孔徑</th>
+                                    <th>厚度</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 保溫厚度 -->
+            <section id="insulation" class="section">
+                <h2 class="section-title">
+                    <span class="icon">🧊</span>
+                    保溫材料厚度建議
+                </h2>
+                <p class="section-desc">管路保溫建議厚度（單位：mm）</p>
+
+                <div class="glossary-card">
+                    <h4>📖 名詞說明</h4>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">保溫</span>
+                            <span class="glossary-def">減少熱量散失或吸收，節能並防止結露</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">寒氣保溫</span>
+                            <span class="glossary-def">冷水管保溫，主要防止結露滔水</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">保熱保溫</span>
+                            <span class="glossary-def">熱水/蒸汽管保溫，減少熱損失</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">標準厚度</span>
+                            <span class="glossary-def">一般場合適用的基本保溫厚度</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">加厚型</span>
+                            <span class="glossary-def">高濕度或高溫差環境用的加強版</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-tabs">
+                    <button class="sub-tab active" data-insulation="cold">冷水管</button>
+                    <button class="sub-tab" data-insulation="hot">熱水管</button>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title" id="insulationTableTitle">📊 冷水管保溫厚度</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="insulationTable">
+                            <thead>
+                                <tr>
+                                    <th>管徑</th>
+                                    <th>DN</th>
+                                    <th>標準厚度 (25mm)</th>
+                                    <th>加厚型 (40mm)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 閥門Cv值 -->
+            <section id="valve-cv" class="section">
+                <h2 class="section-title">
+                    <span class="icon">🚰</span>
+                    閥門 Cv 值參考
+                </h2>
+                <p class="section-desc">各類閥門流量係數 (Cv)</p>
+
+                <div class="glossary-card">
+                    <h4>📖 名詞說明</h4>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">Cv 值</span>
+                            <span class="glossary-def">流量係數，壓差 1 psi 時每分鐘流過的加侖數</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">球閥</span>
+                            <span class="glossary-def">Ball Valve，開關快速，流阻低</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">蝶閥</span>
+                            <span class="glossary-def">Butterfly Valve，適合大口徑，輕量結構</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">閘閥</span>
+                            <span class="glossary-def">Gate Valve，全開/全關型，不適合調節</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">流阻</span>
+                            <span class="glossary-def">流體流過的阻力，Cv越大流阻越小</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-tabs">
+                    <button class="sub-tab active" data-valve="ball">球閥</button>
+                    <button class="sub-tab" data-valve="butterfly">蝶閥</button>
+                    <button class="sub-tab" data-valve="gate">閘閥</button>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title" id="valveCvTableTitle">📊 球閥 Cv 值對照表</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="valveCvTable">
+                            <thead>
+                                <tr>
+                                    <th>管徑</th>
+                                    <th>DN</th>
+                                    <th>Cv 值</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 膨脹係數 -->
+            <section id="expansion" class="section">
+                <h2 class="section-title">
+                    <span class="icon">📏</span>
+                    熱膨脹係數
+                </h2>
+                <p class="section-desc">各材質線膨脹係數（×10⁻⁶ /°C）</p>
+
+                <div class="two-col">
+                    <div class="diagram-box">
+                        <img src="assets/expansion_diagram_1767536525235.png" alt="熱膨脹示意圖">
+                        <p class="diagram-caption">管路熱膨脹示意圖</p>
+                    </div>
+                    <div class="glossary-card">
+                        <h4>📖 名詞說明</h4>
+                        <div class="glossary-list">
+                            <div class="glossary-item">
+                                <span class="glossary-term">膨脹係數</span>
+                                <span class="glossary-def">溫度升高1°C時，材料的伸長比例</span>
+                            </div>
+                            <div class="glossary-item">
+                                <span class="glossary-term">×10⁻⁶</span>
+                                <span class="glossary-def">百萬分之一，例如 11.7 表示每米每度伸長 0.0117mm</span>
+                            </div>
+                            <div class="glossary-item">
+                                <span class="glossary-term">膨脹量</span>
+                                <span class="glossary-def">= 係數 × 管長 × 溫差</span>
+                            </div>
+                            <div class="glossary-item">
+                                <span class="glossary-term">溫差</span>
+                                <span class="glossary-def">運轉溫度與安裝溫度的差值</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-calc">
+                    <div class="quick-calc-card">
+                        <h4>📐 膨脹量計算</h4>
+                        <div class="quick-calc-input">
+                            <select id="expansionMaterial">
+                                <option value="11.7">碳鋼</option>
+                                <option value="17.3">不鏽鋼 304</option>
+                                <option value="16.5">銅</option>
+                                <option value="70">PVC</option>
+                                <option value="150">PP-R</option>
+                            </select>
+                            <input type="number" id="pipeLength" placeholder="管長 (m)" step="0.1" value="10">
+                            <input type="number" id="tempDiff" placeholder="溫差 (°C)" step="1" value="50">
+                        </div>
+                        <div class="quick-calc-result">
+                            <span class="label">膨脹量</span>
+                            <span class="value" id="expansionResult">-- mm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title">📊 材質膨脹係數對照表</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="expansionTable">
+                            <thead>
+                                <tr>
+                                    <th>材質</th>
+                                    <th>膨脹係數 (×10⁻⁶/°C)</th>
+                                    <th>適用溫度範圍</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 管件當量長度 -->
+            <section id="fitting" class="section">
+                <h2 class="section-title">
+                    <span class="icon">🔀</span>
+                    管件當量長度
+                </h2>
+                <p class="section-desc">管件壓損計算用當量長度（單位：m）</p>
+
+                <div class="two-col">
+                    <div class="diagram-box">
+                        <img src="assets/fitting_diagram_1767536547488.png" alt="管件示意圖">
+                        <p class="diagram-caption">常見管件示意圖</p>
+                    </div>
+                    <div class="glossary-card">
+                        <h4>📖 名詞說明</h4>
+                        <div class="glossary-list">
+                            <div class="glossary-item">
+                                <span class="glossary-term">當量長度</span>
+                                <span class="glossary-def">管件造成的壓損，換算成等效直管長度</span>
+                            </div>
+                            <div class="glossary-item">
+                                <span class="glossary-term">彎頭</span>
+                                <span class="glossary-def">Elbow，用於改變管路方向的配件</span>
+                            </div>
+                            <div class="glossary-item">
+                                <span class="glossary-term">三通</span>
+                                <span class="glossary-def">Tee，T形管路分歧配件</span>
+                            </div>
+                            <div class="glossary-item">
+                                <span class="glossary-term">閘閥</span>
+                                <span class="glossary-def">Gate Valve，全開/全關型閥門</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-tabs">
+                    <button class="sub-tab active" data-fitting="elbow90">90°彎頭</button>
+                    <button class="sub-tab" data-fitting="elbow45">45°彎頭</button>
+                    <button class="sub-tab" data-fitting="tee">三通</button>
+                    <button class="sub-tab" data-fitting="gateValve">閘閥</button>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title" id="fittingTableTitle">📊 90°彎頭當量長度</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="fittingTable">
+                            <thead>
+                                <tr>
+                                    <th>管徑</th>
+                                    <th>DN</th>
+                                    <th>當量長度 (m)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 焊接規格 -->
+            <section id="welding" class="section">
+                <h2 class="section-title">
+                    <span class="icon">🔥</span>
+                    焊接規格參考
+                </h2>
+                <p class="section-desc">焊條規格與預熱溫度參考</p>
+
+                <div class="glossary-card">
+                    <h4>📖 名詞說明</h4>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">E7018</span>
+                            <span class="glossary-def">E=電弧銲條，70=抱拉強度70ksi，18=藥皮類型</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">DC+</span>
+                            <span class="glossary-def">直流電正極性，銲條接正極</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">AC</span>
+                            <span class="glossary-def">交流電，服用範圍廣</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">預熱</span>
+                            <span class="glossary-def">銲接前加熱母材，防止裂紋</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">低氫銲條</span>
+                            <span class="glossary-def">如 E7018，減少氫入侵，防止氣孔</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">全位置</span>
+                            <span class="glossary-def">可在任何角度/方向銲接</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-tabs">
+                    <button class="sub-tab active" data-welding="rod">焊條規格</button>
+                    <button class="sub-tab" data-welding="preheat">預熱溫度</button>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title" id="weldingTableTitle">📊 焊條規格對照表</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="weldingTable">
+                            <thead id="weldingTableHead">
+                                <tr>
+                                    <th>焊條型號</th>
+                                    <th>適用材料</th>
+                                    <th>焊接位置</th>
+                                    <th>電流</th>
+                                    <th>抗拉強度 (MPa)</th>
+                                    <th>用途</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 起重吊車 -->
+            <section id="crane" class="section">
+                <h2 class="section-title">
+                    <span class="icon">🏗️</span>
+                    起重機/吊車規格
+                </h2>
+                <p class="section-desc">吊車吊重能力與安全距離參考</p>
+
+                <div class="glossary-card">
+                    <h4>📖 名詞說明</h4>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">額定噸數</span>
+                            <span class="glossary-def">吊車最小作業半徑時的最大吊重</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">作業半徑</span>
+                            <span class="glossary-def">吊鉤到轉台中心的水平距離</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">吊臂長度</span>
+                            <span class="glossary-def">吊車吊懸臂的最大延伸長度</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">安全距離</span>
+                            <span class="glossary-def">與高壓電線的最小安全間隔</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">起重能力曲線</span>
+                            <span class="glossary-def">不同半徑下的吊重能力變化圖</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-tabs">
+                    <button class="sub-tab active" data-crane="capacity">吊重能力</button>
+                    <button class="sub-tab" data-crane="safety">安全距離</button>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title" id="craneTableTitle">📊 吊車吊重能力表（噸）</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="craneTable">
+                            <thead id="craneTableHead">
+                                <tr>
+                                    <th>額定噸數</th>
+                                    <th>3m 半徑</th>
+                                    <th>5m 半徑</th>
+                                    <th>8m 半徑</th>
+                                    <th>10m 半徑</th>
+                                    <th>吊臂長度 (m)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>📐 工程規格查詢工具 | 數據僅供參考，實際應用請以規範為準</p>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
