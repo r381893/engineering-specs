@@ -804,7 +804,18 @@ const SOP = {
     },
 
     saveDocuments() {
-        localStorage.setItem('sop_documents', JSON.stringify(this.state.documents));
+        try {
+            localStorage.setItem('sop_documents', JSON.stringify(this.state.documents));
+            return true;
+        } catch (e) {
+            console.error('儲存失敗:', e);
+            if (e.name === 'QuotaExceededError' || e.code === 22) {
+                this.showToast('儲存失敗：儲存空間已滿，請刪除部分圖片', 'error');
+            } else {
+                this.showToast('儲存失敗：' + e.message, 'error');
+            }
+            return false;
+        }
     },
 
     // 事件綁定
@@ -964,7 +975,6 @@ const SOP = {
                 images: allImages,
                 updatedAt: now
             };
-            this.showToast('文件已更新', 'success');
         } else {
             const newDocument = {
                 id: 'doc_' + Date.now(),
@@ -976,13 +986,23 @@ const SOP = {
                 updatedAt: now
             };
             this.state.documents.push(newDocument);
-            this.showToast('文件已新增', 'success');
         }
 
         this.state.pendingImages = [];
-        this.saveDocuments();
-        this.showDocumentsView();
+        const saved = this.saveDocuments();
+
+        // 無論儲存成功與否都關閉 Modal
         this.closeModal('sopDocumentModal');
+
+        if (saved) {
+            this.showToast(this.state.editingDocument ? '文件已更新' : '文件已新增', 'success');
+            this.showDocumentsView();
+        } else {
+            // 儲存失敗，從記憶體中移除剛新增的文件
+            if (!this.state.editingDocument) {
+                this.state.documents.pop();
+            }
+        }
     },
 
     deleteDocument(documentId) {
