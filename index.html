@@ -1044,188 +1044,261 @@
             <section id="balancing" class="section">
                 <h2 class="section-title">
                     <span class="icon">⚖️</span>
-                    鐵探平衡實務教學
+                    鐵碳平衡圖（Fe-C Phase Diagram）
                 </h2>
-                <p class="section-desc">旋轉機械動平衡的原理與實務操作步驟</p>
+                <p class="section-desc">煉鋼基礎：鐵碳合金的相變化與熱處理原理</p>
 
                 <div class="tutorial-content">
-                    <!-- 基礎概念 -->
+                    <!-- 鐵碳平衡圖 -->
                     <div class="tutorial-card">
-                        <h3>📚 基礎概念</h3>
-                        <div class="tutorial-section">
-                            <h4>什麼是不平衡？</h4>
-                            <p>旋轉體的質量中心與旋轉軸線不重合時，產生離心力導致振動。</p>
-                            <div class="formula-box">
-                                <strong>離心力公式：</strong> F = m × r × ω²
-                                <ul>
-                                    <li>m = 不平衡質量 (kg)</li>
-                                    <li>r = 不平衡半徑 (m)</li>
-                                    <li>ω = 角速度 (rad/s)</li>
-                                </ul>
-                            </div>
+                        <h3>📊 鐵碳平衡圖</h3>
+                        <div class="diagram-box">
+                            <img src="assets/fe_c_phase_diagram.png" alt="鐵碳平衡圖">
+                            <p class="diagram-caption">Fe-C 相圖：顯示不同碳含量與溫度下的相變化</p>
                         </div>
-
-                        <div class="tutorial-section">
-                            <h4>靜平衡 vs 動平衡</h4>
-                            <div class="comparison-grid">
-                                <div class="compare-item">
-                                    <h5>🔵 靜平衡（單面）</h5>
-                                    <ul>
-                                        <li>質心與旋轉軸在同一平面</li>
-                                        <li>適用於薄盤狀工件（齒輪、皮帶輪）</li>
-                                        <li>只需在一個平面校正</li>
-                                        <li>寬度/直徑比 < 0.2</li>
-                                    </ul>
+                        <div class="glossary-card">
+                            <h4>📖 相圖名詞說明</h4>
+                            <div class="glossary-list">
+                                <div class="glossary-item">
+                                    <span class="glossary-term">沃斯田鐵 (γ)</span>
+                                    <span class="glossary-def">Austenite，面心立方結構，高溫穩定相，可溶較多碳</span>
                                 </div>
-                                <div class="compare-item">
-                                    <h5>🔴 動平衡（雙面）</h5>
-                                    <ul>
-                                        <li>需考慮力偶不平衡</li>
-                                        <li>適用於長軸類工件（風機、馬達）</li>
-                                        <li>需在兩個校正面添加配重</li>
-                                        <li>寬度/直徑比 ≥ 0.2</li>
-                                    </ul>
+                                <div class="glossary-item">
+                                    <span class="glossary-term">肥粒鐵 (α)</span>
+                                    <span class="glossary-def">Ferrite，體心立方結構，軟而韌，溶碳量極低（0.02%）</span>
+                                </div>
+                                <div class="glossary-item">
+                                    <span class="glossary-term">雪明碳鐵 (Fe₃C)</span>
+                                    <span class="glossary-def">Cementite，碳化鐵，硬而脆，碳含量 6.67%</span>
+                                </div>
+                                <div class="glossary-item">
+                                    <span class="glossary-term">波來鐵</span>
+                                    <span class="glossary-def">Pearlite，肥粒鐵與雪明碳鐵的層片狀混合物</span>
+                                </div>
+                                <div class="glossary-item">
+                                    <span class="glossary-term">A1 線 (727°C)</span>
+                                    <span class="glossary-def">共析溫度線，波來鐵轉變溫度</span>
+                                </div>
+                                <div class="glossary-item">
+                                    <span class="glossary-term">A3 線</span>
+                                    <span class="glossary-def">亞共析鋼的沃斯田鐵開始形成溫度</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 現場操作步驟 -->
+                    <!-- 鋼鐵分類 -->
                     <div class="tutorial-card">
-                        <h3>🔧 現場動平衡操作步驟</h3>
+                        <h3>🔩 鋼鐵分類（依碳含量）</h3>
+                        <div class="table-scroll">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>分類</th>
+                                        <th>碳含量</th>
+                                        <th>特性</th>
+                                        <th>用途</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="highlight">熟鐵</td>
+                                        <td>&lt; 0.03%</td>
+                                        <td>純鐵，軟、韌性佳、易加工</td>
+                                        <td>裝飾品、鍛造件</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="highlight">低碳鋼</td>
+                                        <td>0.03 ~ 0.3%</td>
+                                        <td>軟鋼，易焊接、可塑性佳</td>
+                                        <td>建築鋼筋、鈑金、管件</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="highlight">中碳鋼</td>
+                                        <td>0.3 ~ 0.6%</td>
+                                        <td>可熱處理硬化，強度適中</td>
+                                        <td>軸、齒輪、連桿</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="highlight">高碳鋼</td>
+                                        <td>0.6 ~ 2.1%</td>
+                                        <td>硬而耐磨，可淬火</td>
+                                        <td>刀具、彈簧、軸承</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="highlight">生鐵（鑄鐵）</td>
+                                        <td>2.1 ~ 6.67%</td>
+                                        <td>硬脆、不適合機械加工</td>
+                                        <td>鑄造用、熔煉原料</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 煉鋼流程 -->
+                    <div class="tutorial-card">
+                        <h3>🏭 煉鋼流程</h3>
                         <div class="step-list">
                             <div class="step-item">
                                 <span class="step-number">1</span>
                                 <div class="step-content">
-                                    <h5>準備工作</h5>
+                                    <h5>高爐煉鐵</h5>
                                     <ul>
-                                        <li>確認設備可安全運轉</li>
-                                        <li>清除轉子上的污垢和異物</li>
-                                        <li>記錄原始振動值</li>
-                                        <li>準備試重塊（建議螺絲+螺帽）</li>
+                                        <li>鐵礦石 + 焦炭 + 石灰石 → 生鐵</li>
+                                        <li>焦炭燃燒產生 CO，還原鐵礦石</li>
+                                        <li>熔點約 1100°C，加熱至 1600°C</li>
+                                        <li>產出含碳 4.3% 左右的生鐵</li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="step-item">
                                 <span class="step-number">2</span>
                                 <div class="step-content">
-                                    <h5>第一次測量（原始狀態）</h5>
+                                    <h5>轉爐煉鋼</h5>
                                     <ul>
-                                        <li>運轉至工作轉速</li>
-                                        <li>用振動儀測量並記錄：振幅 A₀、相位 φ₀</li>
-                                        <li>標註測量點位置</li>
+                                        <li>生鐵中吹入氧氣（O₂）</li>
+                                        <li>氧氣氧化去除多餘碳、矽、錳等雜質</li>
+                                        <li>反應產生 CO/CO₂</li>
+                                        <li>碳含量降至所需等級 → 粗鋼（碳素鋼）</li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="step-item">
                                 <span class="step-number">3</span>
                                 <div class="step-content">
-                                    <h5>加試重測量</h5>
+                                    <h5>精煉與合金化</h5>
                                     <ul>
-                                        <li>在校正面任意位置加試重 W (已知重量)</li>
-                                        <li>建議試重量：轉子重量的 0.1% ~ 1%</li>
-                                        <li>運轉後記錄：振幅 A₁、相位 φ₁</li>
+                                        <li>添加合金元素（Cr、Ni、Mo、V）</li>
+                                        <li>精煉爐去除氣體與夾雜物</li>
+                                        <li>生產特殊鋼種：不鏽鋼、工具鋼等</li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="step-item">
                                 <span class="step-number">4</span>
                                 <div class="step-content">
-                                    <h5>計算修正量</h5>
-                                    <div class="formula-box">
-                                        <strong>三圓圈法（向量法）：</strong>
-                                        <p>以 A₀ 為圓心畫圓、以 A₁ 為圓心畫圓，找出校正點位置和重量</p>
-                                        <p><strong>簡化公式：</strong></p>
-                                        <p>修正重量 = W × (A₀ / A₁) × k</p>
-                                        <p>修正角度 = 根據相位差計算</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="step-item">
-                                <span class="step-number">5</span>
-                                <div class="step-content">
-                                    <h5>安裝配重並驗證</h5>
+                                    <h5>鍛造/鑄造成形</h5>
                                     <ul>
-                                        <li>移除試重，安裝計算出的配重</li>
-                                        <li>運轉測量殘餘振動</li>
-                                        <li>若不合格，重複步驟 2-4 進行微調</li>
-                                        <li>記錄最終結果</li>
+                                        <li>粗鋼水急冷抽出 → 鋼胚（冷卻形狀）</li>
+                                        <li>鑄造：液態直接灌模成型</li>
+                                        <li>鍛造：熱壓變形加工</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 平衡等級 -->
+                    <!-- 熱處理 -->
                     <div class="tutorial-card">
-                        <h3>📊 平衡等級標準 (ISO 1940)</h3>
-                        <div class="table-scroll">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>等級 G</th>
-                                        <th>允許偏心速度</th>
-                                        <th>適用設備</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>G 40</td>
-                                        <td>40 mm/s</td>
-                                        <td>汽車車輪、農機</td>
-                                    </tr>
-                                    <tr>
-                                        <td>G 16</td>
-                                        <td>16 mm/s</td>
-                                        <td>離心機、破碎機</td>
-                                    </tr>
-                                    <tr>
-                                        <td>G 6.3</td>
-                                        <td>6.3 mm/s</td>
-                                        <td>一般電機、泵浦、風機</td>
-                                    </tr>
-                                    <tr class="highlight">
-                                        <td>G 2.5</td>
-                                        <td>2.5 mm/s</td>
-                                        <td>渦輪機、大型電機</td>
-                                    </tr>
-                                    <tr>
-                                        <td>G 1</td>
-                                        <td>1 mm/s</td>
-                                        <td>磨床主軸、精密設備</td>
-                                    </tr>
-                                    <tr>
-                                        <td>G 0.4</td>
-                                        <td>0.4 mm/s</td>
-                                        <td>陀螺儀、高精密主軸</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="note-box">
-                            <strong>💡 實務建議：</strong>一般工廠風機、泵浦達到 G 6.3 即可；高速或精密設備建議 G 2.5 以上。
+                        <h3>🔥 熱處理方式</h3>
+                        <div class="comparison-grid">
+                            <div class="compare-item">
+                                <h5>🔵 淬火（Quenching）</h5>
+                                <ul>
+                                    <li>加熱至沃斯田鐵區（A3 以上）</li>
+                                    <li>快速冷卻（水或油）</li>
+                                    <li>形成麻田散鐵，硬度大增</li>
+                                    <li>用於刀具、模具等需高硬度場合</li>
+                                </ul>
+                            </div>
+                            <div class="compare-item">
+                                <h5>🟢 回火（Tempering）</h5>
+                                <ul>
+                                    <li>淬火後再加熱至 150~600°C</li>
+                                    <li>消除內應力，降低脆性</li>
+                                    <li>調整硬度與韌性平衡</li>
+                                    <li>溫度越高，硬度越低、韌性越好</li>
+                                </ul>
+                            </div>
+                            <div class="compare-item">
+                                <h5>🟡 退火（Annealing）</h5>
+                                <ul>
+                                    <li>加熱後緩慢冷卻（爐冷）</li>
+                                    <li>軟化材料，便於加工</li>
+                                    <li>消除冷加工硬化</li>
+                                    <li>均勻化組織</li>
+                                </ul>
+                            </div>
+                            <div class="compare-item">
+                                <h5>🔴 正常化（Normalizing）</h5>
+                                <ul>
+                                    <li>加熱至 A3 以上 30~50°C</li>
+                                    <li>空冷至室溫</li>
+                                    <li>細化晶粒，改善機械性能</li>
+                                    <li>消除鑄造或鍛造應力</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- 常見問題 -->
+                    <!-- 乙炔與焊接 -->
                     <div class="tutorial-card">
-                        <h3>❓ 常見問題與解決</h3>
+                        <h3>🔥 氣焊基礎知識</h3>
+                        <div class="tutorial-section">
+                            <h4>氧乙炔焊（OAW）</h4>
+                            <div class="glossary-card">
+                                <h4>📖 重點說明</h4>
+                                <div class="glossary-list">
+                                    <div class="glossary-item">
+                                        <span class="glossary-term">氧氣壓力</span>
+                                        <span class="glossary-def">一般 3 kg/cm² 可達到 130 kg/cm²</span>
+                                    </div>
+                                    <div class="glossary-item">
+                                        <span class="glossary-term">無縫鋼瓶</span>
+                                        <span class="glossary-def">真圓度約 5~8 mm 之間，瓶內有安全片</span>
+                                    </div>
+                                    <div class="glossary-item">
+                                        <span class="glossary-term">壓力限制</span>
+                                        <span class="glossary-def">當壓力在 180~200 kg/cm² 會蓄有高壓佰破，溫度須保持 45°C 以下</span>
+                                    </div>
+                                    <div class="glossary-item">
+                                        <span class="glossary-term">乙炔（C₂H₂）</span>
+                                        <span class="glossary-def">比空氣輕，碳化鈣與水反應產生乙炔氣</span>
+                                    </div>
+                                    <div class="glossary-item">
+                                        <span class="glossary-term">乙炔壓力</span>
+                                        <span class="glossary-def">在低壓非常安定，但高壓反應不穩定，作業時限制在 1.3 kg/cm² 以下</span>
+                                    </div>
+                                    <div class="glossary-item">
+                                        <span class="glossary-term">乙炔鋼瓶</span>
+                                        <span class="glossary-def">有生石灰溶量裝置，溫度超過 98°C 中華熔化讓乙炔逸出</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tutorial-section">
+                            <h4>切割注意事項</h4>
+                            <ul>
+                                <li>切割時切割嘴要在沿線上，合致較多的銅在燃燒會有較多氧化物溶在金屬表面接銅，使切割不能繼續</li>
+                                <li>若有合理氧化物浮仕透合熔黏</li>
+                            </ul>
+                        </div>
+                        <div class="note-box">
+                            <strong>💡 關鍵溫度：</strong><br>
+                            中（鉄）融點 1538°C；雜氧化物 1200~1500°C
+                        </div>
+                    </div>
+
+                    <!-- 實務知識 -->
+                    <div class="tutorial-card">
+                        <h3>💡 實務重點</h3>
                         <div class="faq-list">
                             <div class="faq-item">
-                                <h5>Q：配重後振動反而變大？</h5>
-                                <p>A：試重位置可能與真正不平衡點相對，嘗試將試重移動 180° 後重新測量。</p>
+                                <h5>① 生鐵為什麼不能直接作鋼？</h5>
+                                <p>生鐵碳含量過高，有脆性，不適合機械加工。需經轉爐吹氧去碳後才能成為鋼。</p>
                             </div>
                             <div class="faq-item">
-                                <h5>Q：每次測量相位都不一樣？</h5>
-                                <p>A：檢查轉速是否穩定、振動儀觸發是否可靠、是否有共振干擾。</p>
+                                <h5>② 鋼強度高、韌性好易加工的原因？</h5>
+                                <p>碳含量適中（0.3~1.5%），且可透過熱處理調整組織結構。</p>
                             </div>
                             <div class="faq-item">
-                                <h5>Q：無法達到平衡標準？</h5>
-                                <p>A：檢查軸承是否磨損、聯軸器是否偏心、基礎是否鬆動。有時需更換軸承後再做平衡。</p>
+                                <h5>③ 鐵經過淬火後會變怎樣？</h5>
+                                <p>形成麻田散鐵組織，硬度大幅增加但變脆。需回火消除應力。</p>
                             </div>
                             <div class="faq-item">
-                                <h5>Q：沒有專業平衡儀怎麼辦？</h5>
-                                <p>A：可用一般振動儀配合試重法，但需多次試驗。配重位置可用「加重-測振-調整」循環逼近法。</p>
+                                <h5>④ 為什麼碳鋼焊接後要做後熱？</h5>
+                                <p>消除焊接殘留應力，防止冷裂。碳含量越高，預熱/後熱溫度越高。</p>
                             </div>
                         </div>
                     </div>
