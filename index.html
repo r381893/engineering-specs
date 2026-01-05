@@ -90,6 +90,10 @@
                 <span class="tab-icon">🏗️</span>
                 <span>起重吊車</span>
             </button>
+            <button class="nav-tab" data-tab="sop-notebook">
+                <span class="tab-icon">📋</span>
+                <span>SOP 筆記</span>
+            </button>
         </nav>
     </div>
 
@@ -1022,6 +1026,181 @@
                         </table>
                     </div>
                 </div>
+            </section>
+
+            <!-- SOP 筆記 -->
+            <section id="sop-notebook" class="section">
+                <h2 class="section-title">
+                    <span class="icon">📋</span>
+                    SOP 說明書管理
+                </h2>
+                <p class="section-desc">設備說明書、工作守則與操作手冊筆記本</p>
+
+                <div class="glossary-card">
+                    <h4>📖 使用說明</h4>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">分類</span>
+                            <span class="glossary-def">將不同類型的說明書分門別類管理</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">文件</span>
+                            <span class="glossary-def">每份 SOP 可包含文字說明與多張圖片</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">同步</span>
+                            <span class="glossary-def">設定 Firebase 後可跨裝置同步資料</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SOP 主要內容區 -->
+                <div id="sopContent" class="sop-content">
+                    <!-- 分類視圖 -->
+                    <div id="sopCategoriesView" class="sop-view active">
+                        <div class="sop-header">
+                            <h3>📁 分類</h3>
+                            <button class="sop-add-btn" id="addCategoryBtn">+ 新增分類</button>
+                        </div>
+                        <div id="sopCategoriesGrid" class="sop-categories-grid">
+                            <!-- 動態載入分類 -->
+                        </div>
+                    </div>
+
+                    <!-- 文件列表視圖 -->
+                    <div id="sopDocumentsView" class="sop-view">
+                        <div class="sop-header">
+                            <button class="sop-back-btn" id="backToCategoriesBtn">← 返回分類</button>
+                            <h3 id="currentCategoryName">分類名稱</h3>
+                            <button class="sop-add-btn" id="addDocumentBtn">+ 新增文件</button>
+                        </div>
+                        <div id="sopDocumentsList" class="sop-documents-list">
+                            <!-- 動態載入文件 -->
+                        </div>
+                    </div>
+
+                    <!-- 文件詳情視圖 -->
+                    <div id="sopDocumentView" class="sop-view">
+                        <div class="sop-header">
+                            <button class="sop-back-btn" id="backToDocumentsBtn">← 返回列表</button>
+                            <h3 id="currentDocumentTitle">文件標題</h3>
+                            <div class="sop-doc-actions">
+                                <button class="sop-edit-btn" id="editDocumentBtn">✏️ 編輯</button>
+                                <button class="sop-delete-btn" id="deleteDocumentBtn">🗑️ 刪除</button>
+                            </div>
+                        </div>
+                        <div id="sopDocumentContent" class="sop-document-content">
+                            <!-- 動態載入文件內容 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 分類編輯 Modal -->
+                <div id="sopCategoryModal" class="sop-modal">
+                    <div class="sop-modal-backdrop"></div>
+                    <div class="sop-modal-content">
+                        <h3 id="sopCategoryModalTitle">新增分類</h3>
+                        <form id="sopCategoryForm">
+                            <div class="sop-form-group">
+                                <label>圖示</label>
+                                <div class="sop-icon-picker" id="sopIconPicker">
+                                    <span class="sop-icon-option selected" data-icon="📁">📁</span>
+                                    <span class="sop-icon-option" data-icon="🔧">🔧</span>
+                                    <span class="sop-icon-option" data-icon="⚙️">⚙️</span>
+                                    <span class="sop-icon-option" data-icon="🏭">🏭</span>
+                                    <span class="sop-icon-option" data-icon="🛡️">🛡️</span>
+                                    <span class="sop-icon-option" data-icon="📋">📋</span>
+                                    <span class="sop-icon-option" data-icon="🔬">🔬</span>
+                                    <span class="sop-icon-option" data-icon="💻">💻</span>
+                                    <span class="sop-icon-option" data-icon="🚗">🚗</span>
+                                    <span class="sop-icon-option" data-icon="🏠">🏠</span>
+                                    <span class="sop-icon-option" data-icon="📦">📦</span>
+                                    <span class="sop-icon-option" data-icon="🔌">🔌</span>
+                                </div>
+                                <input type="hidden" id="sopCategoryIcon" value="📁">
+                            </div>
+                            <div class="sop-form-group">
+                                <label for="sopCategoryName">分類名稱</label>
+                                <input type="text" id="sopCategoryName" required placeholder="例如：機器設備">
+                            </div>
+                            <div class="sop-modal-actions">
+                                <button type="button" class="sop-btn sop-btn-secondary"
+                                    id="cancelCategoryBtn">取消</button>
+                                <button type="submit" class="sop-btn sop-btn-primary">儲存</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- 文件編輯 Modal -->
+                <div id="sopDocumentModal" class="sop-modal">
+                    <div class="sop-modal-backdrop"></div>
+                    <div class="sop-modal-content sop-modal-large">
+                        <h3 id="sopDocumentModalTitle">新增文件</h3>
+                        <form id="sopDocumentForm">
+                            <div class="sop-form-group">
+                                <label for="sopDocumentTitle">標題</label>
+                                <input type="text" id="sopDocumentTitleInput" required placeholder="例如：CNC車床操作手冊">
+                            </div>
+                            <div class="sop-form-group">
+                                <label for="sopDocumentContent">內容</label>
+                                <div class="sop-editor-toolbar">
+                                    <button type="button" class="sop-toolbar-btn" data-action="bold"
+                                        title="粗體">B</button>
+                                    <button type="button" class="sop-toolbar-btn" data-action="heading"
+                                        title="標題">H</button>
+                                    <button type="button" class="sop-toolbar-btn" data-action="list"
+                                        title="列表">•</button>
+                                </div>
+                                <textarea id="sopDocumentContentInput" rows="8" placeholder="輸入 SOP 內容..."></textarea>
+                            </div>
+                            <div class="sop-form-group">
+                                <label>圖片附件</label>
+                                <div class="sop-image-upload" id="sopImageUpload">
+                                    <input type="file" id="sopImageInput" accept="image/*" multiple hidden>
+                                    <button type="button" class="sop-upload-btn" id="sopUploadBtn">📷 上傳圖片</button>
+                                    <span class="sop-upload-hint">支援多張圖片</span>
+                                </div>
+                                <div id="sopImagePreview" class="sop-image-preview"></div>
+                            </div>
+                            <div class="sop-modal-actions">
+                                <button type="button" class="sop-btn sop-btn-secondary"
+                                    id="cancelDocumentBtn">取消</button>
+                                <button type="submit" class="sop-btn sop-btn-primary">儲存</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- 圖片檢視器 -->
+                <div id="sopImageViewer" class="sop-image-viewer">
+                    <div class="sop-viewer-backdrop"></div>
+                    <div class="sop-viewer-content">
+                        <button class="sop-viewer-close" id="closeImageViewer">✕</button>
+                        <img id="sopViewerImage" src="" alt="圖片">
+                        <div class="sop-viewer-nav">
+                            <button id="prevImage" class="sop-viewer-nav-btn">‹</button>
+                            <span id="sopImageCounter">1 / 1</span>
+                            <button id="nextImage" class="sop-viewer-nav-btn">›</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 確認刪除 Modal -->
+                <div id="sopConfirmModal" class="sop-modal">
+                    <div class="sop-modal-backdrop"></div>
+                    <div class="sop-modal-content sop-modal-small">
+                        <h3>確認刪除</h3>
+                        <p id="sopConfirmMessage">確定要刪除嗎？</p>
+                        <div class="sop-modal-actions">
+                            <button type="button" class="sop-btn sop-btn-secondary" id="sopConfirmCancel">取消</button>
+                            <button type="button" class="sop-btn sop-btn-danger" id="sopConfirmDelete">刪除</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Toast 通知 -->
+                <div id="sopToast" class="sop-toast"></div>
             </section>
         </div>
     </main>

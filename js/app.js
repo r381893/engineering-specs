@@ -766,3 +766,604 @@ function calculateExpansion() {
     const expansion = coefficient * length * tempDiff * 0.001; // mm
     resultEl.textContent = `${expansion.toFixed(2)} mm`;
 }
+
+// ============================================
+// SOP 筆記本功能
+// ============================================
+
+const SOP = {
+    // 狀態
+    state: {
+        categories: [],
+        documents: [],
+        currentCategory: null,
+        currentDocument: null,
+        editingCategory: null,
+        editingDocument: null,
+        pendingImages: [],
+        viewerImages: [],
+        viewerIndex: 0,
+        deleteCallback: null
+    },
+
+    // 初始化
+    init() {
+        this.loadData();
+        this.bindEvents();
+        this.renderCategories();
+    },
+
+    // 資料存取
+    loadData() {
+        this.state.categories = JSON.parse(localStorage.getItem('sop_categories') || '[]');
+        this.state.documents = JSON.parse(localStorage.getItem('sop_documents') || '[]');
+    },
+
+    saveCategories() {
+        localStorage.setItem('sop_categories', JSON.stringify(this.state.categories));
+    },
+
+    saveDocuments() {
+        localStorage.setItem('sop_documents', JSON.stringify(this.state.documents));
+    },
+
+    // 事件綁定
+    bindEvents() {
+        // 分類視圖
+        document.getElementById('addCategoryBtn')?.addEventListener('click', () => this.openCategoryModal());
+        document.getElementById('cancelCategoryBtn')?.addEventListener('click', () => this.closeModal('sopCategoryModal'));
+        document.getElementById('sopCategoryForm')?.addEventListener('submit', (e) => this.handleCategorySubmit(e));
+
+        // 圖示選擇器
+        document.querySelectorAll('#sopIconPicker .sop-icon-option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                document.querySelectorAll('#sopIconPicker .sop-icon-option').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                document.getElementById('sopCategoryIcon').value = opt.dataset.icon;
+            });
+        });
+
+        // 文件視圖
+        document.getElementById('backToCategoriesBtn')?.addEventListener('click', () => this.showCategoriesView());
+        document.getElementById('addDocumentBtn')?.addEventListener('click', () => this.openDocumentModal());
+        document.getElementById('cancelDocumentBtn')?.addEventListener('click', () => this.closeModal('sopDocumentModal'));
+        document.getElementById('sopDocumentForm')?.addEventListener('submit', (e) => this.handleDocumentSubmit(e));
+
+        // 文件詳情
+        document.getElementById('backToDocumentsBtn')?.addEventListener('click', () => this.showDocumentsView());
+        document.getElementById('editDocumentBtn')?.addEventListener('click', () => this.openDocumentModal(this.state.currentDocument));
+        document.getElementById('deleteDocumentBtn')?.addEventListener('click', () => {
+            this.showConfirm(`確定要刪除「${this.state.currentDocument.title}」嗎？`, () => {
+                this.deleteDocument(this.state.currentDocument.id);
+            });
+        });
+
+        // 圖片上傳
+        document.getElementById('sopUploadBtn')?.addEventListener('click', () => {
+            document.getElementById('sopImageInput').click();
+        });
+        document.getElementById('sopImageInput')?.addEventListener('change', (e) => this.handleImageSelect(e));
+
+        // 編輯器工具列
+        document.querySelectorAll('.sop-toolbar-btn').forEach(btn => {
+            btn.addEventListener('click', () => this.insertFormatting(btn.dataset.action));
+        });
+
+        // 圖片檢視器
+        document.getElementById('closeImageViewer')?.addEventListener('click', () => this.closeImageViewer());
+        document.getElementById('prevImage')?.addEventListener('click', () => this.navigateImage(-1));
+        document.getElementById('nextImage')?.addEventListener('click', () => this.navigateImage(1));
+        document.querySelector('.sop-viewer-backdrop')?.addEventListener('click', () => this.closeImageViewer());
+
+        // 確認對話框
+        document.getElementById('sopConfirmCancel')?.addEventListener('click', () => this.closeModal('sopConfirmModal'));
+        document.getElementById('sopConfirmDelete')?.addEventListener('click', () => this.handleConfirmDelete());
+
+        // Modal 背景點擊關閉
+        document.querySelectorAll('.sop-modal-backdrop').forEach(backdrop => {
+            backdrop.addEventListener('click', () => {
+                this.closeModal(backdrop.parentElement.id);
+            });
+        });
+    },
+
+    // ==========================================
+    // 分類操作
+    // ==========================================
+    openCategoryModal(category = null) {
+        this.state.editingCategory = category;
+        document.getElementById('sopCategoryModalTitle').textContent = category ? '編輯分類' : '新增分類';
+        document.getElementById('sopCategoryName').value = category ? category.name : '';
+
+        const icon = category ? category.icon : '📁';
+        document.getElementById('sopCategoryIcon').value = icon;
+        document.querySelectorAll('#sopIconPicker .sop-icon-option').forEach(opt => {
+            opt.classList.toggle('selected', opt.dataset.icon === icon);
+        });
+
+        this.openModal('sopCategoryModal');
+    },
+
+    handleCategorySubmit(e) {
+        e.preventDefault();
+        const name = document.getElementById('sopCategoryName').value.trim();
+        const icon = document.getElementById('sopCategoryIcon').value;
+
+        if (!name) {
+            this.showToast('請輸入分類名稱', 'error');
+            return;
+        }
+
+        if (this.state.editingCategory) {
+            const index = this.state.categories.findIndex(c => c.id === this.state.editingCategory.id);
+            this.state.categories[index] = { ...this.state.categories[index], name, icon };
+            this.showToast('分類已更新', 'success');
+        } else {
+            const newCategory = {
+                id: 'cat_' + Date.now(),
+                name,
+                icon,
+                createdAt: new Date().toISOString()
+            };
+            this.state.categories.push(newCategory);
+            this.showToast('分類已新增', 'success');
+        }
+
+        this.saveCategories();
+        this.renderCategories();
+        this.closeModal('sopCategoryModal');
+    },
+
+    deleteCategory(categoryId) {
+        this.state.categories = this.state.categories.filter(c => c.id !== categoryId);
+        this.state.documents = this.state.documents.filter(d => d.categoryId !== categoryId);
+        this.saveCategories();
+        this.saveDocuments();
+        this.renderCategories();
+        this.showToast('分類已刪除', 'success');
+    },
+
+    // ==========================================
+    // 文件操作
+    // ==========================================
+    openDocumentModal(document = null) {
+        this.state.editingDocument = document;
+        this.state.pendingImages = [];
+
+        document.getElementById('sopDocumentModalTitle').textContent = document ? '編輯文件' : '新增文件';
+        document.getElementById('sopDocumentTitleInput').value = document ? document.title : '';
+        document.getElementById('sopDocumentContentInput').value = document ? document.content : '';
+
+        this.renderImagePreview(document ? document.images : []);
+        this.openModal('sopDocumentModal');
+    },
+
+    handleDocumentSubmit(e) {
+        e.preventDefault();
+        const title = document.getElementById('sopDocumentTitleInput').value.trim();
+        const content = document.getElementById('sopDocumentContentInput').value;
+
+        if (!title) {
+            this.showToast('請輸入文件標題', 'error');
+            return;
+        }
+
+        const now = new Date().toISOString();
+
+        // 處理圖片
+        const existingImages = this.state.editingDocument ? (this.state.editingDocument.images || []) : [];
+        const newImages = this.state.pendingImages.map(img => img.data);
+        const allImages = [...existingImages, ...newImages];
+
+        if (this.state.editingDocument) {
+            const index = this.state.documents.findIndex(d => d.id === this.state.editingDocument.id);
+            this.state.documents[index] = {
+                ...this.state.documents[index],
+                title,
+                content,
+                images: allImages,
+                updatedAt: now
+            };
+            this.showToast('文件已更新', 'success');
+        } else {
+            const newDocument = {
+                id: 'doc_' + Date.now(),
+                categoryId: this.state.currentCategory.id,
+                title,
+                content,
+                images: allImages,
+                createdAt: now,
+                updatedAt: now
+            };
+            this.state.documents.push(newDocument);
+            this.showToast('文件已新增', 'success');
+        }
+
+        this.state.pendingImages = [];
+        this.saveDocuments();
+        this.showDocumentsView();
+        this.closeModal('sopDocumentModal');
+    },
+
+    deleteDocument(documentId) {
+        this.state.documents = this.state.documents.filter(d => d.id !== documentId);
+        this.saveDocuments();
+        this.showDocumentsView();
+        this.showToast('文件已刪除', 'success');
+    },
+
+    // ==========================================
+    // 圖片處理
+    // ==========================================
+    handleImageSelect(e) {
+        const files = Array.from(e.target.files);
+        files.forEach(file => {
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    this.state.pendingImages.push({
+                        name: file.name,
+                        data: event.target.result
+                    });
+                    this.updateImagePreview();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        e.target.value = '';
+    },
+
+    updateImagePreview() {
+        const existingImages = this.state.editingDocument ? (this.state.editingDocument.images || []) : [];
+
+        let html = existingImages.map((url, index) => `
+            <div class="sop-preview-item" data-type="existing" data-index="${index}">
+                <img src="${url}" alt="圖片">
+                <button type="button" class="sop-preview-remove" data-type="existing" data-index="${index}">✕</button>
+            </div>
+        `).join('');
+
+        html += this.state.pendingImages.map((img, index) => `
+            <div class="sop-preview-item" data-type="pending" data-index="${index}">
+                <img src="${img.data}" alt="新圖片">
+                <button type="button" class="sop-preview-remove" data-type="pending" data-index="${index}">✕</button>
+            </div>
+        `).join('');
+
+        document.getElementById('sopImagePreview').innerHTML = html;
+        this.bindPreviewRemoveButtons();
+    },
+
+    renderImagePreview(images) {
+        const html = (images || []).map((url, index) => `
+            <div class="sop-preview-item" data-type="existing" data-index="${index}">
+                <img src="${url}" alt="圖片">
+                <button type="button" class="sop-preview-remove" data-type="existing" data-index="${index}">✕</button>
+            </div>
+        `).join('');
+
+        document.getElementById('sopImagePreview').innerHTML = html;
+        this.bindPreviewRemoveButtons();
+    },
+
+    bindPreviewRemoveButtons() {
+        document.querySelectorAll('.sop-preview-remove').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const type = btn.dataset.type;
+                const index = parseInt(btn.dataset.index);
+
+                if (type === 'existing' && this.state.editingDocument) {
+                    this.state.editingDocument.images.splice(index, 1);
+                } else if (type === 'pending') {
+                    this.state.pendingImages.splice(index, 1);
+                }
+                this.updateImagePreview();
+            });
+        });
+    },
+
+    // ==========================================
+    // 圖片檢視器
+    // ==========================================
+    openImageViewer(images, startIndex) {
+        this.state.viewerImages = images;
+        this.state.viewerIndex = startIndex;
+        this.updateViewer();
+        document.getElementById('sopImageViewer').classList.add('active');
+    },
+
+    closeImageViewer() {
+        document.getElementById('sopImageViewer').classList.remove('active');
+    },
+
+    updateViewer() {
+        document.getElementById('sopViewerImage').src = this.state.viewerImages[this.state.viewerIndex];
+        document.getElementById('sopImageCounter').textContent =
+            `${this.state.viewerIndex + 1} / ${this.state.viewerImages.length}`;
+        document.getElementById('prevImage').disabled = this.state.viewerIndex === 0;
+        document.getElementById('nextImage').disabled = this.state.viewerIndex === this.state.viewerImages.length - 1;
+    },
+
+    navigateImage(direction) {
+        this.state.viewerIndex = Math.max(0,
+            Math.min(this.state.viewerImages.length - 1, this.state.viewerIndex + direction));
+        this.updateViewer();
+    },
+
+    // ==========================================
+    // 視圖切換
+    // ==========================================
+    showCategoriesView() {
+        this.state.currentCategory = null;
+        this.state.currentDocument = null;
+        document.getElementById('sopCategoriesView').classList.add('active');
+        document.getElementById('sopDocumentsView').classList.remove('active');
+        document.getElementById('sopDocumentView').classList.remove('active');
+        this.renderCategories();
+    },
+
+    showDocumentsView() {
+        this.state.currentDocument = null;
+        document.getElementById('sopCategoriesView').classList.remove('active');
+        document.getElementById('sopDocumentsView').classList.add('active');
+        document.getElementById('sopDocumentView').classList.remove('active');
+        document.getElementById('currentCategoryName').textContent = this.state.currentCategory.name;
+        this.renderDocuments();
+    },
+
+    showDocumentView(documentId) {
+        this.state.currentDocument = this.state.documents.find(d => d.id === documentId);
+        document.getElementById('sopCategoriesView').classList.remove('active');
+        document.getElementById('sopDocumentsView').classList.remove('active');
+        document.getElementById('sopDocumentView').classList.add('active');
+        document.getElementById('currentDocumentTitle').textContent = this.state.currentDocument.title;
+        this.renderDocumentContent();
+    },
+
+    // ==========================================
+    // 渲染函式
+    // ==========================================
+    renderCategories() {
+        const grid = document.getElementById('sopCategoriesGrid');
+        if (!grid) return;
+
+        if (this.state.categories.length === 0) {
+            grid.innerHTML = `
+                <div class="sop-empty-state" style="grid-column: 1/-1;">
+                    <div class="icon">📁</div>
+                    <p>尚無分類，點擊「+ 新增分類」開始</p>
+                </div>
+            `;
+            return;
+        }
+
+        grid.innerHTML = this.state.categories.map(cat => {
+            const docCount = this.state.documents.filter(d => d.categoryId === cat.id).length;
+            return `
+                <div class="sop-category-card" data-id="${cat.id}">
+                    <div class="sop-category-actions">
+                        <button class="sop-action-btn" data-action="edit" title="編輯">✏️</button>
+                        <button class="sop-action-btn delete" data-action="delete" title="刪除">🗑️</button>
+                    </div>
+                    <span class="icon">${cat.icon}</span>
+                    <div class="name">${this.escapeHtml(cat.name)}</div>
+                    <div class="count">${docCount} 份文件</div>
+                </div>
+            `;
+        }).join('');
+
+        // 綁定事件
+        grid.querySelectorAll('.sop-category-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (e.target.closest('.sop-action-btn')) {
+                    const action = e.target.closest('.sop-action-btn').dataset.action;
+                    const catId = card.dataset.id;
+                    const category = this.state.categories.find(c => c.id === catId);
+
+                    if (action === 'edit') {
+                        this.openCategoryModal(category);
+                    } else if (action === 'delete') {
+                        this.showConfirm(`確定要刪除「${category.name}」及其所有文件嗎？`, () => {
+                            this.deleteCategory(catId);
+                        });
+                    }
+                } else {
+                    this.state.currentCategory = this.state.categories.find(c => c.id === card.dataset.id);
+                    this.showDocumentsView();
+                }
+            });
+        });
+    },
+
+    renderDocuments() {
+        const list = document.getElementById('sopDocumentsList');
+        if (!list) return;
+
+        const docs = this.state.documents.filter(d => d.categoryId === this.state.currentCategory.id);
+
+        if (docs.length === 0) {
+            list.innerHTML = `
+                <div class="sop-empty-state">
+                    <div class="icon">📄</div>
+                    <p>尚無文件，點擊「+ 新增文件」開始</p>
+                </div>
+            `;
+            return;
+        }
+
+        list.innerHTML = docs.map(doc => {
+            const preview = this.stripHtml(doc.content).substring(0, 100);
+            const imageCount = (doc.images || []).length;
+            return `
+                <div class="sop-document-card" data-id="${doc.id}">
+                    <div class="title">📄 ${this.escapeHtml(doc.title)}</div>
+                    <div class="preview">${this.escapeHtml(preview)}...</div>
+                    <div class="meta">
+                        <span>${this.formatDate(doc.updatedAt)}</span>
+                        ${imageCount > 0 ? `<span class="images-count">🖼️ ${imageCount}</span>` : ''}
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        // 綁定事件
+        list.querySelectorAll('.sop-document-card').forEach(card => {
+            card.addEventListener('click', () => {
+                this.showDocumentView(card.dataset.id);
+            });
+        });
+    },
+
+    renderDocumentContent() {
+        const container = document.getElementById('sopDocumentContent');
+        if (!container || !this.state.currentDocument) return;
+
+        const doc = this.state.currentDocument;
+        const content = this.parseContent(doc.content);
+        const images = doc.images || [];
+
+        let html = `<div class="content-body">${content}</div>`;
+
+        if (images.length > 0) {
+            html += `
+                <div class="sop-images-section">
+                    <h4>🖼️ 附件圖片 (${images.length})</h4>
+                    <div class="sop-images-grid">
+                        ${images.map((url, index) => `
+                            <div class="sop-image-thumb" data-index="${index}">
+                                <img src="${url}" alt="圖片 ${index + 1}">
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        container.innerHTML = html;
+
+        // 綁定圖片點擊
+        container.querySelectorAll('.sop-image-thumb').forEach(thumb => {
+            thumb.addEventListener('click', () => {
+                this.openImageViewer(images, parseInt(thumb.dataset.index));
+            });
+        });
+    },
+
+    // ==========================================
+    // Modal 操作
+    // ==========================================
+    openModal(modalId) {
+        document.getElementById(modalId)?.classList.add('active');
+    },
+
+    closeModal(modalId) {
+        document.getElementById(modalId)?.classList.remove('active');
+    },
+
+    showConfirm(message, callback) {
+        document.getElementById('sopConfirmMessage').textContent = message;
+        this.state.deleteCallback = callback;
+        this.openModal('sopConfirmModal');
+    },
+
+    handleConfirmDelete() {
+        this.closeModal('sopConfirmModal');
+        if (this.state.deleteCallback) {
+            this.state.deleteCallback();
+            this.state.deleteCallback = null;
+        }
+    },
+
+    // ==========================================
+    // 編輯器工具
+    // ==========================================
+    insertFormatting(action) {
+        const textarea = document.getElementById('sopDocumentContentInput');
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const selected = textarea.value.substring(start, end);
+
+        let insert = '';
+        switch (action) {
+            case 'bold':
+                insert = `**${selected || '粗體文字'}**`;
+                break;
+            case 'heading':
+                insert = `\n## ${selected || '標題'}\n`;
+                break;
+            case 'list':
+                insert = `\n- ${selected || '項目'}`;
+                break;
+        }
+
+        textarea.value = textarea.value.substring(0, start) + insert + textarea.value.substring(end);
+        textarea.focus();
+    },
+
+    // ==========================================
+    // 工具函式
+    // ==========================================
+    showToast(message, type = 'success') {
+        const toast = document.getElementById('sopToast');
+        if (!toast) return;
+
+        toast.textContent = message;
+        toast.className = `sop-toast show ${type}`;
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    },
+
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    },
+
+    stripHtml(html) {
+        const div = document.createElement('div');
+        div.innerHTML = html;
+        return div.textContent || div.innerText || '';
+    },
+
+    parseContent(content) {
+        if (!content) return '';
+
+        let html = this.escapeHtml(content);
+
+        // 標題
+        html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+
+        // 粗體
+        html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+        // 列表
+        html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
+
+        // 換行
+        html = html.replace(/\n/g, '<br>');
+
+        return html;
+    },
+
+    formatDate(dateString) {
+        if (!dateString) return '';
+        const date = new Date(dateString);
+        return date.toLocaleDateString('zh-TW', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        });
+    }
+};
+
+// 在 DOMContentLoaded 中初始化 SOP
+document.addEventListener('DOMContentLoaded', () => {
+    // 延遲初始化 SOP，確保元素已載入
+    setTimeout(() => {
+        if (document.getElementById('sopCategoriesGrid')) {
+            SOP.init();
+        }
+    }, 100);
+});
