@@ -926,15 +926,15 @@ const SOP = {
     // ==========================================
     // 文件操作
     // ==========================================
-    openDocumentModal(document = null) {
-        this.state.editingDocument = document;
+    openDocumentModal(doc = null) {
+        this.state.editingDocument = doc;
         this.state.pendingImages = [];
 
-        document.getElementById('sopDocumentModalTitle').textContent = document ? '編輯文件' : '新增文件';
-        document.getElementById('sopDocumentTitleInput').value = document ? document.title : '';
-        document.getElementById('sopDocumentContentInput').value = document ? document.content : '';
+        document.getElementById('sopDocumentModalTitle').textContent = doc ? '編輯文件' : '新增文件';
+        document.getElementById('sopDocumentTitleInput').value = doc ? doc.title : '';
+        document.getElementById('sopDocumentContentInput').value = doc ? doc.content : '';
 
-        this.renderImagePreview(document ? document.images : []);
+        this.renderImagePreview(doc ? doc.images : []);
         this.openModal('sopDocumentModal');
     },
 
