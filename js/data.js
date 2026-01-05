@@ -497,3 +497,119 @@ const craneSafetyData = [
     { voltage: '高壓 161kV', minDistance: 8.0 },
     { voltage: '高壓 345kV', minDistance: 10.0 }
 ];
+
+// ============================================
+// V 型皮帶規格 (單位: mm)
+// ============================================
+const vBeltData = {
+    A: [
+        { length: 'A20', mm: 508, topWidth: 13, height: 8, angle: 40 },
+        { length: 'A25', mm: 635, topWidth: 13, height: 8, angle: 40 },
+        { length: 'A30', mm: 762, topWidth: 13, height: 8, angle: 40 },
+        { length: 'A35', mm: 889, topWidth: 13, height: 8, angle: 40 },
+        { length: 'A40', mm: 1016, topWidth: 13, height: 8, angle: 40 },
+        { length: 'A45', mm: 1143, topWidth: 13, height: 8, angle: 40 },
+        { length: 'A50', mm: 1270, topWidth: 13, height: 8, angle: 40 },
+        { length: 'A55', mm: 1397, topWidth: 13, height: 8, angle: 40 },
+        { length: 'A60', mm: 1524, topWidth: 13, height: 8, angle: 40 },
+        { length: 'A68', mm: 1727, topWidth: 13, height: 8, angle: 40 },
+        { length: 'A75', mm: 1905, topWidth: 13, height: 8, angle: 40 },
+        { length: 'A80', mm: 2032, topWidth: 13, height: 8, angle: 40 },
+        { length: 'A90', mm: 2286, topWidth: 13, height: 8, angle: 40 },
+        { length: 'A100', mm: 2540, topWidth: 13, height: 8, angle: 40 },
+        { length: 'A120', mm: 3048, topWidth: 13, height: 8, angle: 40 }
+    ],
+    B: [
+        { length: 'B30', mm: 762, topWidth: 17, height: 11, angle: 40 },
+        { length: 'B35', mm: 889, topWidth: 17, height: 11, angle: 40 },
+        { length: 'B40', mm: 1016, topWidth: 17, height: 11, angle: 40 },
+        { length: 'B45', mm: 1143, topWidth: 17, height: 11, angle: 40 },
+        { length: 'B50', mm: 1270, topWidth: 17, height: 11, angle: 40 },
+        { length: 'B55', mm: 1397, topWidth: 17, height: 11, angle: 40 },
+        { length: 'B60', mm: 1524, topWidth: 17, height: 11, angle: 40 },
+        { length: 'B68', mm: 1727, topWidth: 17, height: 11, angle: 40 },
+        { length: 'B75', mm: 1905, topWidth: 17, height: 11, angle: 40 },
+        { length: 'B85', mm: 2159, topWidth: 17, height: 11, angle: 40 },
+        { length: 'B100', mm: 2540, topWidth: 17, height: 11, angle: 40 },
+        { length: 'B120', mm: 3048, topWidth: 17, height: 11, angle: 40 },
+        { length: 'B150', mm: 3810, topWidth: 17, height: 11, angle: 40 }
+    ],
+    C: [
+        { length: 'C50', mm: 1270, topWidth: 22, height: 14, angle: 40 },
+        { length: 'C60', mm: 1524, topWidth: 22, height: 14, angle: 40 },
+        { length: 'C68', mm: 1727, topWidth: 22, height: 14, angle: 40 },
+        { length: 'C75', mm: 1905, topWidth: 22, height: 14, angle: 40 },
+        { length: 'C85', mm: 2159, topWidth: 22, height: 14, angle: 40 },
+        { length: 'C100', mm: 2540, topWidth: 22, height: 14, angle: 40 },
+        { length: 'C120', mm: 3048, topWidth: 22, height: 14, angle: 40 },
+        { length: 'C150', mm: 3810, topWidth: 22, height: 14, angle: 40 },
+        { length: 'C180', mm: 4572, topWidth: 22, height: 14, angle: 40 },
+        { length: 'C200', mm: 5080, topWidth: 22, height: 14, angle: 40 }
+    ],
+    D: [
+        { length: 'D100', mm: 2540, topWidth: 32, height: 19, angle: 40 },
+        { length: 'D120', mm: 3048, topWidth: 32, height: 19, angle: 40 },
+        { length: 'D150', mm: 3810, topWidth: 32, height: 19, angle: 40 },
+        { length: 'D180', mm: 4572, topWidth: 32, height: 19, angle: 40 },
+        { length: 'D200', mm: 5080, topWidth: 32, height: 19, angle: 40 },
+        { length: 'D240', mm: 6096, topWidth: 32, height: 19, angle: 40 },
+        { length: 'D270', mm: 6858, topWidth: 32, height: 19, angle: 40 },
+        { length: 'D300', mm: 7620, topWidth: 32, height: 19, angle: 40 }
+    ]
+};
+
+// ============================================
+// 時規皮帶規格 (同步帶)
+// ============================================
+const timingBeltData = {
+    HTD3M: { pitch: 3, toothDepth: 1.17, beltHeight: 2.4, widths: [6, 9, 15], desc: '輕負載，高精度' },
+    HTD5M: { pitch: 5, toothDepth: 2.06, beltHeight: 3.8, widths: [9, 15, 25], desc: '中等負載' },
+    HTD8M: { pitch: 8, toothDepth: 3.36, beltHeight: 5.3, widths: [20, 30, 50, 85], desc: '重負載' },
+    GT2: { pitch: 2, toothDepth: 0.75, beltHeight: 1.38, widths: [6, 9, 10], desc: '3D列印機常用' },
+    T5: { pitch: 5, toothDepth: 1.2, beltHeight: 2.2, widths: [10, 16, 25], desc: '梯形齒' },
+    MXL: { pitch: 2.032, toothDepth: 0.51, beltHeight: 1.14, widths: [3.175, 6.35], desc: '微型精密傳動' }
+};
+
+// 時規皮帶長度對照
+const timingBeltLengths = [
+    { teeth: 50, HTD3M: 150, HTD5M: 250, HTD8M: 400 },
+    { teeth: 60, HTD3M: 180, HTD5M: 300, HTD8M: 480 },
+    { teeth: 80, HTD3M: 240, HTD5M: 400, HTD8M: 640 },
+    { teeth: 100, HTD3M: 300, HTD5M: 500, HTD8M: 800 },
+    { teeth: 120, HTD3M: 360, HTD5M: 600, HTD8M: 960 },
+    { teeth: 150, HTD3M: 450, HTD5M: 750, HTD8M: 1200 },
+    { teeth: 200, HTD3M: 600, HTD5M: 1000, HTD8M: 1600 },
+    { teeth: 250, HTD3M: 750, HTD5M: 1250, HTD8M: 2000 },
+    { teeth: 300, HTD3M: 900, HTD5M: 1500, HTD8M: 2400 }
+];
+
+// ============================================
+// 壁虎/膨脹螺絲規格
+// ============================================
+const anchorData = {
+    plastic: [
+        { size: '5mm', drillSize: 5, length: 25, screw: '3.5-4mm', loadConcrete: 0.15, loadBrick: 0.08 },
+        { size: '6mm', drillSize: 6, length: 30, screw: '4-5mm', loadConcrete: 0.25, loadBrick: 0.12 },
+        { size: '8mm', drillSize: 8, length: 40, screw: '5-6mm', loadConcrete: 0.45, loadBrick: 0.22 },
+        { size: '10mm', drillSize: 10, length: 50, screw: '6-8mm', loadConcrete: 0.70, loadBrick: 0.35 },
+        { size: '12mm', drillSize: 12, length: 60, screw: '8-10mm', loadConcrete: 1.00, loadBrick: 0.50 },
+        { size: '14mm', drillSize: 14, length: 70, screw: '10-12mm', loadConcrete: 1.40, loadBrick: 0.70 }
+    ],
+    metalExpansion: [
+        { size: 'M6', drillSize: 8, depth: 35, torque: 5, loadConcrete: 1.5, loadBrick: 0.8 },
+        { size: 'M8', drillSize: 10, depth: 45, torque: 10, loadConcrete: 2.8, loadBrick: 1.4 },
+        { size: 'M10', drillSize: 12, depth: 55, torque: 25, loadConcrete: 4.5, loadBrick: 2.2 },
+        { size: 'M12', drillSize: 14, depth: 65, torque: 40, loadConcrete: 6.5, loadBrick: 3.2 },
+        { size: 'M14', drillSize: 16, depth: 75, torque: 60, loadConcrete: 9.0, loadBrick: 4.5 },
+        { size: 'M16', drillSize: 18, depth: 85, torque: 80, loadConcrete: 12.0, loadBrick: 6.0 },
+        { size: 'M20', drillSize: 22, depth: 100, torque: 120, loadConcrete: 18.0, loadBrick: 9.0 }
+    ],
+    chemicalAnchor: [
+        { size: 'M8', drillSize: 10, depth: 80, cureTime: '10-20分鐘', loadConcrete: 8.5 },
+        { size: 'M10', drillSize: 12, depth: 90, cureTime: '10-20分鐘', loadConcrete: 13.2 },
+        { size: 'M12', drillSize: 14, depth: 110, cureTime: '15-30分鐘', loadConcrete: 19.0 },
+        { size: 'M16', drillSize: 18, depth: 125, cureTime: '20-40分鐘', loadConcrete: 33.8 },
+        { size: 'M20', drillSize: 24, depth: 170, cureTime: '30-60分鐘', loadConcrete: 52.8 },
+        { size: 'M24', drillSize: 28, depth: 210, cureTime: '45-90分鐘', loadConcrete: 76.0 }
+    ]
+};

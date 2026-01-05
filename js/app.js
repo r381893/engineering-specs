@@ -132,6 +132,35 @@ function initSubTabs() {
             renderCraneTable(btn.dataset.crane);
         });
     });
+
+    // 皮帶子標籤
+    document.querySelectorAll('[data-belt]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('[data-belt]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderBeltTable(btn.dataset.belt);
+        });
+    });
+
+    // 壁虎子標籤
+    document.querySelectorAll('[data-anchor]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('[data-anchor]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderAnchorTable(btn.dataset.anchor);
+        });
+    });
+
+    // 皮帶計算器
+    const beltInputs = ['beltD1', 'beltD2', 'beltCenter', 'beltRPM'];
+    beltInputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', calculateBeltDrive);
+            el.addEventListener('change', calculateBeltDrive);
+        }
+    });
+    calculateBeltDrive();
 }
 
 // ============================================
@@ -367,6 +396,8 @@ function renderAllTables() {
     renderFittingTable('elbow90');
     renderWeldingTable('rod');
     renderCraneTable('capacity');
+    renderBeltTable('vbeltA');
+    renderAnchorTable('plastic');
 }
 
 function renderSteelPipeTable(filter = 'all') {
@@ -745,6 +776,191 @@ function renderCraneTable(type = 'capacity') {
             `;
             tbody.appendChild(row);
         });
+    }
+}
+
+// ============================================
+// 皮帶規格表格
+// ============================================
+function renderBeltTable(type = 'vbeltA') {
+    const tbody = document.querySelector('#beltTable tbody');
+    const thead = document.querySelector('#beltTable thead tr');
+    const titleEl = document.getElementById('beltTableTitle');
+
+    if (!tbody || !thead) return;
+
+    tbody.innerHTML = '';
+
+    if (type.startsWith('vbelt')) {
+        const beltType = type.replace('vbelt', '');
+        const data = vBeltData[beltType];
+
+        if (!data) return;
+
+        titleEl.textContent = `📊 V 型皮帶 ${beltType} 型規格表`;
+        thead.innerHTML = `
+            <th>型號</th>
+            <th>長度 (mm)</th>
+            <th>頂寬 (mm)</th>
+            <th>高度 (mm)</th>
+            <th>角度 (°)</th>
+        `;
+
+        data.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.length}</td>
+                <td>${item.mm}</td>
+                <td>${item.topWidth}</td>
+                <td>${item.height}</td>
+                <td>${item.angle}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    } else if (type === 'timing') {
+        titleEl.textContent = '📊 時規皮帶規格表';
+        thead.innerHTML = `
+            <th>型號</th>
+            <th>節距 (mm)</th>
+            <th>齒高 (mm)</th>
+            <th>帶高 (mm)</th>
+            <th>常用寬度</th>
+            <th>說明</th>
+        `;
+
+        Object.entries(timingBeltData).forEach(([name, spec]) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${name}</td>
+                <td>${spec.pitch}</td>
+                <td>${spec.toothDepth}</td>
+                <td>${spec.beltHeight}</td>
+                <td>${spec.widths.join(', ')}</td>
+                <td>${spec.desc}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+}
+
+function renderAnchorTable(type = 'plastic') {
+    const tbody = document.querySelector('#anchorTable tbody');
+    const thead = document.querySelector('#anchorTable thead tr');
+    const titleEl = document.getElementById('anchorTableTitle');
+
+    if (!tbody || !thead) return;
+
+    tbody.innerHTML = '';
+
+    if (type === 'plastic') {
+        titleEl.textContent = '📊 塑膠壁虎規格表';
+        thead.innerHTML = `
+            <th>規格</th>
+            <th>鑽孔 (mm)</th>
+            <th>長度 (mm)</th>
+            <th>配套螺絲</th>
+            <th>混凝土載重 (kN)</th>
+            <th>磚牆載重 (kN)</th>
+        `;
+
+        anchorData.plastic.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.size}</td>
+                <td>${item.drillSize}</td>
+                <td>${item.length}</td>
+                <td>${item.screw}</td>
+                <td>${item.loadConcrete}</td>
+                <td>${item.loadBrick}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    } else if (type === 'metal') {
+        titleEl.textContent = '📊 金屬膨脹螺絲規格表';
+        thead.innerHTML = `
+            <th>規格</th>
+            <th>鑽孔 (mm)</th>
+            <th>深度 (mm)</th>
+            <th>扭力 (Nm)</th>
+            <th>混凝土載重 (kN)</th>
+            <th>磚牆載重 (kN)</th>
+        `;
+
+        anchorData.metalExpansion.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.size}</td>
+                <td>${item.drillSize}</td>
+                <td>${item.depth}</td>
+                <td>${item.torque}</td>
+                <td>${item.loadConcrete}</td>
+                <td>${item.loadBrick}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    } else if (type === 'chemical') {
+        titleEl.textContent = '📊 化學錨栓規格表';
+        thead.innerHTML = `
+            <th>規格</th>
+            <th>鑽孔 (mm)</th>
+            <th>深度 (mm)</th>
+            <th>固化時間</th>
+            <th>混凝土載重 (kN)</th>
+        `;
+
+        anchorData.chemicalAnchor.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.size}</td>
+                <td>${item.drillSize}</td>
+                <td>${item.depth}</td>
+                <td>${item.cureTime}</td>
+                <td><strong>${item.loadConcrete}</strong></td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+}
+
+// 皮帶傳動計算
+function calculateBeltDrive() {
+    const d1 = parseFloat(document.getElementById('beltD1')?.value) || 0;
+    const d2 = parseFloat(document.getElementById('beltD2')?.value) || 0;
+    const center = parseFloat(document.getElementById('beltCenter')?.value) || 0;
+    const rpm1 = parseFloat(document.getElementById('beltRPM')?.value) || 0;
+
+    const ratioEl = document.getElementById('beltRatio');
+    const rpm2El = document.getElementById('beltRPM2');
+    const lengthEl = document.getElementById('beltLength');
+
+    if (!ratioEl || !rpm2El || !lengthEl) return;
+
+    if (d1 <= 0 || d2 <= 0) {
+        ratioEl.textContent = '--';
+        rpm2El.textContent = '-- RPM';
+        lengthEl.textContent = '-- mm';
+        return;
+    }
+
+    // 傳動比 = D2 / D1
+    const ratio = d2 / d1;
+    ratioEl.textContent = ratio.toFixed(2);
+
+    // 從動輪轉速 = 主動輪轉速 / 傳動比
+    if (rpm1 > 0) {
+        const rpm2 = rpm1 / ratio;
+        rpm2El.textContent = `${rpm2.toFixed(0)} RPM`;
+    } else {
+        rpm2El.textContent = '-- RPM';
+    }
+
+    // 皮帶長度 (近似公式)
+    // L ≈ 2C + π(D1+D2)/2 + (D2-D1)²/(4C)
+    if (center > 0) {
+        const length = 2 * center + Math.PI * (d1 + d2) / 2 + Math.pow(d2 - d1, 2) / (4 * center);
+        lengthEl.textContent = `${length.toFixed(0)} mm`;
+    } else {
+        lengthEl.textContent = '-- mm';
     }
 }
 

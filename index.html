@@ -90,6 +90,18 @@
                 <span class="tab-icon">🏗️</span>
                 <span>起重吊車</span>
             </button>
+            <button class="nav-tab" data-tab="balancing">
+                <span class="tab-icon">⚖️</span>
+                <span>平衡教學</span>
+            </button>
+            <button class="nav-tab" data-tab="belt">
+                <span class="tab-icon">🔄</span>
+                <span>皮帶規格</span>
+            </button>
+            <button class="nav-tab" data-tab="anchor">
+                <span class="tab-icon">🔩</span>
+                <span>壁虎規格</span>
+            </button>
             <button class="nav-tab" data-tab="sop-notebook">
                 <span class="tab-icon">📋</span>
                 <span>SOP 筆記</span>
@@ -1020,6 +1032,371 @@
                                     <th>8m 半徑</th>
                                     <th>10m 半徑</th>
                                     <th>吊臂長度 (m)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 平衡教學 -->
+            <section id="balancing" class="section">
+                <h2 class="section-title">
+                    <span class="icon">⚖️</span>
+                    鐵探平衡實務教學
+                </h2>
+                <p class="section-desc">旋轉機械動平衡的原理與實務操作步驟</p>
+
+                <div class="tutorial-content">
+                    <!-- 基礎概念 -->
+                    <div class="tutorial-card">
+                        <h3>📚 基礎概念</h3>
+                        <div class="tutorial-section">
+                            <h4>什麼是不平衡？</h4>
+                            <p>旋轉體的質量中心與旋轉軸線不重合時，產生離心力導致振動。</p>
+                            <div class="formula-box">
+                                <strong>離心力公式：</strong> F = m × r × ω²
+                                <ul>
+                                    <li>m = 不平衡質量 (kg)</li>
+                                    <li>r = 不平衡半徑 (m)</li>
+                                    <li>ω = 角速度 (rad/s)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="tutorial-section">
+                            <h4>靜平衡 vs 動平衡</h4>
+                            <div class="comparison-grid">
+                                <div class="compare-item">
+                                    <h5>🔵 靜平衡（單面）</h5>
+                                    <ul>
+                                        <li>質心與旋轉軸在同一平面</li>
+                                        <li>適用於薄盤狀工件（齒輪、皮帶輪）</li>
+                                        <li>只需在一個平面校正</li>
+                                        <li>寬度/直徑比 < 0.2</li>
+                                    </ul>
+                                </div>
+                                <div class="compare-item">
+                                    <h5>🔴 動平衡（雙面）</h5>
+                                    <ul>
+                                        <li>需考慮力偶不平衡</li>
+                                        <li>適用於長軸類工件（風機、馬達）</li>
+                                        <li>需在兩個校正面添加配重</li>
+                                        <li>寬度/直徑比 ≥ 0.2</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 現場操作步驟 -->
+                    <div class="tutorial-card">
+                        <h3>🔧 現場動平衡操作步驟</h3>
+                        <div class="step-list">
+                            <div class="step-item">
+                                <span class="step-number">1</span>
+                                <div class="step-content">
+                                    <h5>準備工作</h5>
+                                    <ul>
+                                        <li>確認設備可安全運轉</li>
+                                        <li>清除轉子上的污垢和異物</li>
+                                        <li>記錄原始振動值</li>
+                                        <li>準備試重塊（建議螺絲+螺帽）</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="step-item">
+                                <span class="step-number">2</span>
+                                <div class="step-content">
+                                    <h5>第一次測量（原始狀態）</h5>
+                                    <ul>
+                                        <li>運轉至工作轉速</li>
+                                        <li>用振動儀測量並記錄：振幅 A₀、相位 φ₀</li>
+                                        <li>標註測量點位置</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="step-item">
+                                <span class="step-number">3</span>
+                                <div class="step-content">
+                                    <h5>加試重測量</h5>
+                                    <ul>
+                                        <li>在校正面任意位置加試重 W (已知重量)</li>
+                                        <li>建議試重量：轉子重量的 0.1% ~ 1%</li>
+                                        <li>運轉後記錄：振幅 A₁、相位 φ₁</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="step-item">
+                                <span class="step-number">4</span>
+                                <div class="step-content">
+                                    <h5>計算修正量</h5>
+                                    <div class="formula-box">
+                                        <strong>三圓圈法（向量法）：</strong>
+                                        <p>以 A₀ 為圓心畫圓、以 A₁ 為圓心畫圓，找出校正點位置和重量</p>
+                                        <p><strong>簡化公式：</strong></p>
+                                        <p>修正重量 = W × (A₀ / A₁) × k</p>
+                                        <p>修正角度 = 根據相位差計算</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step-item">
+                                <span class="step-number">5</span>
+                                <div class="step-content">
+                                    <h5>安裝配重並驗證</h5>
+                                    <ul>
+                                        <li>移除試重，安裝計算出的配重</li>
+                                        <li>運轉測量殘餘振動</li>
+                                        <li>若不合格，重複步驟 2-4 進行微調</li>
+                                        <li>記錄最終結果</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 平衡等級 -->
+                    <div class="tutorial-card">
+                        <h3>📊 平衡等級標準 (ISO 1940)</h3>
+                        <div class="table-scroll">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>等級 G</th>
+                                        <th>允許偏心速度</th>
+                                        <th>適用設備</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>G 40</td>
+                                        <td>40 mm/s</td>
+                                        <td>汽車車輪、農機</td>
+                                    </tr>
+                                    <tr>
+                                        <td>G 16</td>
+                                        <td>16 mm/s</td>
+                                        <td>離心機、破碎機</td>
+                                    </tr>
+                                    <tr>
+                                        <td>G 6.3</td>
+                                        <td>6.3 mm/s</td>
+                                        <td>一般電機、泵浦、風機</td>
+                                    </tr>
+                                    <tr class="highlight">
+                                        <td>G 2.5</td>
+                                        <td>2.5 mm/s</td>
+                                        <td>渦輪機、大型電機</td>
+                                    </tr>
+                                    <tr>
+                                        <td>G 1</td>
+                                        <td>1 mm/s</td>
+                                        <td>磨床主軸、精密設備</td>
+                                    </tr>
+                                    <tr>
+                                        <td>G 0.4</td>
+                                        <td>0.4 mm/s</td>
+                                        <td>陀螺儀、高精密主軸</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="note-box">
+                            <strong>💡 實務建議：</strong>一般工廠風機、泵浦達到 G 6.3 即可；高速或精密設備建議 G 2.5 以上。
+                        </div>
+                    </div>
+
+                    <!-- 常見問題 -->
+                    <div class="tutorial-card">
+                        <h3>❓ 常見問題與解決</h3>
+                        <div class="faq-list">
+                            <div class="faq-item">
+                                <h5>Q：配重後振動反而變大？</h5>
+                                <p>A：試重位置可能與真正不平衡點相對，嘗試將試重移動 180° 後重新測量。</p>
+                            </div>
+                            <div class="faq-item">
+                                <h5>Q：每次測量相位都不一樣？</h5>
+                                <p>A：檢查轉速是否穩定、振動儀觸發是否可靠、是否有共振干擾。</p>
+                            </div>
+                            <div class="faq-item">
+                                <h5>Q：無法達到平衡標準？</h5>
+                                <p>A：檢查軸承是否磨損、聯軸器是否偏心、基礎是否鬆動。有時需更換軸承後再做平衡。</p>
+                            </div>
+                            <div class="faq-item">
+                                <h5>Q：沒有專業平衡儀怎麼辦？</h5>
+                                <p>A：可用一般振動儀配合試重法，但需多次試驗。配重位置可用「加重-測振-調整」循環逼近法。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 皮帶規格 -->
+            <section id="belt" class="section">
+                <h2 class="section-title">
+                    <span class="icon">🔄</span>
+                    皮帶傳動規格表
+                </h2>
+                <p class="section-desc">V 型皮帶、時規皮帶規格查詢與傳動計算</p>
+
+                <div class="glossary-card">
+                    <h4>📖 名詞說明</h4>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">V 型皮帶</span>
+                            <span class="glossary-def">截面呈 V 字形，靠摩擦力傳動，適合大扭力傳動</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">時規皮帶</span>
+                            <span class="glossary-def">又稱同步帶，靠齒嚙合傳動，無滑差，定位精確</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">A/B/C/D 型</span>
+                            <span class="glossary-def">V 型皮帶規格，字母越後面皮帶越寬越厚</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">HTD</span>
+                            <span class="glossary-def">High Torque Drive，圓弧齒時規皮帶</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">節距 (Pitch)</span>
+                            <span class="glossary-def">相鄰兩齒間的距離 (mm)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-calc">
+                    <div class="quick-calc-card">
+                        <h4>🔢 皮帶傳動計算</h4>
+                        <div class="calc-grid">
+                            <div class="calc-row">
+                                <label>主動輪直徑 (mm)</label>
+                                <input type="number" id="beltD1" placeholder="100" value="100">
+                            </div>
+                            <div class="calc-row">
+                                <label>從動輪直徑 (mm)</label>
+                                <input type="number" id="beltD2" placeholder="200" value="200">
+                            </div>
+                            <div class="calc-row">
+                                <label>中心距 (mm)</label>
+                                <input type="number" id="beltCenter" placeholder="300" value="300">
+                            </div>
+                            <div class="calc-row">
+                                <label>主動輪轉速 (RPM)</label>
+                                <input type="number" id="beltRPM" placeholder="1500" value="1500">
+                            </div>
+                        </div>
+                        <div class="calc-results">
+                            <div class="result-item">
+                                <span class="label">傳動比</span>
+                                <span class="value" id="beltRatio">--</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="label">從動輪轉速</span>
+                                <span class="value" id="beltRPM2">-- RPM</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="label">皮帶長度 (約)</span>
+                                <span class="value" id="beltLength">-- mm</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-tabs">
+                    <button class="sub-tab active" data-belt="vbeltA">V型 A</button>
+                    <button class="sub-tab" data-belt="vbeltB">V型 B</button>
+                    <button class="sub-tab" data-belt="vbeltC">V型 C</button>
+                    <button class="sub-tab" data-belt="vbeltD">V型 D</button>
+                    <button class="sub-tab" data-belt="timing">時規皮帶</button>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title" id="beltTableTitle">📊 V 型皮帶 A 型規格表</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="beltTable">
+                            <thead>
+                                <tr>
+                                    <th>型號</th>
+                                    <th>長度 (mm)</th>
+                                    <th>頂寬 (mm)</th>
+                                    <th>高度 (mm)</th>
+                                    <th>角度 (°)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 壁虎規格 -->
+            <section id="anchor" class="section">
+                <h2 class="section-title">
+                    <span class="icon">🔩</span>
+                    壁虎/膨脹螺絲規格表
+                </h2>
+                <p class="section-desc">塑膠壁虎、金屬膨脹螺絲、化學錨栓規格與載重</p>
+
+                <div class="glossary-card">
+                    <h4>📖 名詞說明</h4>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">塑膠壁虎</span>
+                            <span class="glossary-def">尼龍材質，適合輕載，錨入後靠膨脹固定</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">金屬膨脹螺絲</span>
+                            <span class="glossary-def">鍍鋅鋼材，靠膨脹套筒固定，載重較大</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">化學錨栓</span>
+                            <span class="glossary-def">使用化學藥劑固化，載重最大，永久固定</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">載重 (kN)</span>
+                            <span class="glossary-def">安全使用載重，已含安全係數 (通常3-4倍)</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">鑽孔深度</span>
+                            <span class="glossary-def">孔深應 ≥ 錨栓有效埋入深度</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ 安全注意事項：</strong>
+                    <ul>
+                        <li>載重值為混凝土 C25 以上的參考值，磚牆需減半</li>
+                        <li>吊掛重物建議安全係數 ≥ 4</li>
+                        <li>避免安裝於混凝土邊緣 (建議距邊 ≥ 10cm)</li>
+                        <li>化學錨栓需確認固化時間後再施加載重</li>
+                    </ul>
+                </div>
+
+                <div class="sub-tabs">
+                    <button class="sub-tab active" data-anchor="plastic">塑膠壁虎</button>
+                    <button class="sub-tab" data-anchor="metal">金屬膨脹螺絲</button>
+                    <button class="sub-tab" data-anchor="chemical">化學錨栓</button>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title" id="anchorTableTitle">📊 塑膠壁虎規格表</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="anchorTable">
+                            <thead>
+                                <tr>
+                                    <th>規格</th>
+                                    <th>鑽孔直徑 (mm)</th>
+                                    <th>長度 (mm)</th>
+                                    <th>配套螺絲</th>
+                                    <th>混凝土載重 (kN)</th>
+                                    <th>磚牆載重 (kN)</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
