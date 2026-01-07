@@ -727,3 +727,65 @@ const criticalPointsData = [
     { point: '共晶點 C', temp: '1148°C, 4.3%C', description: '共晶反應點：L → γ + Fe₃C（萊氏體）' },
     { point: '包晶點 J', temp: '1495°C, 0.17%C', description: '包晶反應：L + δ → γ' }
 ];
+
+// ============================================
+// 氧乙炔電焊規格
+// ============================================
+
+// 焊接氣體特性
+const weldingGasData = [
+    { gas: '乙炔 (C₂H₂)', temp: '3100°C', characteristics: '高溫、明亮火焰', use: '切割、焊接碳鋼', storage: '丙酮溶解、多孔填料鋼瓶', color: '紅色鋼瓶' },
+    { gas: '氧氣 (O₂)', temp: '-', characteristics: '助燃氣體', use: '配合可燃氣體使用', storage: '高壓氣態 (150-200 bar)', color: '黑色鋼瓶' },
+    { gas: '丙烷 (C₃H₈)', temp: '2820°C', characteristics: '較安全、火焰溫度較低', use: '切割、加熱', storage: '液化氣態', color: '灰色鋼瓶' },
+    { gas: 'MAPP 氣', temp: '2925°C', characteristics: '較乙炔安全、可液化儲存', use: '切割、銅管焊接', storage: '液化氣態', color: '黃色鋼瓶' },
+    { gas: '氬氣 (Ar)', temp: '-', characteristics: '惰性保護氣', use: 'TIG/MIG 焊接保護', storage: '高壓氣態', color: '灰色鋼瓶' },
+    { gas: 'CO₂', temp: '-', characteristics: '便宜保護氣', use: 'CO₂ 氣體保護焊', storage: '液化/高壓', color: '灰色鋼瓶' }
+];
+
+// 氧乙炔火焰類型
+const flameTypeData = [
+    { type: '中性焰', ratio: 'O₂:C₂H₂ = 1:1', characteristics: '內焰清晰、外焰淡藍', use: '一般鋼材焊接', material: '碳鋼、不鏽鋼', note: '最常用火焰' },
+    { type: '碳化焰 (還原焰)', ratio: 'O₂:C₂H₂ < 1:1', characteristics: '乙炔過量、淡黃羽狀焰', use: '防止氧化', material: '鑄鐵、高碳鋼、硬面堆焊', note: '有還原作用' },
+    { type: '氧化焰', ratio: 'O₂:C₂H₂ > 1:1', characteristics: '內焰短尖、噪音大', use: '黃銅焊接', material: '黃銅、青銅', note: '會使鋼材氧化脆化' }
+];
+
+// 氧乙炔焊嘴規格
+const oxyTipData = [
+    { tipNo: '0', holeSize: 0.5, thickness: '0.5-1.0mm', gasFlow: '50-100', pressure: '0.01-0.02', application: '薄板、精密焊接' },
+    { tipNo: '1', holeSize: 0.7, thickness: '1.0-2.0mm', gasFlow: '100-200', pressure: '0.02-0.03', application: '薄板焊接' },
+    { tipNo: '2', holeSize: 0.9, thickness: '2.0-3.0mm', gasFlow: '200-350', pressure: '0.03-0.04', application: '一般焊接' },
+    { tipNo: '3', holeSize: 1.1, thickness: '3.0-5.0mm', gasFlow: '350-500', pressure: '0.04-0.05', application: '中等厚度' },
+    { tipNo: '4', holeSize: 1.4, thickness: '5.0-8.0mm', gasFlow: '500-750', pressure: '0.05-0.06', application: '厚板焊接' },
+    { tipNo: '5', holeSize: 1.7, thickness: '8.0-12mm', gasFlow: '750-1100', pressure: '0.06-0.08', application: '厚板焊接' },
+    { tipNo: '6', holeSize: 2.0, thickness: '12-20mm', gasFlow: '1100-1500', pressure: '0.08-0.10', application: '重工焊接' }
+];
+
+// 氣焊焊條規格
+const gasWeldingRodData = [
+    { type: 'RG-45', material: '低碳鋼', tensile: 450, use: '一般碳鋼焊接', diameter: '1.6-4.0mm', coating: '無藥皮' },
+    { type: 'RG-60', material: '中碳鋼', tensile: 600, use: '中碳鋼、修補焊', diameter: '2.0-4.0mm', coating: '無藥皮' },
+    { type: 'RG-65', material: '高碳鋼', tensile: 650, use: '高強度需求', diameter: '2.0-3.2mm', coating: '無藥皮' },
+    { type: 'RCu', material: '純銅', tensile: 220, use: '銅焊接', diameter: '2.0-4.0mm', coating: '需助焊劑' },
+    { type: 'RCuZn-A', material: '黃銅', tensile: 350, use: '銅鋅合金焊接', diameter: '2.0-4.0mm', coating: '需助焊劑' },
+    { type: 'RBCuZn-C', material: '磷銅', tensile: 400, use: '硬銅焊、異種金屬', diameter: '2.0-3.2mm', coating: '自熔焊劑' }
+];
+
+// 電弧焊焊機規格
+const arcWelderData = [
+    { type: '交流電焊機 (AC)', output: 'AC', current: '50-300A', voltage: '60-80V', use: '一般碳鋼焊接', advantage: '價格便宜、維護簡單', disadvantage: '電弧不穩、飛濺大' },
+    { type: '直流電焊機 (DC)', output: 'DC', current: '30-400A', voltage: '60-80V', use: '各種金屬焊接', advantage: '電弧穩定、飛濺少', disadvantage: '價格較高' },
+    { type: '變頻電焊機 (IGBT)', output: 'DC', current: '20-250A', voltage: '60-80V', use: '各種焊接', advantage: '輕便、節能、電弧極穩', disadvantage: '維修成本高' },
+    { type: 'TIG 焊機', output: 'DC/AC', current: '5-350A', voltage: '10-25V', use: '不鏽鋼、鋁合金精密焊接', advantage: '焊縫美觀、無飛濺', disadvantage: '速度慢、成本高' },
+    { type: 'MIG/MAG 焊機', output: 'DC', current: '30-500A', voltage: '15-35V', use: '自動/半自動焊接', advantage: '速度快、效率高', disadvantage: '設備成本高' }
+];
+
+// 焊接安全距離與防護
+const weldingSafetyData = [
+    { item: '電焊護目鏡', spec: '#10-#13 濾光片', requirement: '依電流強度選擇', note: '電流越大，濾光片號數越高' },
+    { item: '氣焊護目鏡', spec: '#4-#6 濾光片', requirement: '氧乙炔焊接用', note: '比電焊濾光片號數低' },
+    { item: '防護手套', spec: '牛皮/耐熱材質', requirement: '長度至手腕以上', note: '避免燙傷及紫外線' },
+    { item: '安全距離', spec: '易燃物 10m 以上', requirement: '氧氣瓶與乙炔瓶距離 5m', note: '遠離明火及火花' },
+    { item: '通風要求', spec: '換氣次數 ≥6次/hr', requirement: '密閉空間需強制通風', note: '防止有害氣體累積' },
+    { item: '滅火器', spec: 'CO₂ 或乾粉滅火器', requirement: '工作區 5m 內配置', note: '禁用水滅火' }
+];
+

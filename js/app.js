@@ -160,6 +160,15 @@ function initSubTabs() {
         });
     });
 
+    // 氧乙炔電銲子標籤
+    document.querySelectorAll('[data-oxyweld]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('[data-oxyweld]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderOxyWeldTable(btn.dataset.oxyweld);
+        });
+    });
+
     // 皮帶計算器
     const beltInputs = ['beltD1', 'beltD2', 'beltCenter', 'beltRPM'];
     beltInputs.forEach(id => {
@@ -410,6 +419,7 @@ function renderAllTables() {
     renderMaterialsTable('mechanical');
     renderPhasePropertiesTable();
     renderCriticalPointsTable();
+    renderOxyWeldTable('gas');
 }
 
 function renderSteelPipeTable(filter = 'all') {
@@ -1201,6 +1211,167 @@ function renderCriticalPointsTable() {
         `;
         tbody.appendChild(row);
     });
+}
+
+// ============================================
+// 氧乙炔電銲表格
+// ============================================
+function renderOxyWeldTable(type = 'gas') {
+    const tbody = document.querySelector('#oxyWeldTable tbody');
+    const thead = document.getElementById('oxyWeldTableHead');
+    const titleEl = document.getElementById('oxyWeldTableTitle');
+
+    if (!tbody || !thead || !titleEl) return;
+
+    tbody.innerHTML = '';
+
+    if (type === 'gas') {
+        thead.innerHTML = `
+            <tr>
+                <th>氣體</th>
+                <th>火焰溫度</th>
+                <th>特性</th>
+                <th>用途</th>
+                <th>儲存方式</th>
+                <th>鋼瓶顏色</th>
+            </tr>
+        `;
+        titleEl.textContent = '📊 焊接氣體特性';
+
+        weldingGasData.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.gas}</td>
+                <td>${item.temp}</td>
+                <td>${item.characteristics}</td>
+                <td>${item.use}</td>
+                <td>${item.storage}</td>
+                <td><span class="badge badge-primary">${item.color}</span></td>
+            `;
+            tbody.appendChild(row);
+        });
+    } else if (type === 'flame') {
+        thead.innerHTML = `
+            <tr>
+                <th>火焰類型</th>
+                <th>氣體比例</th>
+                <th>特徵</th>
+                <th>用途</th>
+                <th>適用材料</th>
+                <th>備註</th>
+            </tr>
+        `;
+        titleEl.textContent = '📊 氧乙炔火焰類型';
+
+        flameTypeData.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.type}</td>
+                <td>${item.ratio}</td>
+                <td>${item.characteristics}</td>
+                <td>${item.use}</td>
+                <td>${item.material}</td>
+                <td>${item.note}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    } else if (type === 'tip') {
+        thead.innerHTML = `
+            <tr>
+                <th>焊嘴號數</th>
+                <th>孔徑 (mm)</th>
+                <th>適用板厚</th>
+                <th>氣體流量 (L/hr)</th>
+                <th>壓力 (MPa)</th>
+                <th>應用</th>
+            </tr>
+        `;
+        titleEl.textContent = '📊 氧乙炔焊嘴規格';
+
+        oxyTipData.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.tipNo}</td>
+                <td>Ø${item.holeSize}</td>
+                <td>${item.thickness}</td>
+                <td>${item.gasFlow}</td>
+                <td>${item.pressure}</td>
+                <td>${item.application}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    } else if (type === 'rod') {
+        thead.innerHTML = `
+            <tr>
+                <th>焊條型號</th>
+                <th>適用材料</th>
+                <th>抗拉強度 (MPa)</th>
+                <th>用途</th>
+                <th>直徑</th>
+                <th>藥皮</th>
+            </tr>
+        `;
+        titleEl.textContent = '📊 氣焊焊條規格';
+
+        gasWeldingRodData.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.type}</td>
+                <td>${item.material}</td>
+                <td>${item.tensile}</td>
+                <td>${item.use}</td>
+                <td>${item.diameter}</td>
+                <td><span class="badge badge-secondary">${item.coating}</span></td>
+            `;
+            tbody.appendChild(row);
+        });
+    } else if (type === 'welder') {
+        thead.innerHTML = `
+            <tr>
+                <th>電焊機類型</th>
+                <th>輸出</th>
+                <th>電流範圍</th>
+                <th>電壓</th>
+                <th>用途</th>
+                <th>優點</th>
+            </tr>
+        `;
+        titleEl.textContent = '📊 電弧焊機規格';
+
+        arcWelderData.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.type}</td>
+                <td><span class="badge badge-primary">${item.output}</span></td>
+                <td>${item.current}</td>
+                <td>${item.voltage}</td>
+                <td>${item.use}</td>
+                <td>${item.advantage}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    } else if (type === 'safety') {
+        thead.innerHTML = `
+            <tr>
+                <th>項目</th>
+                <th>規格</th>
+                <th>要求</th>
+                <th>備註</th>
+            </tr>
+        `;
+        titleEl.textContent = '📊 焊接安全防護';
+
+        weldingSafetyData.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.item}</td>
+                <td>${item.spec}</td>
+                <td>${item.requirement}</td>
+                <td><span class="badge badge-warning">${item.note}</span></td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
 }
 
 // ============================================

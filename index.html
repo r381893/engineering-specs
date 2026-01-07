@@ -110,6 +110,10 @@
                 <span class="tab-icon">📋</span>
                 <span>SOP 筆記</span>
             </button>
+            <button class="nav-tab" data-tab="oxy-welding">
+                <span class="tab-icon">🔥</span>
+                <span>氧乙炔電銲</span>
+            </button>
         </nav>
     </div>
 
@@ -1411,6 +1415,71 @@
                                     <th>延伸率 (%)</th>
                                     <th>硬度</th>
                                     <th>密度 (g/cm³)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 氧乙炔電銲 -->
+            <section id="oxy-welding" class="section">
+                <h2 class="section-title">
+                    <span class="icon">🔥</span>
+                    氧乙炔與電弧焊接
+                </h2>
+                <p class="section-desc">氣焊、電焊設備規格與安全規範</p>
+
+                <div class="glossary-card">
+                    <h4>📖 名詞說明</h4>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">氧乙炔焊</span>
+                            <span class="glossary-def">利用乙炔燃燒產生高溫火焰進行焊接</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">中性焰</span>
+                            <span class="glossary-def">氧氣與乙炔 1:1 比例的標準焊接火焰</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">電弧焊</span>
+                            <span class="glossary-def">利用電弧高溫熔化焊條進行焊接</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">TIG 焊</span>
+                            <span class="glossary-def">鎢極惰性氣體保護焊，用於精密焊接</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">MIG/MAG</span>
+                            <span class="glossary-def">金屬惰性/活性氣體保護焊，半自動焊接</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-tabs">
+                    <button class="sub-tab active" data-oxyweld="gas">焊接氣體</button>
+                    <button class="sub-tab" data-oxyweld="flame">火焰類型</button>
+                    <button class="sub-tab" data-oxyweld="tip">焊嘴規格</button>
+                    <button class="sub-tab" data-oxyweld="rod">氣焊焊條</button>
+                    <button class="sub-tab" data-oxyweld="welder">電焊機</button>
+                    <button class="sub-tab" data-oxyweld="safety">安全防護</button>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title" id="oxyWeldTableTitle">📊 焊接氣體特性</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="oxyWeldTable">
+                            <thead id="oxyWeldTableHead">
+                                <tr>
+                                    <th>氣體</th>
+                                    <th>火焰溫度</th>
+                                    <th>特性</th>
+                                    <th>用途</th>
+                                    <th>儲存方式</th>
+                                    <th>鋼瓶顏色</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>

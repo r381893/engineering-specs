@@ -666,7 +666,7 @@ tr.search-match td:first-child {
 .diagram-box img {
     max-width: 100%;
     height: auto;
-    max-height: 280px;
+    max-height: 500px;
     border-radius: var(--radius-sm);
     background: white;
     padding: 10px;
