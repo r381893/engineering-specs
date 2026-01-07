@@ -1275,7 +1275,7 @@ function renderOxyWeldTable(type = 'gas') {
             `;
             tbody.appendChild(row);
         });
-    } else if (type === 'tip') {
+    } else if (type === 'tipUS') {
         thead.innerHTML = `
             <tr>
                 <th>焊嘴號數</th>
@@ -1286,9 +1286,34 @@ function renderOxyWeldTable(type = 'gas') {
                 <th>應用</th>
             </tr>
         `;
-        titleEl.textContent = '📊 氧乙炔焊嘴規格';
+        titleEl.textContent = '📊 焊嘴規格 - 美規 (Victor/Harris)';
 
-        oxyTipData.forEach(item => {
+        oxyTipUSData.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.tipNo}</td>
+                <td>Ø${item.holeSize}</td>
+                <td>${item.thickness}</td>
+                <td>${item.gasFlow}</td>
+                <td>${item.pressure}</td>
+                <td>${item.application}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    } else if (type === 'tipJIS') {
+        thead.innerHTML = `
+            <tr>
+                <th>焊嘴號數</th>
+                <th>孔徑 (mm)</th>
+                <th>適用板厚</th>
+                <th>氣體流量 (L/hr)</th>
+                <th>壓力 (MPa)</th>
+                <th>應用</th>
+            </tr>
+        `;
+        titleEl.textContent = '📊 焊嘴規格 - 日規 (JIS/小池)';
+
+        oxyTipJISData.forEach(item => {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td class="highlight">${item.tipNo}</td>

@@ -749,15 +749,30 @@ const flameTypeData = [
     { type: '氧化焰', ratio: 'O₂:C₂H₂ > 1:1', characteristics: '內焰短尖、噪音大', use: '黃銅焊接', material: '黃銅、青銅', note: '會使鋼材氧化脆化' }
 ];
 
-// 氧乙炔焊嘴規格
-const oxyTipData = [
-    { tipNo: '0', holeSize: 0.5, thickness: '0.5-1.0mm', gasFlow: '50-100', pressure: '0.01-0.02', application: '薄板、精密焊接' },
-    { tipNo: '1', holeSize: 0.7, thickness: '1.0-2.0mm', gasFlow: '100-200', pressure: '0.02-0.03', application: '薄板焊接' },
-    { tipNo: '2', holeSize: 0.9, thickness: '2.0-3.0mm', gasFlow: '200-350', pressure: '0.03-0.04', application: '一般焊接' },
-    { tipNo: '3', holeSize: 1.1, thickness: '3.0-5.0mm', gasFlow: '350-500', pressure: '0.04-0.05', application: '中等厚度' },
-    { tipNo: '4', holeSize: 1.4, thickness: '5.0-8.0mm', gasFlow: '500-750', pressure: '0.05-0.06', application: '厚板焊接' },
-    { tipNo: '5', holeSize: 1.7, thickness: '8.0-12mm', gasFlow: '750-1100', pressure: '0.06-0.08', application: '厚板焊接' },
-    { tipNo: '6', holeSize: 2.0, thickness: '12-20mm', gasFlow: '1100-1500', pressure: '0.08-0.10', application: '重工焊接' }
+// 氧乙炔焊嘴規格 - 美規 (Victor/Harris)
+const oxyTipUSData = [
+    { tipNo: '000', holeSize: 0.35, thickness: '0.4-0.8mm', gasFlow: '35-60', pressure: '0.02', application: '極薄板' },
+    { tipNo: '00', holeSize: 0.45, thickness: '0.8-1.2mm', gasFlow: '60-100', pressure: '0.02', application: '薄板精密' },
+    { tipNo: '0', holeSize: 0.58, thickness: '1.2-2.0mm', gasFlow: '100-150', pressure: '0.03', application: '薄板焊接' },
+    { tipNo: '1', holeSize: 0.71, thickness: '2.0-3.2mm', gasFlow: '150-250', pressure: '0.03', application: '一般焊接' },
+    { tipNo: '2', holeSize: 0.86, thickness: '3.2-5.0mm', gasFlow: '250-400', pressure: '0.04', application: '中板焊接' },
+    { tipNo: '3', holeSize: 1.02, thickness: '5.0-6.4mm', gasFlow: '400-550', pressure: '0.04', application: '中厚板' },
+    { tipNo: '4', holeSize: 1.19, thickness: '6.4-9.5mm', gasFlow: '550-750', pressure: '0.05', application: '厚板焊接' },
+    { tipNo: '5', holeSize: 1.40, thickness: '9.5-13mm', gasFlow: '750-1000', pressure: '0.06', application: '厚板焊接' },
+    { tipNo: '6', holeSize: 1.63, thickness: '13-19mm', gasFlow: '1000-1350', pressure: '0.07', application: '重工焊接' },
+    { tipNo: '7', holeSize: 1.91, thickness: '19-25mm', gasFlow: '1350-1700', pressure: '0.08', application: '超厚板' }
+];
+
+// 氧乙炔焊嘴規格 - 日規 (JIS/小池)
+const oxyTipJISData = [
+    { tipNo: '1', holeSize: 0.5, thickness: '0.5-1.0mm', gasFlow: '50-100', pressure: '0.01-0.02', application: '薄板精密' },
+    { tipNo: '2', holeSize: 0.7, thickness: '1.0-2.0mm', gasFlow: '100-200', pressure: '0.02-0.03', application: '薄板焊接' },
+    { tipNo: '3', holeSize: 0.9, thickness: '2.0-3.0mm', gasFlow: '200-350', pressure: '0.03-0.04', application: '一般焊接' },
+    { tipNo: '5', holeSize: 1.1, thickness: '3.0-5.0mm', gasFlow: '350-500', pressure: '0.04-0.05', application: '中板焊接' },
+    { tipNo: '7', holeSize: 1.4, thickness: '5.0-8.0mm', gasFlow: '500-750', pressure: '0.05-0.06', application: '厚板焊接' },
+    { tipNo: '10', holeSize: 1.7, thickness: '8.0-12mm', gasFlow: '750-1100', pressure: '0.06-0.08', application: '厚板焊接' },
+    { tipNo: '15', holeSize: 2.0, thickness: '12-20mm', gasFlow: '1100-1500', pressure: '0.08-0.10', application: '重工焊接' },
+    { tipNo: '20', holeSize: 2.4, thickness: '20-30mm', gasFlow: '1500-2000', pressure: '0.10-0.12', application: '超厚板' }
 ];
 
 // 氣焊焊條規格
