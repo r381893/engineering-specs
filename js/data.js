@@ -613,3 +613,117 @@ const anchorData = {
         { size: 'M24', drillSize: 28, depth: 210, cureTime: '45-90分鐘', loadConcrete: 76.0 }
     ]
 };
+
+// ============================================
+// 材料力學 - 金屬機械性質
+// ============================================
+const metalPropertiesData = [
+    { material: '低碳鋼 SS400', tensile: 400, yield: 245, elongation: 21, hardness: 'HB 120', density: 7.85 },
+    { material: '中碳鋼 S45C', tensile: 570, yield: 345, elongation: 17, hardness: 'HB 170', density: 7.85 },
+    { material: '高碳鋼 SK5', tensile: 780, yield: 440, elongation: 8, hardness: 'HB 230', density: 7.85 },
+    { material: '不鏽鋼 304', tensile: 520, yield: 205, elongation: 40, hardness: 'HB 187', density: 7.93 },
+    { material: '不鏽鋼 316', tensile: 515, yield: 205, elongation: 40, hardness: 'HB 217', density: 7.98 },
+    { material: '不鏽鋼 316L', tensile: 485, yield: 170, elongation: 40, hardness: 'HB 217', density: 7.98 },
+    { material: '鋁合金 6061-T6', tensile: 310, yield: 276, elongation: 12, hardness: 'HB 95', density: 2.70 },
+    { material: '鋁合金 7075-T6', tensile: 572, yield: 503, elongation: 11, hardness: 'HB 150', density: 2.81 },
+    { material: '鋁合金 5052-H32', tensile: 230, yield: 195, elongation: 12, hardness: 'HB 60', density: 2.68 },
+    { material: '銅 C1100', tensile: 220, yield: 70, elongation: 45, hardness: 'HB 45', density: 8.94 },
+    { material: '黃銅 C2600', tensile: 315, yield: 95, elongation: 65, hardness: 'HB 55', density: 8.53 },
+    { material: '磷青銅 C5191', tensile: 410, yield: 250, elongation: 35, hardness: 'HB 90', density: 8.80 },
+    { material: '鈦合金 Ti-6Al-4V', tensile: 950, yield: 880, elongation: 14, hardness: 'HB 334', density: 4.43 },
+    { material: '鑄鐵 FC200', tensile: 200, yield: '-', elongation: '-', hardness: 'HB 150-200', density: 7.20 },
+    { material: '球墨鑄鐵 FCD450', tensile: 450, yield: 280, elongation: 10, hardness: 'HB 140-210', density: 7.10 }
+];
+
+// ============================================
+// 材料力學 - 塑性變形參數
+// ============================================
+const plasticDeformationData = [
+    { material: '低碳鋼', ductility: '高', strainHardening: 0.22, minBendRadius: '1.0t', springback: '1-3°' },
+    { material: '中碳鋼', ductility: '中', strainHardening: 0.17, minBendRadius: '1.5t', springback: '2-5°' },
+    { material: '高碳鋼', ductility: '低', strainHardening: 0.10, minBendRadius: '3.0t', springback: '5-8°' },
+    { material: '不鏽鋼 304', ductility: '高', strainHardening: 0.45, minBendRadius: '1.0t', springback: '3-5°' },
+    { material: '不鏽鋼 316', ductility: '高', strainHardening: 0.40, minBendRadius: '1.0t', springback: '3-5°' },
+    { material: '鋁合金 1100', ductility: '極高', strainHardening: 0.20, minBendRadius: '0t', springback: '0-1°' },
+    { material: '鋁合金 5052', ductility: '高', strainHardening: 0.13, minBendRadius: '0.5t', springback: '1-2°' },
+    { material: '鋁合金 6061-T6', ductility: '中', strainHardening: 0.10, minBendRadius: '2.0t', springback: '3-5°' },
+    { material: '銅 C1100', ductility: '極高', strainHardening: 0.54, minBendRadius: '0t', springback: '0-1°' },
+    { material: '黃銅 C2600', ductility: '高', strainHardening: 0.49, minBendRadius: '0.5t', springback: '1-2°' },
+    { material: '鈦合金', ductility: '低', strainHardening: 0.05, minBendRadius: '4.0t', springback: '8-15°' }
+];
+
+// ============================================
+// 焊接規格 - 碳當量計算參考
+// ============================================
+const carbonEquivalentData = [
+    { steel: '低碳鋼 (≤0.18%C)', ce: '< 0.35', preheat: '不需預熱', crackRisk: '低', weldability: '極佳' },
+    { steel: '中碳鋼 (0.18-0.28%C)', ce: '0.35-0.45', preheat: '50-100°C', crackRisk: '中', weldability: '良好' },
+    { steel: '高碳鋼 (0.28-0.40%C)', ce: '0.45-0.60', preheat: '100-200°C', crackRisk: '高', weldability: '需謹慎' },
+    { steel: '合金鋼 (Cr-Mo)', ce: '0.50-0.80', preheat: '150-250°C', crackRisk: '高', weldability: '需特殊措施' },
+    { steel: '高強度低合金鋼', ce: '> 0.60', preheat: '200-300°C', crackRisk: '極高', weldability: '困難' }
+];
+
+// ============================================
+// 焊接規格 - 層間溫度建議
+// ============================================
+const interpassTempData = [
+    { material: '碳鋼 (≤0.25%C)', minTemp: '不限', maxTemp: 250, note: '防止冷裂，控制熱影響區' },
+    { material: '碳鋼 (>0.25%C)', minTemp: 100, maxTemp: 250, note: '維持預熱溫度，防止淬硬' },
+    { material: '低合金鋼 Cr-Mo', minTemp: 150, maxTemp: 300, note: '控制冷卻速率，防止氫脆' },
+    { material: '不鏽鋼 304/316', minTemp: '不限', maxTemp: 150, note: '防止敏化，避免晶間腐蝕' },
+    { material: '雙相不鏽鋼', minTemp: '不限', maxTemp: 150, note: '保持相平衡' },
+    { material: '鋁合金', minTemp: '不限', maxTemp: 120, note: '防止過熱軟化，維持強度' },
+    { material: '鎳基合金', minTemp: '不限', maxTemp: 150, note: '防止熱裂' }
+];
+
+// ============================================
+// 焊接規格 - PWHT 銲後熱處理
+// ============================================
+const pwhtData = [
+    { material: '碳鋼 (t≤19mm)', required: '不需要', temp: '-', holdTime: '-', cooling: '-', purpose: '-' },
+    { material: '碳鋼 (19<t≤50mm)', required: '建議', temp: '595-650°C', holdTime: '1hr/25mm', cooling: '爐冷至315°C', purpose: '消除應力' },
+    { material: '碳鋼 (t>50mm)', required: '必須', temp: '595-650°C', holdTime: '1hr/25mm', cooling: '爐冷至315°C', purpose: '消除應力、防裂' },
+    { material: 'Cr-Mo 鋼 (1.25Cr-0.5Mo)', required: '必須', temp: '705-745°C', holdTime: '1hr/25mm', cooling: '爐冷至315°C', purpose: '消除應力、回火' },
+    { material: 'Cr-Mo 鋼 (2.25Cr-1Mo)', required: '必須', temp: '705-760°C', holdTime: '1hr/25mm', cooling: '爐冷至315°C', purpose: '消除應力、回火' },
+    { material: '不鏽鋼 304/316', required: '不建議', temp: '-', holdTime: '-', cooling: '-', purpose: '可能造成敏化' },
+    { material: '不鏽鋼 304L/316L', required: '可選', temp: '900-1100°C', holdTime: '快速', cooling: '水冷', purpose: '固溶處理' }
+];
+
+// ============================================
+// 焊接規格 - 預熱方法比較
+// ============================================
+const preheatMethodData = [
+    { method: '氧乙炔火焰', advantage: '快速、機動性高、不需電源', disadvantage: '溫度不均勻、難以控制', application: '現場小範圍、臨時作業', costLevel: '低' },
+    { method: '電阻加熱墊', advantage: '溫度均勻可控、可自動調控', disadvantage: '需要電源、設備成本', application: '管路環縫、固定位置', costLevel: '中' },
+    { method: '感應加熱', advantage: '快速、精確、效率高', disadvantage: '設備成本高、需專業人員', application: '工廠批量生產', costLevel: '高' },
+    { method: '烘箱預熱', advantage: '完全均勻、溫度精確', disadvantage: '僅適用小件、耗時', application: '零件預熱、焊條烘乾', costLevel: '中' },
+    { method: '陶瓷加熱片', advantage: '輕便、可貼合複雜形狀', disadvantage: '功率較小、需多片組合', application: '局部預熱、維修作業', costLevel: '中' },
+    { method: '紅外線加熱', advantage: '非接觸、均勻', disadvantage: '效率較低、設備成本', application: '大面積預熱', costLevel: '高' }
+];
+
+// ============================================
+// 平衡教學 - 鐵碳相特性
+// ============================================
+const phasePropertiesData = [
+    { phase: '肥粒鐵 (α-Fe)', structure: 'BCC 體心立方', maxCarbon: '0.02%', hardness: 'HB 80-100', property: '軟、韌性佳、磁性', tempRange: '<912°C' },
+    { phase: '沃斯田鐵 (γ-Fe)', structure: 'FCC 面心立方', maxCarbon: '2.11%', hardness: '-', property: '高溫穩定相、可溶較多碳、非磁性', tempRange: '912-1394°C' },
+    { phase: '雪明碳鐵 (Fe₃C)', structure: '正交晶系', maxCarbon: '6.67%', hardness: 'HB 800+', property: '極硬、極脆、碳化物', tempRange: '穩定至727°C以下' },
+    { phase: '波來鐵 (Pearlite)', structure: '層片狀混合', maxCarbon: '0.77%', hardness: 'HB 200-250', property: 'α-Fe + Fe₃C 層片、強度與韌性平衡', tempRange: '<727°C' },
+    { phase: '麻田散鐵 (Martensite)', structure: 'BCT 體心正方', maxCarbon: '可變', hardness: 'HB 650+', property: '淬火形成、極硬、脆', tempRange: '淬火產物' },
+    { phase: '變韌鐵 (Bainite)', structure: '針狀/羽狀', maxCarbon: '可變', hardness: 'HB 300-550', property: '介於波來鐵與麻田散鐵之間', tempRange: '恆溫變態產物' },
+    { phase: '萊氏體 (Ledeburite)', structure: '共晶組織', maxCarbon: '4.3%', hardness: 'HB 700+', property: 'γ-Fe + Fe₃C 共晶、鑄鐵特有', tempRange: '1148°C 以下' }
+];
+
+// ============================================
+// 平衡教學 - 臨界點溫度
+// ============================================
+const criticalPointsData = [
+    { point: 'A0', temp: '210°C', description: '雪明碳鐵磁性轉變溫度（居禮點）' },
+    { point: 'A1', temp: '727°C', description: '共析轉變溫度，波來鐵 ⇄ 沃斯田鐵（PSK 線）' },
+    { point: 'A2', temp: '768°C', description: 'α-Fe 磁性轉變溫度（居禮點）' },
+    { point: 'A3', temp: '變化 (GS 線)', description: '亞共析鋼 α+γ → γ 轉變線，隨碳含量升高而降低' },
+    { point: 'Acm', temp: '變化 (ES 線)', description: '過共析鋼 γ+Fe₃C → γ 轉變線' },
+    { point: '共析點 S', temp: '727°C, 0.77%C', description: '共析反應點：γ → α + Fe₃C（波來鐵）' },
+    { point: '共晶點 C', temp: '1148°C, 4.3%C', description: '共晶反應點：L → γ + Fe₃C（萊氏體）' },
+    { point: '包晶點 J', temp: '1495°C, 0.17%C', description: '包晶反應：L + δ → γ' }
+];

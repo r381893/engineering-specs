@@ -151,6 +151,15 @@ function initSubTabs() {
         });
     });
 
+    // 材料力學子標籤
+    document.querySelectorAll('[data-materials]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('[data-materials]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderMaterialsTable(btn.dataset.materials);
+        });
+    });
+
     // 皮帶計算器
     const beltInputs = ['beltD1', 'beltD2', 'beltCenter', 'beltRPM'];
     beltInputs.forEach(id => {
@@ -398,6 +407,9 @@ function renderAllTables() {
     renderCraneTable('capacity');
     renderBeltTable('vbeltA');
     renderAnchorTable('plastic');
+    renderMaterialsTable('mechanical');
+    renderPhasePropertiesTable();
+    renderCriticalPointsTable();
 }
 
 function renderSteelPipeTable(filter = 'all') {
@@ -707,7 +719,7 @@ function renderWeldingTable(type = 'rod') {
             `;
             tbody.appendChild(row);
         });
-    } else {
+    } else if (type === 'preheat') {
         thead.innerHTML = `
             <tr>
                 <th>材質</th>
@@ -723,6 +735,105 @@ function renderWeldingTable(type = 'rod') {
                 <td class="highlight">${item.material}</td>
                 <td>${item.thickness}</td>
                 <td><span class="badge badge-warning">${item.preheat}</span></td>
+            `;
+            tbody.appendChild(row);
+        });
+    } else if (type === 'carbon') {
+        thead.innerHTML = `
+            <tr>
+                <th>鋼材類型</th>
+                <th>碳當量 CE</th>
+                <th>建議預熱</th>
+                <th>裂紋風險</th>
+                <th>可焊性</th>
+            </tr>
+        `;
+        document.getElementById('weldingTableTitle').textContent = '📊 碳當量與可焊性參考';
+
+        carbonEquivalentData.forEach(item => {
+            const riskClass = item.crackRisk === '低' ? 'badge-success' :
+                item.crackRisk === '中' ? 'badge-warning' : 'badge-danger';
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.steel}</td>
+                <td>${item.ce}</td>
+                <td>${item.preheat}</td>
+                <td><span class="badge ${riskClass}">${item.crackRisk}</span></td>
+                <td>${item.weldability}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    } else if (type === 'interpass') {
+        thead.innerHTML = `
+            <tr>
+                <th>材質</th>
+                <th>最低溫度 (°C)</th>
+                <th>最高溫度 (°C)</th>
+                <th>說明</th>
+            </tr>
+        `;
+        document.getElementById('weldingTableTitle').textContent = '📊 層間溫度建議';
+
+        interpassTempData.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.material}</td>
+                <td>${item.minTemp}</td>
+                <td><span class="badge badge-warning">${item.maxTemp}</span></td>
+                <td>${item.note}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    } else if (type === 'pwht') {
+        thead.innerHTML = `
+            <tr>
+                <th>材質/厚度</th>
+                <th>是否需要</th>
+                <th>溫度</th>
+                <th>保溫時間</th>
+                <th>冷卻方式</th>
+                <th>目的</th>
+            </tr>
+        `;
+        document.getElementById('weldingTableTitle').textContent = '📊 PWHT 銲後熱處理';
+
+        pwhtData.forEach(item => {
+            const reqClass = item.required === '必須' ? 'badge-danger' :
+                item.required === '建議' ? 'badge-warning' :
+                    item.required === '不建議' ? 'badge-secondary' : 'badge-success';
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.material}</td>
+                <td><span class="badge ${reqClass}">${item.required}</span></td>
+                <td>${item.temp}</td>
+                <td>${item.holdTime}</td>
+                <td>${item.cooling}</td>
+                <td>${item.purpose}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    } else if (type === 'preheatMethod') {
+        thead.innerHTML = `
+            <tr>
+                <th>預熱方法</th>
+                <th>優點</th>
+                <th>缺點</th>
+                <th>適用場合</th>
+                <th>成本</th>
+            </tr>
+        `;
+        document.getElementById('weldingTableTitle').textContent = '📊 預熱方法比較';
+
+        preheatMethodData.forEach(item => {
+            const costClass = item.costLevel === '低' ? 'badge-success' :
+                item.costLevel === '中' ? 'badge-warning' : 'badge-danger';
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.method}</td>
+                <td>${item.advantage}</td>
+                <td>${item.disadvantage}</td>
+                <td>${item.application}</td>
+                <td><span class="badge ${costClass}">${item.costLevel}</span></td>
             `;
             tbody.appendChild(row);
         });
@@ -981,6 +1092,115 @@ function calculateExpansion() {
     // 膨脹量 = 係數(×10⁻⁶) × 長度(m) × 溫差(°C) → 結果為 m，轉換為 mm
     const expansion = coefficient * length * tempDiff * 0.001; // mm
     resultEl.textContent = `${expansion.toFixed(2)} mm`;
+}
+
+// ============================================
+// 材料力學表格
+// ============================================
+function renderMaterialsTable(type = 'mechanical') {
+    const tbody = document.querySelector('#materialsTable tbody');
+    const thead = document.getElementById('materialsTableHead');
+    const titleEl = document.getElementById('materialsTableTitle');
+
+    if (!tbody || !thead || !titleEl) return;
+
+    tbody.innerHTML = '';
+
+    if (type === 'mechanical') {
+        thead.innerHTML = `
+            <tr>
+                <th>材料</th>
+                <th>抗拉強度 (MPa)</th>
+                <th>屈服強度 (MPa)</th>
+                <th>延伸率 (%)</th>
+                <th>硬度</th>
+                <th>密度 (g/cm³)</th>
+            </tr>
+        `;
+        titleEl.textContent = '📊 金屬機械性質表';
+
+        metalPropertiesData.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.material}</td>
+                <td>${item.tensile}</td>
+                <td>${item.yield}</td>
+                <td>${item.elongation}</td>
+                <td>${item.hardness}</td>
+                <td>${item.density}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    } else if (type === 'plastic') {
+        thead.innerHTML = `
+            <tr>
+                <th>材料</th>
+                <th>延展性</th>
+                <th>應變硬化指數 n</th>
+                <th>最小彎曲半徑</th>
+                <th>回彈角</th>
+            </tr>
+        `;
+        titleEl.textContent = '📊 塑性變形參數表';
+
+        plasticDeformationData.forEach(item => {
+            const ductClass = item.ductility === '極高' ? 'badge-success' :
+                item.ductility === '高' ? 'badge-primary' :
+                    item.ductility === '中' ? 'badge-warning' : 'badge-danger';
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.material}</td>
+                <td><span class="badge ${ductClass}">${item.ductility}</span></td>
+                <td>${item.strainHardening}</td>
+                <td>${item.minBendRadius}</td>
+                <td>${item.springback}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+}
+
+// ============================================
+// 平衡教學 - 鐵碳相特性表
+// ============================================
+function renderPhasePropertiesTable() {
+    const tbody = document.querySelector('#phasePropertiesTable tbody');
+    if (!tbody) return;
+
+    tbody.innerHTML = '';
+
+    phasePropertiesData.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="highlight">${item.phase}</td>
+            <td>${item.structure}</td>
+            <td>${item.maxCarbon}</td>
+            <td>${item.hardness}</td>
+            <td>${item.property}</td>
+            <td>${item.tempRange}</td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+// ============================================
+// 平衡教學 - 臨界點溫度表
+// ============================================
+function renderCriticalPointsTable() {
+    const tbody = document.querySelector('#criticalPointsTable tbody');
+    if (!tbody) return;
+
+    tbody.innerHTML = '';
+
+    criticalPointsData.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="highlight">${item.point}</td>
+            <td><span class="badge badge-warning">${item.temp}</span></td>
+            <td>${item.description}</td>
+        `;
+        tbody.appendChild(row);
+    });
 }
 
 // ============================================

@@ -94,6 +94,10 @@
                 <span class="tab-icon">⚖️</span>
                 <span>平衡教學</span>
             </button>
+            <button class="nav-tab" data-tab="materials">
+                <span class="tab-icon">🔬</span>
+                <span>材料力學</span>
+            </button>
             <button class="nav-tab" data-tab="belt">
                 <span class="tab-icon">🔄</span>
                 <span>皮帶規格</span>
@@ -955,6 +959,10 @@
                 <div class="sub-tabs">
                     <button class="sub-tab active" data-welding="rod">焊條規格</button>
                     <button class="sub-tab" data-welding="preheat">預熱溫度</button>
+                    <button class="sub-tab" data-welding="carbon">碳當量</button>
+                    <button class="sub-tab" data-welding="interpass">層間溫度</button>
+                    <button class="sub-tab" data-welding="pwht">PWHT</button>
+                    <button class="sub-tab" data-welding="preheatMethod">預熱方法</button>
                 </div>
 
                 <div class="table-container">
@@ -1301,6 +1309,112 @@
                                 <p>消除焊接殘留應力，防止冷裂。碳含量越高，預熱/後熱溫度越高。</p>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- 鐵碳相特性表 -->
+                    <div class="tutorial-card">
+                        <h3>📊 鐵碳相特性表</h3>
+                        <div class="table-scroll">
+                            <table id="phasePropertiesTable">
+                                <thead>
+                                    <tr>
+                                        <th>相組織</th>
+                                        <th>晶體結構</th>
+                                        <th>最大溶碳量</th>
+                                        <th>硬度</th>
+                                        <th>特性</th>
+                                        <th>溫度範圍</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 臨界點溫度表 -->
+                    <div class="tutorial-card">
+                        <h3>🌡️ 臨界點溫度表</h3>
+                        <div class="table-scroll">
+                            <table id="criticalPointsTable">
+                                <thead>
+                                    <tr>
+                                        <th>臨界點</th>
+                                        <th>溫度</th>
+                                        <th>說明</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 材料力學 -->
+            <section id="materials" class="section">
+                <h2 class="section-title">
+                    <span class="icon">🔬</span>
+                    材料力學
+                </h2>
+                <p class="section-desc">金屬機械性質與塑性變形參數參考</p>
+
+                <div class="glossary-card">
+                    <h4>📖 名詞說明</h4>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">抗拉強度</span>
+                            <span class="glossary-def">Tensile Strength，材料斷裂前能承受的最大拉應力 (MPa)</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">屈服強度</span>
+                            <span class="glossary-def">Yield Strength，材料開始塑性變形時的應力 (MPa)</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">延伸率</span>
+                            <span class="glossary-def">Elongation，斷裂前的伸長量百分比，表示延展性</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">硬度 HB</span>
+                            <span class="glossary-def">布氏硬度 Brinell Hardness，用於較軟金屬</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">應變硬化指數 n</span>
+                            <span class="glossary-def">Strain Hardening Exponent，表示材料加工硬化能力</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">最小彎曲半徑</span>
+                            <span class="glossary-def">板材彎曲不裂的最小內半徑，t = 板厚</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">回彈角</span>
+                            <span class="glossary-def">Springback，板材彎曲後彈回的角度</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-tabs">
+                    <button class="sub-tab active" data-materials="mechanical">金屬機械性質</button>
+                    <button class="sub-tab" data-materials="plastic">塑性變形參數</button>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title" id="materialsTableTitle">📊 金屬機械性質表</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="materialsTable">
+                            <thead id="materialsTableHead">
+                                <tr>
+                                    <th>材料</th>
+                                    <th>抗拉強度 (MPa)</th>
+                                    <th>屈服強度 (MPa)</th>
+                                    <th>延伸率 (%)</th>
+                                    <th>硬度</th>
+                                    <th>密度 (g/cm³)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
                 </div>
             </section>
