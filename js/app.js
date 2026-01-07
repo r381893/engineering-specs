@@ -169,6 +169,33 @@ function initSubTabs() {
         });
     });
 
+    // 十字鋼材子標籤
+    document.querySelectorAll('[data-scm]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('[data-scm]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderScmTable(btn.dataset.scm);
+        });
+    });
+
+    // 軸承子標籤
+    document.querySelectorAll('[data-bearing]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('[data-bearing]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderBearingTable(btn.dataset.bearing);
+        });
+    });
+
+    // O型環子標籤
+    document.querySelectorAll('[data-oring]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('[data-oring]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderOringTable(btn.dataset.oring);
+        });
+    });
+
     // 皮帶計算器
     const beltInputs = ['beltD1', 'beltD2', 'beltCenter', 'beltRPM'];
     beltInputs.forEach(id => {
@@ -420,6 +447,9 @@ function renderAllTables() {
     renderPhasePropertiesTable();
     renderCriticalPointsTable();
     renderOxyWeldTable('gas');
+    renderScmTable('chemical');
+    renderBearingTable('6000');
+    renderOringTable('p');
 }
 
 function renderSteelPipeTable(filter = 'all') {
@@ -1393,6 +1423,236 @@ function renderOxyWeldTable(type = 'gas') {
                 <td>${item.spec}</td>
                 <td>${item.requirement}</td>
                 <td><span class="badge badge-warning">${item.note}</span></td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+}
+
+// ============================================
+// 十字鋼材表格
+// ============================================
+function renderScmTable(type = 'chemical') {
+    const tbody = document.querySelector('#scmTable tbody');
+    const thead = document.getElementById('scmTableHead');
+    const titleEl = document.getElementById('scmTableTitle');
+
+    if (!tbody || !thead || !titleEl) return;
+
+    tbody.innerHTML = '';
+
+    if (type === 'chemical') {
+        thead.innerHTML = `
+            <tr>
+                <th>鋼號</th>
+                <th>類型</th>
+                <th>C (碳)</th>
+                <th>Si (矽)</th>
+                <th>Mn (錳)</th>
+                <th>Cr (鉻)</th>
+                <th>Mo (鉬)</th>
+                <th>Ni (鎳)</th>
+                <th>用途</th>
+            </tr>
+        `;
+        titleEl.textContent = '📊 JIS 化學成分規範 (%)';
+
+        scmChemicalData.forEach(item => {
+            const typeClass = item.type === '紅十字' ? 'badge-danger' : 'badge-primary';
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.grade}</td>
+                <td><span class="badge ${typeClass}">${item.type}</span></td>
+                <td>${item.c}</td>
+                <td>${item.si}</td>
+                <td>${item.mn}</td>
+                <td>${item.cr}</td>
+                <td>${item.mo}</td>
+                <td>${item.ni}</td>
+                <td>${item.use}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    } else if (type === 'heat') {
+        thead.innerHTML = `
+            <tr>
+                <th>鋼號</th>
+                <th>鍛造溫度</th>
+                <th>正常化</th>
+                <th>退火</th>
+                <th>淬火</th>
+                <th>回火</th>
+                <th>滲碳</th>
+            </tr>
+        `;
+        titleEl.textContent = '📊 熱處理溫度條件 (°C)';
+
+        scmHeatTreatData.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.grade}</td>
+                <td>${item.forging}</td>
+                <td>${item.normalizing}</td>
+                <td>${item.annealing}</td>
+                <td><span class="badge badge-warning">${item.quenching}</span></td>
+                <td>${item.tempering}</td>
+                <td>${item.carburizing}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    } else if (type === 'mech') {
+        thead.innerHTML = `
+            <tr>
+                <th>鋼號</th>
+                <th>抗拉強度 (MPa)</th>
+                <th>降伏強度 (MPa)</th>
+                <th>伸長率 (%)</th>
+                <th>衝擊值 (J/cm²)</th>
+                <th>硬度 (HBW)</th>
+                <th>表面硬度</th>
+            </tr>
+        `;
+        titleEl.textContent = '📊 機械性質 (調質後參考值)';
+
+        scmMechData.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.grade}</td>
+                <td>${item.tensile}</td>
+                <td>${item.yield}</td>
+                <td>${item.elongation}</td>
+                <td>${item.impact}</td>
+                <td>${item.hardness}</td>
+                <td><span class="badge badge-success">${item.surfaceHardness}</span></td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+}
+
+// ============================================
+// 軸承表格
+// ============================================
+function renderBearingTable(type = '6000') {
+    const tbody = document.querySelector('#bearingTable tbody');
+    const thead = document.getElementById('bearingTableHead');
+    const titleEl = document.getElementById('bearingTableTitle');
+
+    if (!tbody || !thead || !titleEl) return;
+
+    tbody.innerHTML = '';
+
+    thead.innerHTML = `
+        <tr>
+            <th>型號</th>
+            <th>d (mm)</th>
+            <th>D (mm)</th>
+            <th>B (mm)</th>
+            <th>動負載 Cr (N)</th>
+            <th>靜負載 C0r (N)</th>
+            <th>極限轉速(脂)</th>
+            <th>極限轉速(油)</th>
+        </tr>
+    `;
+
+    let data;
+    if (type === '6000') {
+        data = bearing6000Data;
+        titleEl.textContent = '📊 6000 系列 (輕型負載)';
+    } else if (type === '6200') {
+        data = bearing6200Data;
+        titleEl.textContent = '📊 6200 系列 (最常用規格)';
+    } else if (type === '6300') {
+        data = bearing6300Data;
+        titleEl.textContent = '📊 6300 系列 (重負荷)';
+    }
+
+    data.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="highlight">${item.model}</td>
+            <td>${item.d}</td>
+            <td>${item.D}</td>
+            <td>${item.B}</td>
+            <td><strong>${item.Cr.toLocaleString()}</strong></td>
+            <td>${item.C0r.toLocaleString()}</td>
+            <td><span class="badge badge-warning">${item.speedGrease.toLocaleString()}</span></td>
+            <td><span class="badge badge-success">${item.speedOil.toLocaleString()}</span></td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+// ============================================
+// O型環表格
+// ============================================
+function renderOringTable(type = 'p') {
+    const tbody = document.querySelector('#oringTable tbody');
+    const thead = document.getElementById('oringTableHead');
+    const titleEl = document.getElementById('oringTableTitle');
+
+    if (!tbody || !thead || !titleEl) return;
+
+    tbody.innerHTML = '';
+
+    if (type === 'p' || type === 'g' || type === 'v') {
+        thead.innerHTML = `
+            <tr>
+                <th>規格</th>
+                <th>內徑 ID (mm)</th>
+                <th>內徑公差</th>
+                <th>線徑 W (mm)</th>
+                <th>線徑公差</th>
+                <th>用途</th>
+            </tr>
+        `;
+
+        let data;
+        if (type === 'p') {
+            data = oringPData;
+            titleEl.textContent = '📊 P 系列 (運動用) 精密尺寸表';
+        } else if (type === 'g') {
+            data = oringGData;
+            titleEl.textContent = '📊 G 系列 (固定用) 精密尺寸表';
+        } else if (type === 'v') {
+            data = oringVData;
+            titleEl.textContent = '📊 V 系列 (真空法蘭用)';
+        }
+
+        data.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.spec}</td>
+                <td>${item.id}</td>
+                <td><span class="badge badge-primary">${item.idTol}</span></td>
+                <td>${item.w}</td>
+                <td><span class="badge badge-primary">${item.wTol}</span></td>
+                <td>${item.use}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    } else if (type === 'groove') {
+        thead.innerHTML = `
+            <tr>
+                <th>線徑 W (mm)</th>
+                <th>溝槽寬度 (mm)</th>
+                <th>溝槽深度 (mm)</th>
+                <th>徑向間隙 (mm)</th>
+                <th>壓縮率</th>
+                <th>填充率</th>
+            </tr>
+        `;
+        titleEl.textContent = '📊 建議溝槽尺寸 (運動用)';
+
+        oringGrooveData.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="highlight">${item.w}</td>
+                <td>${item.grooveWidth}</td>
+                <td>${item.grooveDepth}</td>
+                <td>${item.clearance}</td>
+                <td><span class="badge badge-warning">${item.squeeze}</span></td>
+                <td><span class="badge badge-success">${item.fill}</span></td>
             `;
             tbody.appendChild(row);
         });

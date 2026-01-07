@@ -804,3 +804,141 @@ const weldingSafetyData = [
     { item: '滅火器', spec: 'CO₂ 或乾粉滅火器', requirement: '工作區 5m 內配置', note: '禁用水滅火' }
 ];
 
+// ============================================
+// 十字鋼材規格 (SCM/SNCM)
+// ============================================
+
+// 化學成分
+const scmChemicalData = [
+    { grade: 'SCM415', type: '紅十字', c: '0.13-0.18', si: '0.15-0.35', mn: '0.60-0.90', cr: '0.90-1.20', mo: '0.15-0.30', ni: '-', use: '滲碳用' },
+    { grade: 'SCM420', type: '紅十字', c: '0.18-0.23', si: '0.15-0.35', mn: '0.60-0.90', cr: '0.90-1.20', mo: '0.15-0.30', ni: '-', use: '滲碳用' },
+    { grade: 'SCM435', type: '紅十字', c: '0.33-0.38', si: '0.15-0.35', mn: '0.60-0.90', cr: '0.90-1.20', mo: '0.15-0.30', ni: '-', use: '調質用' },
+    { grade: 'SCM440', type: '紅十字', c: '0.38-0.43', si: '0.15-0.35', mn: '0.60-0.90', cr: '0.90-1.20', mo: '0.15-0.30', ni: '-', use: '調質用' },
+    { grade: 'SNCM220', type: '藍十字', c: '0.17-0.23', si: '0.15-0.35', mn: '0.60-0.90', cr: '0.40-0.65', mo: '0.15-0.30', ni: '0.40-0.70', use: '滲碳用' },
+    { grade: 'SNCM420', type: '藍十字', c: '0.17-0.23', si: '0.15-0.35', mn: '0.40-0.70', cr: '0.40-0.65', mo: '0.15-0.30', ni: '1.60-2.00', use: '滲碳用' },
+    { grade: 'SNCM439', type: '藍十字', c: '0.36-0.43', si: '0.15-0.35', mn: '0.60-0.90', cr: '0.60-1.00', mo: '0.15-0.30', ni: '1.60-2.00', use: '調質用' },
+    { grade: 'SNCM447', type: '藍十字', c: '0.44-0.50', si: '0.15-0.35', mn: '0.60-0.90', cr: '0.60-1.00', mo: '0.15-0.30', ni: '1.60-2.00', use: '調質用' }
+];
+
+// 熱處理條件
+const scmHeatTreatData = [
+    { grade: 'SCM415', forging: '1050-850', normalizing: '870-920 空冷', annealing: '850 爐冷', quenching: '850-900 油冷', tempering: '150-200 (滲碳後)', carburizing: '900-930' },
+    { grade: 'SCM420', forging: '1050-850', normalizing: '870-920 空冷', annealing: '850 爐冷', quenching: '850-900 油冷', tempering: '150-200 (滲碳後)', carburizing: '900-930' },
+    { grade: 'SCM435', forging: '1050-850', normalizing: '850-900 空冷', annealing: '830 爐冷', quenching: '830-880 油冷', tempering: '530-630 急冷', carburizing: '-' },
+    { grade: 'SCM440', forging: '1050-850', normalizing: '850-900 空冷', annealing: '830 爐冷', quenching: '830-880 油冷', tempering: '530-630 急冷', carburizing: '-' },
+    { grade: 'SNCM220', forging: '1050-850', normalizing: '870-920 空冷', annealing: '850 爐冷', quenching: '850-900 油冷', tempering: '150-200 (滲碳後)', carburizing: '900-930' },
+    { grade: 'SNCM420', forging: '1050-850', normalizing: '860-910 空冷', annealing: '840 爐冷', quenching: '820-870 油冷', tempering: '150-200 (滲碳後)', carburizing: '900-930' },
+    { grade: 'SNCM439', forging: '1050-850', normalizing: '850-900 空冷', annealing: '820 爐冷', quenching: '820-870 油冷', tempering: '580-680 急冷', carburizing: '-' },
+    { grade: 'SNCM447', forging: '1050-850', normalizing: '850-900 空冷', annealing: '820 爐冷', quenching: '820-870 油冷', tempering: '580-680 急冷', carburizing: '-' }
+];
+
+// 機械性質
+const scmMechData = [
+    { grade: 'SCM415', tensile: '≥780 (滲碳)', yield: '≥590', elongation: '≥15', impact: '≥69', hardness: '217-277', surfaceHardness: 'HRC 58-63' },
+    { grade: 'SCM420', tensile: '≥830 (滲碳)', yield: '≥635', elongation: '≥14', impact: '≥69', hardness: '235-293', surfaceHardness: 'HRC 58-63' },
+    { grade: 'SCM435', tensile: '≥930', yield: '≥785', elongation: '≥15', impact: '≥78', hardness: '269-331', surfaceHardness: '-' },
+    { grade: 'SCM440', tensile: '≥980', yield: '≥835', elongation: '≥12', impact: '≥59', hardness: '285-352', surfaceHardness: '-' },
+    { grade: 'SNCM220', tensile: '≥880 (滲碳)', yield: '≥685', elongation: '≥14', impact: '≥98', hardness: '248-302', surfaceHardness: 'HRC 58-63' },
+    { grade: 'SNCM420', tensile: '≥980 (滲碳)', yield: '≥785', elongation: '≥12', impact: '≥88', hardness: '285-352', surfaceHardness: 'HRC 58-63' },
+    { grade: 'SNCM439', tensile: '≥1080', yield: '≥885', elongation: '≥15', impact: '≥69', hardness: '310-360', surfaceHardness: '-' },
+    { grade: 'SNCM447', tensile: '≥1180', yield: '≥980', elongation: '≥12', impact: '≥59', hardness: '340-401', surfaceHardness: '-' }
+];
+
+// ============================================
+// 深溝滾珠軸承規格
+// ============================================
+
+// 6000 系列
+const bearing6000Data = [
+    { model: '6000', d: 10, D: 26, B: 8, Cr: 4550, C0r: 1960, speedGrease: 30000, speedOil: 40000 },
+    { model: '6001', d: 12, D: 28, B: 8, Cr: 5100, C0r: 2370, speedGrease: 28000, speedOil: 38000 },
+    { model: '6002', d: 15, D: 32, B: 9, Cr: 5600, C0r: 2830, speedGrease: 24000, speedOil: 32000 },
+    { model: '6003', d: 17, D: 35, B: 10, Cr: 6000, C0r: 3250, speedGrease: 22000, speedOil: 30000 },
+    { model: '6004', d: 20, D: 42, B: 12, Cr: 9400, C0r: 5000, speedGrease: 18000, speedOil: 24000 },
+    { model: '6005', d: 25, D: 47, B: 12, Cr: 10100, C0r: 5850, speedGrease: 15000, speedOil: 20000 },
+    { model: '6006', d: 30, D: 55, B: 13, Cr: 13200, C0r: 8300, speedGrease: 13000, speedOil: 17000 },
+    { model: '6007', d: 35, D: 62, B: 14, Cr: 15900, C0r: 10200, speedGrease: 11000, speedOil: 15000 },
+    { model: '6008', d: 40, D: 68, B: 15, Cr: 16800, C0r: 11600, speedGrease: 10000, speedOil: 13000 }
+];
+
+// 6200 系列
+const bearing6200Data = [
+    { model: '6200', d: 10, D: 30, B: 9, Cr: 5100, C0r: 2390, speedGrease: 26000, speedOil: 34000 },
+    { model: '6201', d: 12, D: 32, B: 10, Cr: 6800, C0r: 3050, speedGrease: 22000, speedOil: 30000 },
+    { model: '6202', d: 15, D: 35, B: 11, Cr: 7650, C0r: 3750, speedGrease: 20000, speedOil: 26000 },
+    { model: '6203', d: 17, D: 40, B: 12, Cr: 9550, C0r: 4800, speedGrease: 17000, speedOil: 22000 },
+    { model: '6204', d: 20, D: 47, B: 14, Cr: 12800, C0r: 6650, speedGrease: 15000, speedOil: 20000 },
+    { model: '6205', d: 25, D: 52, B: 15, Cr: 14000, C0r: 7850, speedGrease: 13000, speedOil: 17000 },
+    { model: '6206', d: 30, D: 62, B: 16, Cr: 19500, C0r: 11300, speedGrease: 11000, speedOil: 15000 },
+    { model: '6207', d: 35, D: 72, B: 17, Cr: 25700, C0r: 15300, speedGrease: 9500, speedOil: 13000 },
+    { model: '6208', d: 40, D: 80, B: 18, Cr: 29100, C0r: 17800, speedGrease: 8500, speedOil: 11000 },
+    { model: '6209', d: 45, D: 85, B: 19, Cr: 32000, C0r: 20000, speedGrease: 7500, speedOil: 10000 },
+    { model: '6210', d: 50, D: 90, B: 20, Cr: 35100, C0r: 23200, speedGrease: 7000, speedOil: 9500 }
+];
+
+// 6300 系列
+const bearing6300Data = [
+    { model: '6300', d: 10, D: 35, B: 11, Cr: 8100, C0r: 3450, speedGrease: 22000, speedOil: 28000 },
+    { model: '6301', d: 12, D: 37, B: 12, Cr: 9700, C0r: 4200, speedGrease: 20000, speedOil: 26000 },
+    { model: '6302', d: 15, D: 42, B: 13, Cr: 11400, C0r: 5450, speedGrease: 17000, speedOil: 22000 },
+    { model: '6303', d: 17, D: 47, B: 14, Cr: 13600, C0r: 6650, speedGrease: 15000, speedOil: 20000 },
+    { model: '6304', d: 20, D: 52, B: 15, Cr: 15900, C0r: 7900, speedGrease: 13000, speedOil: 17000 },
+    { model: '6305', d: 25, D: 62, B: 17, Cr: 20600, C0r: 11500, speedGrease: 11000, speedOil: 15000 },
+    { model: '6306', d: 30, D: 72, B: 19, Cr: 26700, C0r: 15000, speedGrease: 9000, speedOil: 12000 },
+    { model: '6307', d: 35, D: 80, B: 21, Cr: 33500, C0r: 19000, speedGrease: 8000, speedOil: 11000 },
+    { model: '6308', d: 40, D: 90, B: 23, Cr: 41000, C0r: 24000, speedGrease: 7000, speedOil: 9500 }
+];
+
+// ============================================
+// O型環精密規格
+// ============================================
+
+// P系列 (運動用)
+const oringPData = [
+    { spec: 'P3', id: 2.8, idTol: '±0.14', w: 1.9, wTol: '±0.08', use: '小型氣壓缸' },
+    { spec: 'P6', id: 5.8, idTol: '±0.15', w: 1.9, wTol: '±0.08', use: '小型氣壓缸' },
+    { spec: 'P10', id: 9.8, idTol: '±0.17', w: 1.9, wTol: '±0.08', use: '氣壓缸活塞' },
+    { spec: 'P12', id: 11.8, idTol: '±0.19', w: 2.4, wTol: '±0.09', use: '氣壓缸活塞' },
+    { spec: 'P14', id: 13.8, idTol: '±0.20', w: 2.4, wTol: '±0.09', use: '氣壓缸活塞' },
+    { spec: 'P16', id: 15.8, idTol: '±0.22', w: 2.4, wTol: '±0.09', use: '氣/油壓缸' },
+    { spec: 'P20', id: 19.8, idTol: '±0.25', w: 2.4, wTol: '±0.09', use: '氣/油壓缸' },
+    { spec: 'P22A', id: 21.7, idTol: '±0.24', w: 3.5, wTol: '±0.10', use: '油壓缸' },
+    { spec: 'P25', id: 24.7, idTol: '±0.27', w: 3.5, wTol: '±0.10', use: '油壓缸' },
+    { spec: 'P30', id: 29.7, idTol: '±0.33', w: 3.5, wTol: '±0.10', use: '油壓缸' },
+    { spec: 'P40', id: 39.7, idTol: '±0.41', w: 3.5, wTol: '±0.10', use: '大型油壓缸' },
+    { spec: 'P50', id: 49.7, idTol: '±0.48', w: 3.5, wTol: '±0.10', use: '大型油壓缸' }
+];
+
+// G系列 (固定用)
+const oringGData = [
+    { spec: 'G25', id: 24.4, idTol: '±0.25', w: 3.1, wTol: '±0.10', use: '管接頭密封' },
+    { spec: 'G30', id: 29.4, idTol: '±0.29', w: 3.1, wTol: '±0.10', use: '管接頭密封' },
+    { spec: 'G35', id: 34.4, idTol: '±0.33', w: 3.1, wTol: '±0.10', use: '法蘭密封' },
+    { spec: 'G40', id: 39.4, idTol: '±0.37', w: 3.1, wTol: '±0.10', use: '法蘭密封' },
+    { spec: 'G45', id: 44.4, idTol: '±0.41', w: 3.1, wTol: '±0.10', use: '法蘭密封' },
+    { spec: 'G50', id: 49.4, idTol: '±0.44', w: 3.1, wTol: '±0.10', use: '法蘭密封' },
+    { spec: 'G55', id: 54.4, idTol: '±0.48', w: 3.1, wTol: '±0.10', use: '大型法蘭' },
+    { spec: 'G60', id: 59.4, idTol: '±0.52', w: 3.1, wTol: '±0.10', use: '大型法蘭' }
+];
+
+// V系列 (真空法蘭用)
+const oringVData = [
+    { spec: 'V15', id: 14.5, idTol: '±0.18', w: 4.0, wTol: '±0.10', use: 'NW16真空法蘭' },
+    { spec: 'V24', id: 23.5, idTol: '±0.22', w: 4.0, wTol: '±0.10', use: 'NW25真空法蘭' },
+    { spec: 'V34', id: 33.5, idTol: '±0.30', w: 4.0, wTol: '±0.10', use: 'NW40真空法蘭' },
+    { spec: 'V40', id: 39.5, idTol: '±0.34', w: 4.0, wTol: '±0.10', use: 'NW50真空法蘭' },
+    { spec: 'V55', id: 54.5, idTol: '±0.45', w: 4.0, wTol: '±0.10', use: 'ISO63真空法蘭' },
+    { spec: 'V75', id: 74.5, idTol: '±0.55', w: 5.7, wTol: '±0.13', use: 'ISO80真空法蘭' },
+    { spec: 'V100', id: 99.5, idTol: '±0.68', w: 5.7, wTol: '±0.13', use: 'ISO100真空法蘭' }
+];
+
+// 溝槽設計參數
+const oringGrooveData = [
+    { w: 1.9, grooveWidth: '2.5-2.8', grooveDepth: '1.45', clearance: '0.08', squeeze: '15-25%', fill: '70-85%' },
+    { w: 2.4, grooveWidth: '3.2-3.5', grooveDepth: '1.95', clearance: '0.09', squeeze: '15-25%', fill: '70-85%' },
+    { w: 3.1, grooveWidth: '4.0-4.3', grooveDepth: '2.55', clearance: '0.10', squeeze: '15-25%', fill: '70-85%' },
+    { w: 3.5, grooveWidth: '4.5-4.8', grooveDepth: '2.95', clearance: '0.10', squeeze: '15-25%', fill: '70-85%' },
+    { w: 4.0, grooveWidth: '5.2-5.5', grooveDepth: '3.30', clearance: '0.10', squeeze: '15-25%', fill: '70-85%' },
+    { w: 5.7, grooveWidth: '7.2-7.6', grooveDepth: '4.95', clearance: '0.13', squeeze: '12-20%', fill: '70-85%' },
+    { w: 8.4, grooveWidth: '10.5-11.0', grooveDepth: '7.30', clearance: '0.15', squeeze: '12-20%', fill: '70-85%' }
+];

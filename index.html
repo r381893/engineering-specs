@@ -114,6 +114,18 @@
                 <span class="tab-icon">🔥</span>
                 <span>氧乙炔電銲</span>
             </button>
+            <button class="nav-tab" data-tab="scm-steel">
+                <span class="tab-icon">🔩</span>
+                <span>十字鋼材</span>
+            </button>
+            <button class="nav-tab" data-tab="bearing">
+                <span class="tab-icon">⚙️</span>
+                <span>軸承規格</span>
+            </button>
+            <button class="nav-tab" data-tab="oring">
+                <span class="tab-icon">⭕</span>
+                <span>O型環</span>
+            </button>
         </nav>
     </div>
 
@@ -1481,6 +1493,194 @@
                                     <th>用途</th>
                                     <th>儲存方式</th>
                                     <th>鋼瓶顏色</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 十字鋼材規格 (SCM/SNCM) -->
+            <section id="scm-steel" class="section">
+                <h2 class="section-title">
+                    <span class="icon">🔩</span>
+                    十字鋼材規格 (SCM/SNCM)
+                </h2>
+                <p class="section-desc">鉻鉬鋼與鎳鉻鉬鋼的成分、熱處理條件與機械性質詳解</p>
+
+                <div class="glossary-card">
+                    <h4>📖 專業名詞說明</h4>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">淬火性</span>
+                            <span class="glossary-def">鋼材受熱處理硬化的深度能力。SNCM (藍) > SCM (紅)</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">質量效應</span>
+                            <span class="glossary-def">工件越厚大，中心越難硬化。>100mm 軸心建議 SNCM</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">回火脆性</span>
+                            <span class="glossary-def">250~400°C 回火會導致韌性下降，應避開此溫度區間</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">紅十字 SCM</span>
+                            <span class="glossary-def">鉻鉬鋼，一般調質用，機械強度佳</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">藍十字 SNCM</span>
+                            <span class="glossary-def">鎳鉻鉬鋼，含鎳提高淬透性，適合大型軸件</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-tabs">
+                    <button class="sub-tab active" data-scm="chemical">化學成分</button>
+                    <button class="sub-tab" data-scm="heat">熱處理條件</button>
+                    <button class="sub-tab" data-scm="mech">機械性質</button>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title" id="scmTableTitle">📊 JIS 化學成分規範 (%)</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="scmTable">
+                            <thead id="scmTableHead">
+                                <tr>
+                                    <th>鋼號</th>
+                                    <th>類型</th>
+                                    <th>C (碳)</th>
+                                    <th>Si (矽)</th>
+                                    <th>Mn (錳)</th>
+                                    <th>Cr (鉻)</th>
+                                    <th>Mo (鉬)</th>
+                                    <th>Ni (鎳)</th>
+                                    <th>用途</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 深溝滾珠軸承規格 -->
+            <section id="bearing" class="section">
+                <h2 class="section-title">
+                    <span class="icon">⚙️</span>
+                    深溝滾珠軸承規格 (PRO)
+                </h2>
+                <p class="section-desc">額定負載、極限轉速與詳細尺寸 (JIS B 1512 / NSK / SKF 參考)</p>
+
+                <div class="glossary-card">
+                    <h4>📖 設計參數說明</h4>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">基本動額定負載 Cr</span>
+                            <span class="glossary-def">軸承壽命計算基準。當負載 = Cr 時，理論壽命為 100 萬轉</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">基本靜額定負載 C0r</span>
+                            <span class="glossary-def">軸承靜止或極低速時，滾道發生永久變形的極限負載</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">極限轉速 (脂潤滑)</span>
+                            <span class="glossary-def">密封軸承 (ZZ/2RS) 預填油脂的最高容許轉速</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">極限轉速 (油潤滑)</span>
+                            <span class="glossary-def">開放式軸承使用潤滑油時的最高容許轉速</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-tabs">
+                    <button class="sub-tab active" data-bearing="6000">6000系列</button>
+                    <button class="sub-tab" data-bearing="6200">6200系列</button>
+                    <button class="sub-tab" data-bearing="6300">6300系列</button>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title" id="bearingTableTitle">📊 6000 系列 (輕型負載)</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="bearingTable">
+                            <thead id="bearingTableHead">
+                                <tr>
+                                    <th>型號</th>
+                                    <th>d (mm)</th>
+                                    <th>D (mm)</th>
+                                    <th>B (mm)</th>
+                                    <th>動負載 Cr (N)</th>
+                                    <th>靜負載 C0r (N)</th>
+                                    <th>極限轉速(脂)</th>
+                                    <th>極限轉速(油)</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- O型環精密規格 -->
+            <section id="oring" class="section">
+                <h2 class="section-title">
+                    <span class="icon">⭕</span>
+                    O型環精密規格
+                </h2>
+                <p class="section-desc">JIS B 2401 P/G/V 尺寸公差與溝槽設計參數</p>
+
+                <div class="glossary-card">
+                    <h4>📖 溝槽設計指南</h4>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">壓縮率 Squeeze</span>
+                            <span class="glossary-def">運動用建議 8~20%，固定用建議 15~30%</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">填充率 Fill</span>
+                            <span class="glossary-def">溝槽截面積應大於 O-ring，建議填充率 < 75-85%</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">倒角 Chamfer</span>
+                            <span class="glossary-def">孔口務必倒角 15~30°，避免安裝時切傷 O-ring</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">P系列</span>
+                            <span class="glossary-def">運動用 (活塞、油壓缸)，線徑較粗</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">G系列</span>
+                            <span class="glossary-def">固定用 (法蘭、接頭)，密封效果佳</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-tabs">
+                    <button class="sub-tab active" data-oring="p">P系列 (運動)</button>
+                    <button class="sub-tab" data-oring="g">G系列 (固定)</button>
+                    <button class="sub-tab" data-oring="v">V系列 (真空)</button>
+                    <button class="sub-tab" data-oring="groove">溝槽設計</button>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title" id="oringTableTitle">📊 P 系列 (運動用) 精密尺寸表</span>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="oringTable">
+                            <thead id="oringTableHead">
+                                <tr>
+                                    <th>規格</th>
+                                    <th>內徑 ID (mm)</th>
+                                    <th>內徑公差</th>
+                                    <th>線徑 W (mm)</th>
+                                    <th>線徑公差</th>
+                                    <th>用途</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
