@@ -6,12 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>工程規格查詢工具 | Engineering Specs</title>
     <meta name="description" content="工程規格快速查詢工具 - 管件規格、冷媒壓力、鋼索吊重、攻牙鑽頭尺寸">
+
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="工程規格">
+    <link rel="apple-touch-icon" href="assets/icon-192.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -27,6 +38,9 @@
                     <span class="search-icon">🔍</span>
                     <input type="text" id="globalSearch" placeholder="搜尋規格 (例如: 4吋、M10、R410A)">
                 </div>
+                <button class="converter-btn" id="openConverter" title="單位換算器 (Ctrl+U)">
+                    📐 換算
+                </button>
             </div>
         </div>
     </header>
@@ -125,6 +139,22 @@
             <button class="nav-tab" data-tab="oring">
                 <span class="tab-icon">⭕</span>
                 <span>O型環</span>
+            </button>
+            <button class="nav-tab" data-tab="concepts">
+                <span class="tab-icon">📚</span>
+                <span>工程概念</span>
+            </button>
+            <button class="nav-tab" data-tab="pressure-drop">
+                <span class="tab-icon">📉</span>
+                <span>管路壓損</span>
+            </button>
+            <button class="nav-tab" data-tab="quiz">
+                <span class="tab-icon">📝</span>
+                <span>AI 考試</span>
+            </button>
+            <button class="nav-tab" data-tab="favorites">
+                <span class="tab-icon">⭐</span>
+                <span>我的收藏</span>
             </button>
         </nav>
     </div>
@@ -260,6 +290,103 @@
                 </div>
             </section>
 
+            <!-- 管路壓損計算 -->
+            <section id="pressure-drop" class="section">
+                <h2 class="section-title">
+                    <span class="icon">📉</span>
+                    管路壓損計算機
+                </h2>
+                <p class="section-desc">估算流體在管路中流動時的壓力損失 (Hazen-Williams / Darcy-Weisbach 簡化估算)</p>
+
+                <div class="glossary-card">
+                    <h4>📝 計算參數說明 (以水為例)</h4>
+                    <div class="glossary-list">
+                        <div class="glossary-item">
+                            <span class="glossary-term">流量</span>
+                            <span class="glossary-def">單位時間內流過的液體體積 (L/min)</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">管徑</span>
+                            <span class="glossary-def">使用 SCH40 鋼管內徑計算</span>
+                        </div>
+                        <div class="glossary-item">
+                            <span class="glossary-term">管閥件</span>
+                            <span class="glossary-def">彎頭、三通等會造成額外壓損，此處轉換為當量長度計算</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-calc" style="max-width: 800px;">
+                    <div class="quick-calc-card">
+                        <h4>🔢 輸入參數</h4>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>流量 (L/min)</label>
+                                <input type="number" id="pdFlow" placeholder="例如: 100" value="100">
+                            </div>
+                            <div class="form-group">
+                                <label>管徑 (吋)</label>
+                                <select id="pdSize">
+                                    <option value='1/2"'>1/2" (15A)</option>
+                                    <option value='3/4"'>3/4" (20A)</option>
+                                    <option value='1"'>1" (25A)</option>
+                                    <option value='1-1/4"'>1-1/4" (32A)</option>
+                                    <option value='1-1/2"'>1-1/2" (40A)</option>
+                                    <option value='2"' selected>2" (50A)</option>
+                                    <option value='2-1/2"'>2-1/2" (65A)</option>
+                                    <option value='3"'>3" (80A)</option>
+                                    <option value='4"'>4" (100A)</option>
+                                    <option value='6"'>6" (150A)</option>
+                                    <option value='8"'>8" (200A)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>直管長度 (m)</label>
+                                <input type="number" id="pdLength" placeholder="例如: 50" value="10">
+                            </div>
+                        </div>
+
+                        <div class="form-divider">
+                            <span>管件數量 (計算當量長度用)</span>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>90° 彎頭 (個)</label>
+                                <input type="number" id="pdElbow90" value="0" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>45° 彎頭 (個)</label>
+                                <input type="number" id="pdElbow45" value="0" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>三通 (個)</label>
+                                <input type="number" id="pdTee" value="0" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>閘閥 (個)</label>
+                                <input type="number" id="pdGateValve" value="0" min="0">
+                            </div>
+                        </div>
+
+                        <div class="quick-calc-result" style="margin-top: 20px;">
+                            <div class="result-row">
+                                <span class="label">直管長度</span>
+                                <span class="value" id="pdPipeL">-- m</span>
+                            </div>
+                            <div class="result-row">
+                                <span class="label">管件當量長度</span>
+                                <span class="value" id="pdFittingL">-- m</span>
+                            </div>
+                            <div class="result-row highlight">
+                                <span class="label">總壓損 (估算)</span>
+                                <span class="value" id="pdTotalDrop">-- kg/cm²</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- 冷媒壓力 -->
             <section id="refrigerant" class="section">
                 <h2 class="section-title">
@@ -343,6 +470,17 @@
                         </table>
                     </div>
                 </div>
+
+                <!-- 冷媒壓力曲線圖表 -->
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <span class="chart-title">📈 冷媒壓力-溫度曲線</span>
+                        <div class="chart-legend" id="refChartLegend"></div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="refrigerantChart"></canvas>
+                    </div>
+                </div>
             </section>
 
             <!-- 鋼索吊重 -->
@@ -400,6 +538,16 @@
                             <span class="label">建議鋼索直徑</span>
                             <span class="value" id="ropeResult">-- mm</span>
                         </div>
+                    </div>
+                </div>
+
+                <!-- 鋼索受力分析圖表 -->
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <span class="chart-title">📊 鋼索破斷與安全荷重分析</span>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="wireRopeChart"></canvas>
                     </div>
                 </div>
 
@@ -979,6 +1127,97 @@
                     <button class="sub-tab" data-welding="interpass">層間溫度</button>
                     <button class="sub-tab" data-welding="pwht">PWHT</button>
                     <button class="sub-tab" data-welding="preheatMethod">預熱方法</button>
+                    <button class="sub-tab" data-welding="highTempSteel">高溫鋼材</button>
+                    <button class="sub-tab" data-welding="schaeffler">舍夫勒圖</button>
+                </div>
+
+                <!-- 舍夫勒圖專屬區塊 (預設隱藏，透過 JS 切換顯示) -->
+                <div id="welding-schaeffler" class="welding-content-block" style="display: none;">
+
+                    <div class="glossary-card">
+                        <h4>📖 舍夫勒圖 (Schaeffler Diagram) 說明</h4>
+                        <div class="glossary-list">
+                            <div class="glossary-item">
+                                <span class="glossary-term">用途</span>
+                                <span class="glossary-def">預測不鏽鋼或異種焊接後的顯微組織 (沃斯田鐵、肥粒鐵、麻田散鐵等)</span>
+                            </div>
+                            <div class="glossary-item">
+                                <span class="glossary-term">Cr 當量</span>
+                                <span class="glossary-def">Cr_eq = Cr + Mo + 1.5Si + 0.5Nb (%) → 代表肥粒鐵形成元素</span>
+                            </div>
+                            <div class="glossary-item">
+                                <span class="glossary-term">Ni 當量</span>
+                                <span class="glossary-def">Ni_eq = Ni + 30C + 0.5Mn (%) → 代表沃斯田鐵形成元素</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quick-calc">
+                        <div class="quick-calc-card">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <h4>🧪 化學成分輸入 (重量 %)</h4>
+                                <select id="schPreset" class="form-control" style="width: auto; padding: 4px 8px;">
+                                    <option value="custom">自訂材質 (Custom)</option>
+                                    <option value="304">SS304 不鏽鋼</option>
+                                    <option value="316">SS316 不鏽鋼</option>
+                                    <option value="309">SS309 耐熱鋼</option>
+                                    <option value="310">SS310 (25-20) 耐熱鋼</option>
+                                    <option value="410">SS410 (13Cr) 麻田散鐵</option>
+                                    <option value="430">SS430 (18Cr) 肥粒鐵</option>
+                                </select>
+                            </div>
+                            <div class="form-grid">
+                                <div class="form-group"><label>C (碳)</label><input type="number" id="schC" step="0.01"
+                                        placeholder="0.08"></div>
+                                <div class="form-group"><label>Mn (錳)</label><input type="number" id="schMn" step="0.1"
+                                        placeholder="2.0"></div>
+                                <div class="form-group"><label>Si (矽)</label><input type="number" id="schSi" step="0.1"
+                                        placeholder="1.0"></div>
+                                <div class="form-group"><label>Cr (鉻)</label><input type="number" id="schCr" step="0.1"
+                                        placeholder="18.0"></div>
+                                <div class="form-group"><label>Ni (鎳)</label><input type="number" id="schNi" step="0.1"
+                                        placeholder="8.0"></div>
+                                <div class="form-group"><label>Mo (鉬)</label><input type="number" id="schMo" step="0.1"
+                                        placeholder="0"></div>
+                                <div class="form-group"><label>Nb (鈮)</label><input type="number" id="schNb" step="0.1"
+                                        placeholder="0"></div>
+                            </div>
+
+                            <div class="quick-calc-result" style="margin-top: 15px;">
+                                <div class="result-row">
+                                    <span class="label">鉻當量 (Cr_eq)</span>
+                                    <span class="value" id="resCrEq">--</span>
+                                </div>
+                                <div class="result-row">
+                                    <span class="label">鎳當量 (Ni_eq)</span>
+                                    <span class="value" id="resNiEq">--</span>
+                                </div>
+                                <div class="result-row highlight">
+                                    <span class="label">預測組織</span>
+                                    <span class="value" id="resPhase">請輸入數值</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <span class="chart-title">📊 組織預測分佈圖</span>
+                        </div>
+                        <div class="chart-wrapper" style="height: 500px;">
+                            <canvas id="schaefflerChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container" id="welding-general-table">
+                    <div class="table-header">
+                        <span class="table-title" id="weldingTableTitle">📊 焊條規格對照表</span>
+                        <div class="table-filter" id="weldingTableHead">
+                            <!-- 動態插入表頭 -->
+                        </div>
+                    </div>
                 </div>
 
                 <div class="table-container">
@@ -2036,8 +2275,341 @@
                 <!-- Toast 通知 -->
                 <div id="sopToast" class="sop-toast"></div>
             </section>
+
+            <!-- 工程概念知識庫 -->
+            <section id="concepts" class="section">
+                <h2 class="section-title">
+                    <span class="icon">📚</span>
+                    工程概念知識庫
+                </h2>
+                <p class="section-desc">整理常用工程專業知識，包含編號說明、設計參數等</p>
+
+                <div class="sub-tabs">
+                    <button class="sub-tab active" data-subtab="bolt-grade">螺栓等級</button>
+                    <button class="sub-tab" data-subtab="welding-code">焊條編號</button>
+                    <button class="sub-tab" data-subtab="fitting-ld">管件當量</button>
+                    <button class="sub-tab" data-subtab="bearing-code">軸承編號</button>
+                    <button class="sub-tab" data-subtab="oring-design">O環設計</button>
+                    <button class="sub-tab" data-subtab="vbelt-design">皮帶傳動</button>
+                    <button class="sub-tab" data-subtab="sling-angle">吊索角度</button>
+                    <button class="sub-tab" data-subtab="iron-carbon">鐵碳分類</button>
+                    <button class="sub-tab" data-subtab="eng-calculators">🧮 計算器</button>
+                </div>
+
+                <div class="sub-content active" id="bolt-grade">
+                    <h3>螺栓強度等級說明</h3>
+                    <p class="info-text">等級數字說明：第一個數字×100 = 抗拉強度(MPa)，兩數相乘×10 = 屈服強度(MPa)</p>
+                    <div class="table-container">
+                        <table id="boltGradeTable"></table>
+                    </div>
+                </div>
+
+                <div class="sub-content" id="welding-code">
+                    <h3>焊條編號說明 (AWS 規範)</h3>
+                    <p class="info-text">例如 E7018：E=電焊條，70=70ksi抗拉強度，1=全位置，8=低氫鉀型</p>
+                    <div class="table-container">
+                        <table id="weldingCodeTable"></table>
+                    </div>
+                </div>
+
+                <div class="sub-content" id="fitting-ld">
+                    <h3>管件當量長度係數 (L/D 比)</h3>
+                    <p class="info-text">當量長度 = L/D 比 × 管徑。例：DN50 管的 90° 標準彎頭當量長度 = 30 × 50mm = 1.5m</p>
+                    <div class="table-container">
+                        <table id="fittingLDTable"></table>
+                    </div>
+                </div>
+
+                <div class="sub-content" id="bearing-code">
+                    <h3>軸承編號說明</h3>
+                    <p class="info-text">例如 6205-2RS-C3：62=輕系列，05×5=25mm內徑，2RS=雙面橡膠密封，C3=加大游隙</p>
+                    <div class="table-container">
+                        <table id="bearingCodeTable"></table>
+                    </div>
+                </div>
+
+                <div class="sub-content" id="oring-design">
+                    <h3>O型環設計參數</h3>
+                    <p class="info-text">O型環密封效果取決於適當的壓縮率和溝槽設計</p>
+                    <div class="table-container">
+                        <table id="oringDesignTable"></table>
+                    </div>
+                </div>
+
+                <div class="sub-content" id="vbelt-design">
+                    <h3>V型皮帶傳動設計</h3>
+                    <p class="info-text">皮帶傳動設計須考慮包角、傳動比和張力</p>
+                    <div class="table-container">
+                        <table id="vbeltDesignTable"></table>
+                    </div>
+                </div>
+
+                <div class="sub-content" id="sling-angle">
+                    <h3>吊索角度安全係數</h3>
+                    <p class="info-text">⚠️ 吊索與水平面夾角越小，張力越大！規定最小角度不得小於 45°</p>
+                    <div class="table-container">
+                        <table id="slingAngleTable"></table>
+                    </div>
+                </div>
+
+                <div class="sub-content" id="iron-carbon">
+                    <h3>鐵碳合金分類</h3>
+                    <p class="info-text">依含碳量分類，0.77%C 為共析點（波來鐵），2.11%C 為鋼鐵分界</p>
+                    <div class="table-container">
+                        <table id="ironCarbonTable"></table>
+                    </div>
+                </div>
+
+                <!-- 工程計算器 -->
+                <div class="sub-content" id="eng-calculators">
+                    <h3>🧮 工程計算器</h3>
+                    <p class="info-text">常用工程計算工具，輸入參數即時計算結果</p>
+
+                    <div class="calculators-grid">
+                        <!-- 熱膨脹計算器 -->
+                        <div class="calc-card">
+                            <div class="calc-card-header">
+                                <span class="calc-icon">🌡️</span>
+                                <span class="calc-title">熱膨脹量計算</span>
+                            </div>
+                            <div class="calc-card-body">
+                                <div class="calc-input-group">
+                                    <label>材料</label>
+                                    <select id="calcExpMaterial">
+                                        <option value="11.7">碳鋼 (11.7×10⁻⁶)</option>
+                                        <option value="17.3">銅 (17.3×10⁻⁶)</option>
+                                        <option value="23.6">鋁 (23.6×10⁻⁶)</option>
+                                        <option value="10.8">不鏽鋼 (10.8×10⁻⁶)</option>
+                                        <option value="70">PVC (70×10⁻⁶)</option>
+                                    </select>
+                                </div>
+                                <div class="calc-input-group">
+                                    <label>原始長度 (m)</label>
+                                    <input type="number" id="calcExpLength" value="10" step="0.1">
+                                </div>
+                                <div class="calc-input-group">
+                                    <label>溫差 (°C)</label>
+                                    <input type="number" id="calcExpDeltaT" value="60" step="1">
+                                </div>
+                                <button class="calc-btn"
+                                    onclick="EngineeringCalculators.calcThermalExpansion()">計算</button>
+                                <div class="calc-result" id="calcExpResult">
+                                    <span class="result-label">膨脹量</span>
+                                    <span class="result-value">--</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 管道壓降計算器 -->
+                        <div class="calc-card">
+                            <div class="calc-card-header">
+                                <span class="calc-icon">💧</span>
+                                <span class="calc-title">管道壓降計算</span>
+                            </div>
+                            <div class="calc-card-body">
+                                <div class="calc-input-group">
+                                    <label>管內徑 (mm)</label>
+                                    <input type="number" id="calcPdDiameter" value="100" step="1">
+                                </div>
+                                <div class="calc-input-group">
+                                    <label>管長 (m)</label>
+                                    <input type="number" id="calcPdLength" value="100" step="1">
+                                </div>
+                                <div class="calc-input-group">
+                                    <label>流速 (m/s)</label>
+                                    <input type="number" id="calcPdVelocity" value="2" step="0.1">
+                                </div>
+                                <button class="calc-btn" onclick="EngineeringCalculators.calcPressureDrop()">計算</button>
+                                <div class="calc-result" id="calcPdResult">
+                                    <span class="result-label">壓力損失</span>
+                                    <span class="result-value">--</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 焊接預熱計算器 -->
+                        <div class="calc-card">
+                            <div class="calc-card-header">
+                                <span class="calc-icon">🔥</span>
+                                <span class="calc-title">焊接預熱溫度</span>
+                            </div>
+                            <div class="calc-card-body">
+                                <div class="calc-input-group">
+                                    <label>板厚 (mm)</label>
+                                    <input type="number" id="calcWeldThickness" value="25" step="1">
+                                </div>
+                                <div class="calc-input-group">
+                                    <label>碳當量 CE (%)</label>
+                                    <input type="number" id="calcWeldCE" value="0.45" step="0.01">
+                                </div>
+                                <button class="calc-btn"
+                                    onclick="EngineeringCalculators.calcWeldingPreheat()">計算</button>
+                                <div class="calc-result" id="calcWeldResult">
+                                    <span class="result-label">建議預熱溫度</span>
+                                    <span class="result-value">--</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI 考試 -->
+            <section id="quiz" class="section">
+                <h2 class="section-title">
+                    <span class="icon">📝</span>
+                    AI 智能考試
+                </h2>
+                <p class="section-desc">根據工程規格資料自動生成選擇題，幫助您加深印象</p>
+
+                <!-- API Key 設定 -->
+                <div class="quiz-api-setup" id="quizApiSetup">
+                    <div class="quiz-api-card">
+                        <h4>🔑 設定 Gemini API Key</h4>
+                        <p>請輸入您的 Google Gemini API Key（會安全儲存在瀏覽器中）</p>
+                        <div class="quiz-api-input">
+                            <input type="password" id="geminiApiKey" placeholder="輸入 API Key...">
+                            <button id="saveApiKey" class="quiz-btn quiz-btn-primary">儲存</button>
+                        </div>
+                        <p class="quiz-api-hint">💡 <a href="https://aistudio.google.com/app/apikey"
+                                target="_blank">點此免費申請 API Key</a></p>
+                    </div>
+                </div>
+
+                <!-- 考試介面 -->
+                <div class="quiz-interface" id="quizInterface" style="display: none;">
+                    <!-- 考試控制面板 -->
+                    <div class="quiz-controls">
+                        <div class="quiz-difficulty">
+                            <span class="quiz-label">難度選擇：</span>
+                            <button class="quiz-diff-btn active" data-difficulty="random">🎲 隨機</button>
+                            <button class="quiz-diff-btn" data-difficulty="easy">🟢 簡單</button>
+                            <button class="quiz-diff-btn" data-difficulty="medium">🟡 中等</button>
+                            <button class="quiz-diff-btn" data-difficulty="hard">🔴 困難</button>
+                        </div>
+                        <div class="quiz-actions">
+                            <button id="generateQuestion" class="quiz-btn quiz-btn-primary">
+                                <span class="btn-icon">🎯</span> 出題
+                            </button>
+                            <button id="changeApiKey" class="quiz-btn quiz-btn-secondary">🔑 更換 API Key</button>
+                        </div>
+                    </div>
+
+                    <!-- 統計資訊 -->
+                    <div class="quiz-stats">
+                        <div class="quiz-stat-item">
+                            <span class="stat-label">答題數</span>
+                            <span class="stat-value" id="quizTotal">0</span>
+                        </div>
+                        <div class="quiz-stat-item">
+                            <span class="stat-label">正確</span>
+                            <span class="stat-value stat-correct" id="quizCorrect">0</span>
+                        </div>
+                        <div class="quiz-stat-item">
+                            <span class="stat-label">正確率</span>
+                            <span class="stat-value stat-rate" id="quizRate">--%</span>
+                        </div>
+                    </div>
+
+                    <!-- 題目區域 -->
+                    <div class="quiz-question-area" id="quizQuestionArea">
+                        <div class="quiz-empty-state">
+                            <span class="quiz-empty-icon">📚</span>
+                            <p>點擊「出題」開始測驗</p>
+                        </div>
+                    </div>
+
+                    <!-- 載入中 -->
+                    <div class="quiz-loading" id="quizLoading" style="display: none;">
+                        <div class="quiz-spinner"></div>
+                        <p>AI 正在出題中...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 我的收藏 -->
+            <section id="favorites" class="section">
+                <h2 class="section-title">
+                    <span class="icon">⭐</span>
+                    我的收藏
+                </h2>
+                <p class="section-desc">快速存取您收藏的常用規格數據</p>
+
+                <div class="favorites-container" id="favoritesContainer">
+                    <div class="favorites-empty" id="favoritesEmpty">
+                        <p>📌 您還沒有收藏任何規格</p>
+                        <p>在各個表格中點擊 ⭐ 即可加入收藏</p>
+                    </div>
+                    <div class="favorites-list" id="favoritesList"></div>
+                </div>
+            </section>
         </div>
     </main>
+
+    <!-- Unit Converter Modal -->
+    <div class="converter-modal" id="converterModal">
+        <div class="converter-content">
+            <div class="converter-header">
+                <h3>📐 單位換算器</h3>
+                <button class="converter-close" id="closeConverter">&times;</button>
+            </div>
+            <div class="converter-body">
+                <div class="converter-type-tabs">
+                    <button class="converter-type-tab active" data-type="length">長度</button>
+                    <button class="converter-type-tab" data-type="pressure">壓力</button>
+                    <button class="converter-type-tab" data-type="temperature">溫度</button>
+                </div>
+
+                <!-- 長度換算 -->
+                <div class="converter-panel active" data-panel="length">
+                    <div class="converter-input-group">
+                        <input type="number" id="lengthInput" placeholder="輸入數值" step="any">
+                        <select id="lengthFromUnit">
+                            <option value="mm">毫米 (mm)</option>
+                            <option value="cm">公分 (cm)</option>
+                            <option value="m">公尺 (m)</option>
+                            <option value="inch">英寸 (in)</option>
+                            <option value="ft">英尺 (ft)</option>
+                        </select>
+                    </div>
+                    <div class="converter-arrow">⬇️</div>
+                    <div class="converter-results" id="lengthResults"></div>
+                </div>
+
+                <!-- 壓力換算 -->
+                <div class="converter-panel" data-panel="pressure">
+                    <div class="converter-input-group">
+                        <input type="number" id="pressureInput" placeholder="輸入數值" step="any">
+                        <select id="pressureFromUnit">
+                            <option value="mpa">百萬帕 (MPa)</option>
+                            <option value="bar">巴 (bar)</option>
+                            <option value="psi">磅/平方吋 (psi)</option>
+                            <option value="kgcm2">公斤力/平方公分 (kg/cm²)</option>
+                        </select>
+                    </div>
+                    <div class="converter-arrow">⬇️</div>
+                    <div class="converter-results" id="pressureResults"></div>
+                </div>
+
+                <!-- 溫度換算 -->
+                <div class="converter-panel" data-panel="temperature">
+                    <div class="converter-input-group">
+                        <input type="number" id="temperatureInput" placeholder="輸入數值" step="any">
+                        <select id="temperatureFromUnit">
+                            <option value="c">攝氏 (°C)</option>
+                            <option value="f">華氏 (°F)</option>
+                            <option value="k">絕對溫度 (K)</option>
+                        </select>
+                    </div>
+                    <div class="converter-arrow">⬇️</div>
+                    <div class="converter-results" id="temperatureResults"></div>
+                </div>
+            </div>
+            <div class="converter-footer">
+                <p>💡 提示：按 <kbd>Ctrl</kbd>+<kbd>U</kbd> 快速開啟</p>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -2047,7 +2619,23 @@
     </footer>
 
     <script src="js/data.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/app.js"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('✅ Service Worker registered:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('❌ Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
 </body>
 
 </html>

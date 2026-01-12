@@ -1,0 +1,26 @@
+{
+    "name": "工程規格查詢工具",
+    "short_name": "工程規格",
+    "description": "專業工程規格快速查詢工具 - 管件規格、冷媒壓力、螺栓扭力等",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0f172a",
+    "theme_color": "#3b82f6",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "assets/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "assets/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": ["utilities", "productivity"],
+    "lang": "zh-TW"
+}

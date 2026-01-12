@@ -702,6 +702,78 @@ const preheatMethodData = [
 ];
 
 // ============================================
+// 高溫合金鋼比較 (電廠鍋爐用材料)
+// ============================================
+const highTempSteelData = [
+    {
+        grade: 'T22',
+        fullName: 'ASTM A213 T22',
+        type: '低合金鋼',
+        cr: '2.25% Cr',
+        mo: '1% Mo',
+        oxidation: '普通',
+        creepStrength: '普通',
+        pwht: '需要',
+        pwhtNote: '705-760°C, 保持1hr/25mm',
+        weldability: '良好',
+        application: '水冷壁、過熱器、低溫段管路',
+        maxTemp: '580°C'
+    },
+    {
+        grade: 'T23',
+        fullName: 'ASTM A213 T23',
+        type: '低合金鋼（改良型）',
+        cr: '2.25% Cr',
+        mo: '1.6% Mo + W + V + Nb',
+        oxidation: '普通',
+        creepStrength: '極高',
+        pwht: '通常不需要',
+        pwhtNote: '這是 T23 最大優勢，可免除 PWHT',
+        weldability: '優良',
+        application: '水冷壁、過熱器（取代 T22）',
+        maxTemp: '600°C'
+    },
+    {
+        grade: 'T9',
+        fullName: 'ASTM A213 T9',
+        type: '中合金鋼',
+        cr: '9% Cr',
+        mo: '1% Mo',
+        oxidation: '優良',
+        creepStrength: '普通（比 T23 差）',
+        pwht: '必須',
+        pwhtNote: '非常嚴格，730-760°C',
+        weldability: '需謹慎',
+        application: '高溫腐蝕環境、煙氣側管路',
+        maxTemp: '600°C'
+    },
+    {
+        grade: 'T91',
+        fullName: 'ASTM A213 T91',
+        type: '高強度改良型',
+        cr: '9% Cr',
+        mo: '1% Mo + V + Nb + N',
+        oxidation: '優良',
+        creepStrength: '極高',
+        pwht: '必須',
+        pwhtNote: '非常嚴格，730-770°C, 最小2hr',
+        weldability: '需嚴格控制',
+        application: '高溫高壓主蒸氣管、再熱器',
+        maxTemp: '650°C'
+    }
+];
+
+// 高溫鋼材選用指南
+const highTempSteelGuide = [
+    { condition: '普通溫度（≤540°C）', recommendation: 'T22', reason: '成本較低、焊接容易' },
+    { condition: '中溫度（540-600°C）且需簡化焊接', recommendation: 'T23', reason: '可免除 PWHT 是最大優勢' },
+    { condition: '高溫腐蝕環境', recommendation: 'T9', reason: '9% Cr 抗氧化能力優異' },
+    { condition: '超高溫高壓（≥600°C）', recommendation: 'T91', reason: '潛變強度最高、壁厚可減薄' },
+    { condition: '主蒸汽管、再熱管', recommendation: 'T91', reason: '高溫高壓首選' },
+    { condition: '預算有限、維修方便', recommendation: 'T22', reason: '技術成熟、維修經驗豐富' }
+];
+
+// ============================================
 // 平衡教學 - 鐵碳相特性
 // ============================================
 const phasePropertiesData = [
@@ -941,4 +1013,115 @@ const oringGrooveData = [
     { w: 4.0, grooveWidth: '5.2-5.5', grooveDepth: '3.30', clearance: '0.10', squeeze: '15-25%', fill: '70-85%' },
     { w: 5.7, grooveWidth: '7.2-7.6', grooveDepth: '4.95', clearance: '0.13', squeeze: '12-20%', fill: '70-85%' },
     { w: 8.4, grooveWidth: '10.5-11.0', grooveDepth: '7.30', clearance: '0.15', squeeze: '12-20%', fill: '70-85%' }
+];
+
+// ============================================
+// 工程概念知識庫
+// ============================================
+
+// 螺栓強度等級說明
+const boltGradeData = [
+    { grade: '4.6', tensile: 400, yield: 240, yieldRatio: 0.60, material: '低碳鋼', use: '一般非承力連接' },
+    { grade: '4.8', tensile: 400, yield: 320, yieldRatio: 0.80, material: '低碳鋼', use: '一般用途' },
+    { grade: '5.6', tensile: 500, yield: 300, yieldRatio: 0.60, material: '低碳鋼', use: '一般機械用' },
+    { grade: '5.8', tensile: 500, yield: 400, yieldRatio: 0.80, material: '低碳鋼', use: '一般機械用' },
+    { grade: '6.8', tensile: 600, yield: 480, yieldRatio: 0.80, material: '低/中碳鋼', use: '結構連接' },
+    { grade: '8.8', tensile: 800, yield: 640, yieldRatio: 0.80, material: '中碳鋼/合金鋼', use: '高強度連接', note: '最常用高強度等級' },
+    { grade: '9.8', tensile: 900, yield: 720, yieldRatio: 0.80, material: '合金鋼', use: '高強度精密' },
+    { grade: '10.9', tensile: 1000, yield: 900, yieldRatio: 0.90, material: '合金鋼淬火回火', use: '高強度結構' },
+    { grade: '12.9', tensile: 1200, yield: 1080, yieldRatio: 0.90, material: '合金鋼淬火回火', use: '極高強度', note: '汽車引擎常用' }
+];
+
+// 焊條編號說明 (AWS 規範)
+const weldingRodCodeData = [
+    { prefix: 'E', meaning: '電弧焊焊條 (Electrode)', example: 'E7018' },
+    { prefix: 'ER', meaning: '實心焊絲 (Electrode Rod)', example: 'ER70S-6' },
+    { prefix: '前2位數字', meaning: '最小抗拉強度 (ksi)', example: 'E70xx = 70,000 psi = 480 MPa' },
+    { prefix: '第3位數字', meaning: '焊接位置', example: '1=全位置, 2=平焊/橫焊, 4=全位置(含垂直向下)' },
+    { prefix: '第4位數字', meaning: '藥皮類型與電流', example: '8=低氫鉀型 AC/DC+' },
+    { code: 'E6010', desc: '纖維素鈉型', current: 'DC+', position: '全位置', use: '管道根部焊' },
+    { code: 'E6011', desc: '纖維素鉀型', current: 'AC/DC+', position: '全位置', use: '維修焊接' },
+    { code: 'E6013', desc: '鈦鉀型', current: 'AC/DC±', position: '全位置', use: '薄板焊接' },
+    { code: 'E7016', desc: '低氫鈉型', current: 'AC/DC+', position: '全位置', use: '重要結構' },
+    { code: 'E7018', desc: '低氫鉀鐵粉型', current: 'AC/DC+', position: '全位置', use: '低氫焊接，最常用' },
+    { code: 'E7024', desc: '鐵粉鈦型', current: 'AC/DC±', position: '平焊/橫焊', use: '高效率填充' }
+];
+
+// 管件當量長度係數 (L/D 比)
+const fittingLDRatioData = [
+    { fitting: '90° 標準彎頭', ldRatio: 30, note: '短半徑 R=D' },
+    { fitting: '90° 長半徑彎頭', ldRatio: 20, note: '長半徑 R=1.5D' },
+    { fitting: '90° 急彎頭', ldRatio: 60, note: 'R < D' },
+    { fitting: '45° 彎頭', ldRatio: 16, note: '斜接' },
+    { fitting: '直通三通', ldRatio: 20, note: '流體直通' },
+    { fitting: '分支三通', ldRatio: 60, note: '流體轉向' },
+    { fitting: '進口', ldRatio: 25, note: '方邊入口' },
+    { fitting: '突擴', ldRatio: 25, note: '管徑突然放大' },
+    { fitting: '突縮', ldRatio: 12, note: '管徑突然縮小' },
+    { fitting: '閘閥 (全開)', ldRatio: 8, note: '流阻最小' },
+    { fitting: '球閥 (全開)', ldRatio: 6, note: '全通徑型' },
+    { fitting: '蝶閥 (全開)', ldRatio: 45, note: '閥片在流道中' },
+    { fitting: '止回閥', ldRatio: 100, note: '旋啟式' }
+];
+
+// 軸承編號說明
+const bearingCodeData = [
+    { position: '系列代號', example: '6', meaning: '深溝球軸承' },
+    { position: '系列代號', example: '7', meaning: '角接觸球軸承' },
+    { position: '系列代號', example: 'N', meaning: '圓柱滾子軸承' },
+    { position: '系列代號', example: '3', meaning: '調心滾子軸承' },
+    { position: '尺寸系列', example: '60', meaning: '特輕系列' },
+    { position: '尺寸系列', example: '62', meaning: '輕系列' },
+    { position: '尺寸系列', example: '63', meaning: '中系列' },
+    { position: '尺寸系列', example: '64', meaning: '重系列' },
+    { position: '內徑代號', example: '00', meaning: '內徑 10mm' },
+    { position: '內徑代號', example: '01', meaning: '內徑 12mm' },
+    { position: '內徑代號', example: '02', meaning: '內徑 15mm' },
+    { position: '內徑代號', example: '03', meaning: '內徑 17mm' },
+    { position: '內徑代號', example: '04-99', meaning: '代號×5 = 內徑mm', note: '例：05×5=25mm' },
+    { suffix: 'ZZ', meaning: '雙面鐵蓋密封' },
+    { suffix: '2RS', meaning: '雙面橡膠密封' },
+    { suffix: 'C3', meaning: '加大游隙' },
+    { suffix: 'P6', meaning: '精度等級6級' }
+];
+
+// O型環設計參數說明
+const oringDesignData = [
+    { parameter: '壓縮率', value: '15-25%', note: '靜態密封 20-25%，動態密封 15-20%' },
+    { parameter: '拉伸率', value: '< 5%', note: '內徑拉伸不超過 5%' },
+    { parameter: '溝槽填充率', value: '70-85%', note: '過高易擠出，過低易洩漏' },
+    { parameter: '表面粗糙度', value: 'Ra 0.4-1.6μm', note: '動態密封需較光滑' },
+    { parameter: '間隙', value: '0.08-0.15mm', note: '視壓力和線徑而定，高壓需更小' },
+    { parameter: '倒角', value: '15-30°', note: '方便安裝，避免切傷' }
+];
+
+// V型皮帶傳動設計參數
+const vBeltDesignData = [
+    { parameter: '最小包角', value: '120°', note: '小於 120° 會打滑' },
+    { parameter: '最大傳動比', value: '7:1', note: '單級傳動' },
+    { parameter: '最佳傳動比', value: '2-4:1', note: '效率最高' },
+    { parameter: '中心距範圍', value: '0.7(D1+D2) ~ 2(D1+D2)', note: 'D1、D2 為皮帶輪直徑' },
+    { parameter: '張力係數', value: '1.5-2.5', note: '視工作條件調整' },
+    { parameter: '傳動效率', value: '92-98%', note: '取決於張力和對位' },
+    { parameter: '皮帶壽命', value: '15000-25000 hr', note: '正常工況下' }
+];
+
+// 吊索安全係數
+const slingAngleData = [
+    { angle: 90, factor: 1.00, tension: '100%', note: '垂直吊掛' },
+    { angle: 60, factor: 1.16, tension: '116%', note: '建議最小角度' },
+    { angle: 45, factor: 1.41, tension: '141%', note: '規定最小角度' },
+    { angle: 30, factor: 2.00, tension: '200%', note: '禁止使用！張力為物重2倍' },
+    { angle: 15, factor: 3.86, tension: '386%', note: '極度危險' }
+];
+
+// 鐵碳合金分類
+const ironCarbonClassData = [
+    { type: '工業純鐵', carbon: '< 0.0218%', structure: '肥粒鐵', property: '極軟、高韌性、可焊性佳' },
+    { type: '亞共析鋼', carbon: '0.0218-0.77%', structure: '肥粒鐵 + 波來鐵', property: '軟到中硬，碳越高越硬' },
+    { type: '共析鋼', carbon: '0.77%', structure: '純波來鐵', property: '強度與韌性平衡' },
+    { type: '過共析鋼', carbon: '0.77-2.11%', structure: '波來鐵 + 雪明碳鐵', property: '硬、耐磨、較脆' },
+    { type: '亞共晶白鑄鐵', carbon: '2.11-4.3%', structure: '波來鐵 + 萊氏體', property: '極硬、極脆' },
+    { type: '共晶白鑄鐵', carbon: '4.3%', structure: '純萊氏體', property: '最低熔點 1148°C' },
+    { type: '過共晶白鑄鐵', carbon: '4.3-6.67%', structure: '萊氏體 + 一次雪明碳鐵', property: '極脆' }
 ];
