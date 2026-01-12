@@ -3931,7 +3931,95 @@ function initSchaeffler() {
     initSchaefflerChart();
 }
 
-// Image plugin for background\nconst backgroundImagePlugin = {\n    id: 'backgroundImage',\n    beforeDraw: (chart) => {\n        if (chart.config.options.plugins.backgroundImage && chart.config.options.plugins.backgroundImage.image) {\n            const { ctx, chartArea: { top, bottom, left, right, width, height } } = chart;\n            const image = chart.config.options.plugins.backgroundImage.image;\n            \n            if (image.complete) {\n                // Draw image to cover the entire chart area (or canvas if needed)\n                // Assuming the image contains the axes, we might want to fill the canvas,\n                // but usually chartArea is where the data lives. \n                // If the image HAS axes labels, drawing it in chartArea will duplicate labels.\n                // Strategies:\n                // 1. Draw image in chartArea and HIDE Chart.js axes. (Best for "using image as map")\n                // 2. Draw image full canvas and try to align chartArea. (Too hard)\n                // Let's go with 1: Draw in chartArea (stretch). \n                // This assumes the user's image is cropped to the grid. \n                // But looking at the uploaded image, it has labels.\n                // So we will try to draw it covering the chartArea mostly, but since we can't crop on the fly,\n                // we might just accept the labels are inside.\n                \n                ctx.drawImage(image, left, top, width, height);\n            } else {\n                image.onload = () => chart.draw();\n            }\n        }\n    }\n};\n\n// Register plugin locally not needed if passing in config, but good practice if global. We pass in config.\n\nfunction initSchaefflerChart() {\n    const ctx = document.getElementById('schaefflerChart')?.getContext('2d');\n    if (!ctx) return;\n\n    const bgImage = new Image();\n    bgImage.src = 'assets/schaeffler_bg.jpg';\n\n    const data = {\n        datasets: [\n            {\n                label: '預測點 (Predicted Point)',\n                data: [], // Initially empty\n                backgroundColor: '#ef4444', // Red-500\n                borderColor: '#ffffff',\n                borderWidth: 2,\n                pointRadius: 8,\n                pointHoverRadius: 10,\n                pointStyle: 'circle'\n            }\n        ]\n    };\n\n    schaefflerChartInstance = new Chart(ctx, {\n        type: 'scatter',\n        data: data,\n        options: {\n            responsive: true,\n            maintainAspectRatio: false,\n            scales: {\n                x: {\n                    type: 'linear',\n                    position: 'bottom',\n                    title: {\n                        display: true,\n                        text: '鉻當量 Cr_eq'\n                    },\n                    min: 0,\n                    max: 40, // Matches image X-axis max\n                    grid: {\n                        display: false // Hide grid to see background better\n                    }\n                },\n                y: {\n                    type: 'linear',\n                    position: 'left',\n                    title: {\n                        display: true,\n                        text: '鎳當量 Ni_eq'\n                    },\n                    min: 0,\n                    max: 32, // Matches image Y-axis max approx (28 + margin)\n                    grid: {\n                        display: false // Hide grid\n                    }\n                }\n            },\n            plugins: {\n                tooltip: {\n                    callbacks: {\n                        label: function (context) {\n                            return `Cr_eq: ${context.parsed.x.toFixed(2)}, Ni_eq: ${context.parsed.y.toFixed(2)}`;\n                        }\n                    }\n                },\n                backgroundImage: {\n                    image: bgImage\n                }\n            }\n        },\n        plugins: [backgroundImagePlugin]\n    });\n}
+// Image plugin for background
+const backgroundImagePlugin = {
+    id: 'backgroundImage',
+    beforeDraw: (chart) => {
+        if (chart.config.options.plugins.backgroundImage && chart.config.options.plugins.backgroundImage.image) {
+            const { ctx, chartArea: { top, bottom, left, right, width, height } } = chart;
+            const image = chart.config.options.plugins.backgroundImage.image;
+
+            if (image.complete) {
+                ctx.drawImage(image, left, top, width, height);
+            } else {
+                image.onload = () => chart.draw();
+            }
+        }
+    }
+};
+
+function initSchaefflerChart() {
+    const ctx = document.getElementById('schaefflerChart')?.getContext('2d');
+    if (!ctx) return;
+
+    const bgImage = new Image();
+    bgImage.src = 'assets/schaeffler_bg.jpg';
+
+    const data = {
+        datasets: [
+            {
+                label: '預測點 (Predicted Point)',
+                data: [], // Initially empty
+                backgroundColor: '#ef4444', // Red-500
+                borderColor: '#ffffff',
+                borderWidth: 2,
+                pointRadius: 8,
+                pointHoverRadius: 10,
+                pointStyle: 'circle'
+            }
+        ]
+    };
+
+    schaefflerChartInstance = new Chart(ctx, {
+        type: 'scatter',
+        data: data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    type: 'linear',
+                    position: 'bottom',
+                    title: {
+                        display: true,
+                        text: '鉻當量 Cr_eq'
+                    },
+                    min: 0,
+                    max: 40, // Matches image X-axis max
+                    grid: {
+                        display: false // Hide grid to see background better
+                    }
+                },
+                y: {
+                    type: 'linear',
+                    position: 'left',
+                    title: {
+                        display: true,
+                        text: '鎳當量 Ni_eq'
+                    },
+                    min: 0,
+                    max: 32, // Matches image Y-axis max approx (28 + margin)
+                    grid: {
+                        display: false // Hide grid
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return `Cr_eq: ${context.parsed.x.toFixed(2)}, Ni_eq: ${context.parsed.y.toFixed(2)}`;
+                        }
+                    }
+                },
+                backgroundImage: {
+                    image: bgImage
+                }
+            }
+        },
+        plugins: [backgroundImagePlugin]
+    });
+}
 
 function calculateSchaeffler() {
     const getVal = (id) => parseFloat(document.getElementById(id).value) || 0;
