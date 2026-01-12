@@ -1,5 +1,5 @@
 // Service Worker for 工程規格查詢工具
-const CACHE_NAME = 'engineering-specs-v1';
+const CACHE_NAME = 'engineering-specs-v2';
 const urlsToCache = [
     '/',
     '/index.html',
